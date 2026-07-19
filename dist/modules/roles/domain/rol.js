@@ -14,6 +14,9 @@ class Rol {
         if (!props.nombre || props.nombre.trim() === "") {
             throw new Error("El nombre del rol es obligatorio");
         }
+        if (!props.tipo || (props.tipo !== "GLOBAL" && props.tipo !== "TENANT")) {
+            throw new Error("El tipo del rol es obligatorio");
+        }
         if (props.tipo === "TENANT" && (!props.empresaId || props.empresaId.trim() === "")) {
             throw new Error("El empresaId es obligatorio para roles TENANT");
         }

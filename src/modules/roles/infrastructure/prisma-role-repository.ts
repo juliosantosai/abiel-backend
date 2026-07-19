@@ -16,6 +16,27 @@ export class PrismaRoleRepository implements RoleRepository {
     return prisma.rol.findMany({ where: { empresaId } });
   }
 
+  async findByNameAndType(nombre: string, tipo: "GLOBAL" | "TENANT", empresaId?: string | null): Promise<RolProps | null> {
+    return prisma.rol.findFirst({
+      where: {
+        nombre,
+        tipo,
+        ...(empresaId === null ? { empresaId: null } : empresaId ? { empresaId } : {}),
+      },
+    });
+  }
+
+  async findByNameAndTypeExcludingId(id: string, nombre: string, tipo: "GLOBAL" | "TENANT", empresaId?: string | null): Promise<RolProps | null> {
+    return prisma.rol.findFirst({
+      where: {
+        id: { not: id },
+        nombre,
+        tipo,
+        ...(empresaId === null ? { empresaId: null } : empresaId ? { empresaId } : {}),
+      },
+    });
+  }
+
   async createRol(rol: RolProps): Promise<RolProps> {
     return prisma.rol.create({ data: rol });
   }
@@ -40,12 +61,22 @@ export class PrismaRoleRepository implements RoleRepository {
     return prisma.permiso.update({ where: { id }, data: permiso });
   }
 
+  async findUsuarioById(id: string): Promise<{ id: string; empresaId: string } | null> {
+    const usuario = await prisma.usuario.findUnique({ where: { id } });
+    return usuario ? { id: usuario.id, empresaId: usuario.empresaId } : null;
+  }
+
   async assignRoleToUser(usuarioId: string, rolId: string): Promise<void> {
     await prisma.usuarioRol.create({ data: { id: `${usuarioId}-${rolId}`, usuarioId, rolId, activo: true, createdAt: new Date(), updatedAt: new Date() } });
   }
 
   async removeRoleFromUser(usuarioId: string, rolId: string): Promise<void> {
     await prisma.usuarioRol.deleteMany({ where: { usuarioId, rolId } });
+  }
+
+  async findRolPermisoByRolAndPermiso(rolId: string, permisoId: string): Promise<{ id: string } | null> {
+    const existing = await prisma.rolPermiso.findFirst({ where: { rolId, permisoId } });
+    return existing ? { id: existing.id } : null;
   }
 
   async assignPermissionToRole(rolId: string, permisoId: string): Promise<void> {

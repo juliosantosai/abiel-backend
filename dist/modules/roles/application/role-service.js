@@ -20,6 +20,10 @@ class RoleService {
             createdAt: new Date(),
             updatedAt: new Date(),
         });
+        const existing = await this.roleRepository.findByNameAndType(rol.nombre, rol.tipo, rol.empresaId);
+        if (existing) {
+            throw new Error(input.tipo === "GLOBAL" ? "Ya existe un rol GLOBAL con ese nombre" : "Ya existe un rol TENANT con ese nombre en la empresa");
+        }
         return this.roleRepository.createRol(rol.toJSON());
     }
     async listarRoles() {
@@ -39,6 +43,12 @@ class RoleService {
         const rol = new rol_1.Rol(existing);
         if (input.nombre !== undefined) {
             rol.actualizarNombre(input.nombre);
+        }
+        if (input.nombre !== undefined || input.descripcion !== undefined || input.activo !== undefined) {
+            const duplicate = await this.roleRepository.findByNameAndTypeExcludingId(existing.id, rol.nombre, rol.tipo, rol.empresaId);
+            if (duplicate) {
+                throw new Error(rol.tipo === "GLOBAL" ? "Ya existe un rol GLOBAL con ese nombre" : "Ya existe un rol TENANT con ese nombre en la empresa");
+            }
         }
         if (input.descripcion !== undefined) {
             rol.actualizarDescripcion(input.descripcion);
@@ -157,12 +167,35 @@ class RoleService {
         return updated;
     }
     async asignarRolAUsuario(usuarioId, rolId) {
+        const usuario = await this.roleRepository.findUsuarioById(usuarioId);
+        const rol = await this.roleRepository.findById(rolId);
+        if (!usuario) {
+            throw new Error("Usuario no encontrado");
+        }
+        if (!rol) {
+            throw new Error("Rol no encontrado");
+        }
+        if (rol.tipo === "TENANT" && rol.empresaId && usuario.empresaId !== rol.empresaId) {
+            throw new Error("El usuario y el rol deben pertenecer al mismo tenant");
+        }
         await this.roleRepository.assignRoleToUser(usuarioId, rolId);
     }
     async removerRolDeUsuario(usuarioId, rolId) {
         await this.roleRepository.removeRoleFromUser(usuarioId, rolId);
     }
     async asignarPermisoARol(rolId, permisoId) {
+        const rol = await this.roleRepository.findById(rolId);
+        const permiso = await this.roleRepository.findPermisoById(permisoId);
+        if (!rol) {
+            throw new Error("Rol no encontrado");
+        }
+        if (!permiso) {
+            throw new Error("Permiso no encontrado");
+        }
+        const existingAssociation = await this.roleRepository.findRolPermisoByRolAndPermiso(rolId, permisoId);
+        if (existingAssociation) {
+            throw new Error("La asociación entre el rol y el permiso ya existe");
+        }
         await this.roleRepository.assignPermissionToRole(rolId, permisoId);
     }
     async removerPermisoDeRol(rolId, permisoId) {
