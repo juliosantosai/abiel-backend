@@ -4,11 +4,13 @@ import { PrismaUsuarioRepository } from "../../src/modules/usuario/infrastructur
 import { UsuarioService } from "../../src/modules/usuario/application/usuario-service";
 import { registerUsuarioRoutes } from "../../src/modules/usuario/presentation/usuario-controller";
 import { prisma } from "../../src/shared/database/prisma";
+import { InMemoryEventBus } from "../../src/shared/events/in-memory-event-bus";
 
 describe("Usuario HTTP endpoints", () => {
   const app = Fastify();
   const repository = new PrismaUsuarioRepository();
-  const service = new UsuarioService(repository);
+  const eventBus = new InMemoryEventBus();
+  const service = new UsuarioService(repository, eventBus);
 
   registerUsuarioRoutes(app, service);
 

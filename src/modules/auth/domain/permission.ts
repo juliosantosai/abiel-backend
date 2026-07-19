@@ -1,0 +1,18 @@
+export const PERMISSIONS = {
+  CLIENT_CREATE: "CLIENT_CREATE",
+  CLIENT_UPDATE: "CLIENT_UPDATE",
+  AGENT_CREATE: "AGENT_CREATE",
+  AGENT_CONFIGURE: "AGENT_CONFIGURE",
+  CONVERSATION_VIEW: "CONVERSATION_VIEW",
+  CONVERSATION_CREATE: "CONVERSATION_CREATE",
+  CONVERSATION_UPDATE: "CONVERSATION_UPDATE",
+  CONVERSATION_DELETE: "CONVERSATION_DELETE",
+  USER_MANAGE: "USER_MANAGE",
+  ROLE_MANAGE: "ROLE_MANAGE",
+} as const;
+
+export type Permission = (typeof PERMISSIONS)[keyof typeof PERMISSIONS];
+
+export function isPermission(value: string): value is Permission {
+  return Object.values(PERMISSIONS).includes(value as Permission);
+}

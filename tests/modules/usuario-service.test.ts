@@ -12,7 +12,8 @@ describe("UsuarioService", () => {
       update: vi.fn(),
     };
 
-    const service = new UsuarioService(repository as any);
+    const eventBus = { publish: vi.fn().mockResolvedValue(undefined) };
+    const service = new UsuarioService(repository as any, eventBus as any);
 
     const result = await service.crearUsuario({
       nombre: "Juan",
@@ -28,7 +29,8 @@ describe("UsuarioService", () => {
   });
   it("throws when email is invalid", async () => {
     const repository = { create: vi.fn(), findByEmail: vi.fn().mockResolvedValue(null) };
-    const service = new UsuarioService(repository as any);
+    const eventBus = { publish: vi.fn().mockResolvedValue(undefined) };
+    const service = new UsuarioService(repository as any, eventBus as any);
 
     await expect(
       service.crearUsuario({ nombre: "Juan", email: "invalid-email", passwordHash: "hash-123" })
@@ -53,7 +55,8 @@ describe("UsuarioService", () => {
       create: vi.fn(),
     };
 
-    const service = new UsuarioService(repository as any);
+    const eventBus = { publish: vi.fn().mockResolvedValue(undefined) };
+    const service = new UsuarioService(repository as any, eventBus as any);
 
     const activated = await service.activarUsuario("usuario-1");
     expect(activated.activo).toBe(true);

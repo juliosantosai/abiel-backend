@@ -1,6 +1,8 @@
 import { generateUuid } from "../../../shared/utils/uuid";
 import { Usuario, type UsuarioProps } from "../domain/usuario";
 import type { UsuarioRepository } from "../infrastructure/usuario-repository";
+import type { EventBus } from "../../../shared/events/event-bus";
+import { createUsuarioCreatedEvent } from "../domain/events/usuario-created.event";
 
 export type CreateUsuarioInput = {
   nombre: string;
@@ -16,7 +18,10 @@ export type UpdateUsuarioInput = {
 };
 
 export class UsuarioService {
-  constructor(private readonly usuarioRepository: UsuarioRepository) {}
+  constructor(
+    private readonly usuarioRepository: UsuarioRepository,
+    private readonly eventBus: EventBus
+  ) {}
 
   async crearUsuario(input: CreateUsuarioInput): Promise<UsuarioProps> {
     const existing = await this.usuarioRepository.findByEmail(input.email);
@@ -35,7 +40,22 @@ export class UsuarioService {
       updatedAt: new Date(),
     });
 
-    return this.usuarioRepository.create(usuario.toJSON());
+    const created = await this.usuarioRepository.create(usuario.toJSON());
+
+    await this.eventBus.publish(
+      createUsuarioCreatedEvent(
+        {
+          usuarioId: created.id,
+          email: created.email,
+        },
+        {
+          correlationId: `usuario-${created.id}`,
+          userId: created.id,
+        }
+      )
+    );
+
+    return created;
   }
 
   async obtenerUsuarioPorId(id: string): Promise<UsuarioProps | null> {
