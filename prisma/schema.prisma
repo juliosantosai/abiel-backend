@@ -7,13 +7,16 @@ datasource db {
 }
 
 model Empresa {
-  id        String    @id
-  nombre    String
-  plan      String
-  activo    Boolean
-  createdAt DateTime
-  updatedAt DateTime
-  usuarios  Usuario[]
+  id                  String            @id
+  nombre              String
+  plan                String
+  activo              Boolean
+  createdAt           DateTime
+  updatedAt           DateTime
+  usuarios            Usuario[]
+  suscripciones       Suscripcion[]
+  configuracion       Configuracion?
+  roles               Rol[]
 }
 
 model Usuario {
@@ -25,4 +28,110 @@ model Usuario {
   activo    Boolean
   createdAt DateTime
   updatedAt DateTime
+
+  usuarioRoles UsuarioRol[]
+}
+
+enum PlanIntervalo {
+  MENSUAL
+  ANUAL
+}
+
+model Plan {
+  id            String        @id
+  nombre        String
+  slug          String        @unique
+  descripcion   String
+  precio        Decimal
+  intervalo     PlanIntervalo
+  activo        Boolean
+  createdAt     DateTime
+  updatedAt     DateTime
+  suscripciones Suscripcion[]
+
+  @@index([activo])
+}
+
+model Suscripcion {
+  id          String    @id
+  empresaId   String
+  empresa     Empresa   @relation(fields: [empresaId], references: [id])
+  planId      String
+  plan        Plan      @relation(fields: [planId], references: [id])
+  fechaInicio DateTime
+  fechaFin    DateTime?
+  estado      String
+  activo      Boolean
+  createdAt   DateTime
+  updatedAt   DateTime
+}
+
+model Configuracion {
+  id                  String   @id
+  empresaId           String   @unique
+  empresa             Empresa  @relation(fields: [empresaId], references: [id])
+  idioma              String
+  zonaHoraria         String
+  notificacionesEmail Boolean
+  activo              Boolean
+  createdAt           DateTime
+  updatedAt           DateTime
+}
+
+enum RoleType {
+  GLOBAL
+  TENANT
+}
+
+model Rol {
+  id          String     @id
+  empresaId   String?
+  empresa     Empresa?   @relation(fields: [empresaId], references: [id])
+  tipo        RoleType
+  nombre      String
+  descripcion String?
+  activo      Boolean
+  createdAt   DateTime
+  updatedAt   DateTime
+
+  usuarioRoles UsuarioRol[]
+  rolPermisos  RolPermiso[]
+}
+
+model Permiso {
+  id          String      @id
+  nombre      String
+  slug        String      @unique
+  descripcion String?
+  activo      Boolean
+  createdAt   DateTime
+  updatedAt   DateTime
+
+  rolPermisos RolPermiso[]
+}
+
+model UsuarioRol {
+  id        String   @id
+  usuarioId String
+  rolId     String
+  usuario   Usuario  @relation(fields: [usuarioId], references: [id])
+  rol       Rol      @relation(fields: [rolId], references: [id])
+  activo    Boolean
+  createdAt DateTime
+  updatedAt DateTime
+
+  @@unique([usuarioId, rolId])
+}
+
+model RolPermiso {
+  id        String   @id
+  rolId     String
+  permisoId String
+  rol       Rol      @relation(fields: [rolId], references: [id])
+  permiso   Permiso  @relation(fields: [permisoId], references: [id])
+  activo    Boolean
+  createdAt DateTime
+  updatedAt DateTime
+
+  @@unique([rolId, permisoId])
 }

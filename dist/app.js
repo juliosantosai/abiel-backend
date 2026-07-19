@@ -14,6 +14,18 @@ const empresa_controller_1 = require("./modules/empresa/presentation/empresa-con
 const prisma_usuario_repository_1 = require("./modules/usuario/infrastructure/prisma-usuario-repository");
 const usuario_service_1 = require("./modules/usuario/application/usuario-service");
 const usuario_controller_1 = require("./modules/usuario/presentation/usuario-controller");
+const prisma_plan_repository_1 = require("./modules/plan/infrastructure/prisma-plan-repository");
+const plan_service_1 = require("./modules/plan/application/plan-service");
+const plan_controller_1 = require("./modules/plan/presentation/plan-controller");
+const prisma_suscripcion_repository_1 = require("./modules/suscripcion/infrastructure/prisma-suscripcion-repository");
+const suscripcion_service_1 = require("./modules/suscripcion/application/suscripcion-service");
+const suscripcion_controller_1 = require("./modules/suscripcion/presentation/suscripcion-controller");
+const prisma_configuracion_repository_1 = require("./modules/configuracion/infrastructure/prisma-configuracion-repository");
+const configuracion_service_1 = require("./modules/configuracion/application/configuracion-service");
+const configuracion_controller_1 = require("./modules/configuracion/presentation/configuracion-controller");
+const prisma_role_repository_1 = require("./modules/roles/infrastructure/prisma-role-repository");
+const role_service_1 = require("./modules/roles/application/role-service");
+const role_controller_1 = require("./modules/roles/presentation/role-controller");
 async function createApp() {
     const app = (0, fastify_1.default)({
         logger: logger_1.logger,
@@ -26,6 +38,18 @@ async function createApp() {
     const usuarioRepository = new prisma_usuario_repository_1.PrismaUsuarioRepository();
     const usuarioService = new usuario_service_1.UsuarioService(usuarioRepository);
     (0, usuario_controller_1.registerUsuarioRoutes)(app, usuarioService);
+    const planRepository = new prisma_plan_repository_1.PrismaPlanRepository();
+    const planService = new plan_service_1.PlanService(planRepository);
+    (0, plan_controller_1.registerPlanRoutes)(app, planService);
+    const suscripcionRepository = new prisma_suscripcion_repository_1.PrismaSuscripcionRepository();
+    const suscripcionService = new suscripcion_service_1.SuscripcionService(suscripcionRepository, empresaRepository, planRepository);
+    (0, suscripcion_controller_1.registerSuscripcionRoutes)(app, suscripcionService);
+    const configuracionRepository = new prisma_configuracion_repository_1.PrismaConfiguracionRepository();
+    const configuracionService = new configuracion_service_1.ConfiguracionService(configuracionRepository, empresaRepository);
+    (0, configuracion_controller_1.registerConfiguracionRoutes)(app, configuracionService);
+    const roleRepository = new prisma_role_repository_1.PrismaRoleRepository();
+    const roleService = new role_service_1.RoleService(roleRepository);
+    (0, role_controller_1.registerRoleRoutes)(app, roleService);
     app.get("/", {
         schema: {
             description: "API base endpoint",
