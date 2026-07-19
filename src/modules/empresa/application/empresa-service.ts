@@ -1,26 +1,78 @@
-import type { Empresa } from "../domain/empresa";
+import { generateUuid } from "../../../shared/utils/uuid";
+import { Empresa, type EmpresaProps } from "../domain/empresa";
 import type { EmpresaRepository } from "../infrastructure/empresa-repository";
+
+export type CreateEmpresaInput = {
+  nombre: string;
+  plan: string;
+  activo?: boolean;
+};
+
+export type UpdateEmpresaInput = {
+  nombre?: string;
+  plan?: string;
+  activo?: boolean;
+};
 
 export class EmpresaService {
   constructor(private readonly empresaRepository: EmpresaRepository) {}
 
-  async findById(id: string): Promise<Empresa | null> {
+  async crearEmpresa(input: CreateEmpresaInput): Promise<EmpresaProps> {
+    const empresa = new Empresa({
+      id: generateUuid(),
+      nombre: input.nombre,
+      plan: input.plan,
+      activo: input.activo ?? true,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    });
+
+    return this.empresaRepository.create(empresa.toJSON());
+  }
+
+  async obtenerEmpresaPorId(id: string): Promise<EmpresaProps | null> {
     return this.empresaRepository.findById(id);
   }
 
-  async findAll(): Promise<Empresa[]> {
+  async listarEmpresas(): Promise<EmpresaProps[]> {
     return this.empresaRepository.findAll();
   }
 
-  async create(empresa: Empresa): Promise<Empresa> {
-    return this.empresaRepository.create(empresa);
+  async actualizarEmpresa(id: string, input: UpdateEmpresaInput): Promise<EmpresaProps> {
+    const existing = await this.empresaRepository.findById(id);
+
+    if (!existing) {
+      throw new Error("Empresa no encontrada");
+    }
+
+    const empresa = new Empresa(existing);
+
+    if (input.nombre !== undefined) {
+      empresa.cambiarNombre(input.nombre);
+    }
+
+    if (input.plan !== undefined) {
+      empresa.cambiarPlan(input.plan);
+    }
+
+    if (input.activo !== undefined) {
+      if (input.activo) {
+        empresa.activar();
+      } else {
+        empresa.desactivar();
+      }
+    }
+
+    const updated = await this.empresaRepository.update(id, empresa.toJSON());
+
+    if (!updated) {
+      throw new Error("No se pudo actualizar la empresa");
+    }
+
+    return updated;
   }
 
-  async update(id: string, empresa: Partial<Empresa>): Promise<Empresa | null> {
-    return this.empresaRepository.update(id, empresa);
-  }
-
-  async delete(id: string): Promise<void> {
-    return this.empresaRepository.delete(id);
+  async eliminarEmpresa(id: string): Promise<void> {
+    await this.empresaRepository.delete(id);
   }
 }

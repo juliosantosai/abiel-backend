@@ -5,3 +5,12 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+model Empresa {
+  id        String   @id
+  nombre    String
+  plan      String
+  activo    Boolean
+  createdAt DateTime
+  updatedAt DateTime
+}

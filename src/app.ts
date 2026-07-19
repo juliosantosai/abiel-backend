@@ -2,7 +2,9 @@ import Fastify from "fastify";
 import { logger } from "./shared/logger/logger";
 import { setupSwagger } from "./shared/config/swagger";
 import { setupErrorHandler } from "./shared/errors/error-handler";
-import { loginUser, getUserFromToken } from "./shared/auth/login";
+import { PrismaEmpresaRepository } from "./modules/empresa/infrastructure/prisma-empresa-repository";
+import { EmpresaService } from "./modules/empresa/application/empresa-service";
+import { registerEmpresaRoutes } from "./modules/empresa/presentation/empresa-controller";
 
 export async function createApp() {
   const app = Fastify({
@@ -11,6 +13,10 @@ export async function createApp() {
 
   setupErrorHandler(app);
   await setupSwagger(app);
+
+  const empresaRepository = new PrismaEmpresaRepository();
+  const empresaService = new EmpresaService(empresaRepository);
+  registerEmpresaRoutes(app, empresaService);
 
   app.get(
     "/",
@@ -60,37 +66,6 @@ export async function createApp() {
     })
   );
 
-  app.post("/auth/login", async (request, reply) => {
-    const { email, password } = request.body as { email?: string; password?: string };
-
-    if (!email || !password) {
-      return reply.status(400).send({ error: true, message: "Email and password are required" });
-    }
-
-    try {
-      const result = loginUser(email, password);
-      return reply.status(200).send(result);
-    } catch (error) {
-      return reply.status(401).send({ error: true, message: "Invalid credentials" });
-    }
-  });
-
-  app.get("/auth/me", async (request, reply) => {
-    const authHeader = request.headers.authorization;
-
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
-      return reply.status(401).send({ error: true, message: "Token missing" });
-    }
-
-    const token = authHeader.split(" ")[1];
-
-    try {
-      const user = getUserFromToken(token);
-      return reply.status(200).send({ user });
-    } catch (error) {
-      return reply.status(401).send({ error: true, message: "Invalid token" });
-    }
-  });
 
   return app;
 }

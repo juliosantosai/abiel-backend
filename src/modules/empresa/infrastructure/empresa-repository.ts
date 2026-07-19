@@ -1,9 +1,9 @@
-import type { Empresa } from "../domain/empresa";
+import type { EmpresaProps } from "../domain/empresa";
 
 export interface EmpresaRepository {
-  findById(id: string): Promise<Empresa | null>;
-  findAll(): Promise<Empresa[]>;
-  create(empresa: Empresa): Promise<Empresa>;
-  update(id: string, empresa: Partial<Empresa>): Promise<Empresa | null>;
+  findById(id: string): Promise<EmpresaProps | null>;
+  findAll(): Promise<EmpresaProps[]>;
+  create(empresa: EmpresaProps): Promise<EmpresaProps>;
+  update(id: string, empresa: Partial<EmpresaProps>): Promise<EmpresaProps | null>;
   delete(id: string): Promise<void>;
 }

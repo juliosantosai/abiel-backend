@@ -13,25 +13,4 @@ describe("app bootstrap", () => {
 
     await app.close();
   });
-
-  it("handles auth login and profile routes", async () => {
-    const app = await createApp();
-
-    const loginResponse = await app.inject({
-      method: "POST",
-      url: "/auth/login",
-      payload: { email: "admin@abiel.com", password: "123456" },
-    });
-
-    const meResponse = await app.inject({
-      method: "GET",
-      url: "/auth/me",
-      headers: { authorization: "Bearer invalid-token" },
-    });
-
-    expect(loginResponse.statusCode).toBe(200);
-    expect(meResponse.statusCode).toBe(401);
-
-    await app.close();
-  });
 });

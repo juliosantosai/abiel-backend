@@ -1,490 +1,391 @@
-# Arquitectura de Abiel Backend
+# Arquitectura Abiel Backend
 
-## 1. Estado del documento
+## 1. Objetivo del proyecto
 
-Este documento define la arquitectura oficial de Abiel Backend MVP.
+Abiel Backend es una plataforma SaaS para asistentes de inteligencia artificial sobre WhatsApp.
 
-Todas las decisiones de desarrollo deben respetar esta arquitectura.
+La primera etapa del proyecto busca construir una base sólida, simple y mantenible mediante un monolito modular.
 
-El desarrollo asistido por IA (Copilot u otras herramientas) debe utilizar este documento como guía principal.
+La prioridad es:
 
-Si una propuesta contradice esta arquitectura, debe considerarse una propuesta futura y no implementarse sin revisión.
+> Primero construir un producto funcional.
+> Después evolucionar hacia una plataforma completa.
+
+No se debe crear arquitectura futura antes de tener funcionalidades reales funcionando.
 
 ---
 
-# 2. Objetivo del proyecto
+# 2. Filosofía de desarrollo
 
-Construir Abiel como una plataforma SaaS para asistentes de IA sobre WhatsApp.
+El proyecto seguirá estos principios:
 
-El objetivo inicial es crear un MVP funcional, simple y mantenible, evitando la sobrearquitectura.
+- Código simple.
+- Bajo acoplamiento.
+- Responsabilidades claras.
+- Módulos independientes.
+- Pruebas antes de avanzar.
+- Cambios pequeños y controlados.
 
-La estrategia es:
+Cada módulo debe estar completo antes de crear el siguiente.
 
-**Primero construir un producto que funcione; después construir una plataforma.**
+Un módulo completo significa:
 
-Abiel comenzará como un monolito modular preparado para evolucionar con el crecimiento del producto.
+- Entidad de dominio.
+- Servicio.
+- Repository.
+- Persistencia.
+- Controller.
+- Endpoint.
+- Tests.
 
 ---
 
 # 3. Arquitectura general
 
-Abiel utiliza una arquitectura de monolito modular.
+Abiel utiliza un:
 
-Cada módulo representa una capacidad del negocio y mantiene sus propias responsabilidades.
+## Monolito modular
 
-Flujo general:
+No utilizar:
 
-```
-Cliente
-   |
-REST API
-   |
-Controller
-   |
-Application Service
-   |
-Repository Interface
-   |
-Prisma Repository
-   |
-PostgreSQL
-```
+- Microservicios.
+- Kubernetes.
+- Arquitectura distribuida.
+- Event Bus complejo.
+- Sistemas de plugins.
+- Marketplace.
 
-Regla fundamental:
-
-Un endpoint nunca debe llamar directamente a otro endpoint.
-
-La comunicación debe ocurrir mediante servicios, dominio o componentes internos.
+Eso pertenece a futuras versiones.
 
 ---
 
 # 4. Stack tecnológico
 
-Tecnologías principales:
+Backend:
 
-* Node.js
-* TypeScript
-* Fastify
-* Prisma ORM
-* PostgreSQL
-* JWT
-* Swagger
-* Docker
-* Git
+- Node.js
+- TypeScript
+- Fastify
+- Prisma
+- PostgreSQL
+- Docker
+- Jest
+- Swagger
+
+Base de datos:
+
+PostgreSQL ejecutado mediante Docker.
+
+ORM:
+
+Prisma.
 
 ---
 
-# 5. Estructura del proyecto
+# 5. Flujo de una petición
 
-```
+Toda petición debe seguir este flujo:
+
+Cliente
+
+↓
+
+Controller
+
+↓
+
+Service
+
+↓
+
+Repository
+
+↓
+
+Prisma
+
+↓
+
+PostgreSQL
+
+
+Nunca:
+
+- Controller llamando directamente a Prisma.
+- Endpoint llamando otro endpoint.
+- Lógica de negocio dentro del Controller.
+
+---
+
+# 6. Estructura del proyecto
+
+
 src/
+
 ├── shared/
+
+│   ├── config
+
+│   ├── database
+
+│   ├── logger
+
+│   ├── errors
+
+│   └── utils
+
+
 ├── modules/
+
+│   └── empresa/
+
+│       ├── domain/
+
+│       ├── application/
+
+│       ├── infrastructure/
+
+│       └── presentation/
+
+
 ├── app.ts
+
 └── server.ts
-```
+
 
 ---
 
-# 6. Carpeta Shared
+# 7. Shared
 
-La carpeta `shared` contiene infraestructura común reutilizable.
+Shared contiene infraestructura común.
 
-Ejemplos:
+Permitido:
 
-```
-shared/
-├── config
-├── logger
-├── errors
-├── database
-├── auth
-├── utils
-└── events
-```
+- Configuración.
+- Base de datos.
+- Logger.
+- Errores.
+- Utilidades.
 
-Responsabilidades:
+No debe contener:
 
-* Configuración global
-* Conexiones externas
-* Logger
-* Manejo de errores
-* Utilidades comunes
-
-Regla:
-
-`shared` NO debe contener lógica de negocio.
+- Reglas de negocio.
+- Entidades del dominio.
+- Lógica específica de módulos.
 
 ---
 
-# 7. Arquitectura de módulos
+# 8. Módulos
 
-Cada módulo representa un dominio del negocio.
+Cada módulo representa una capacidad del negocio.
 
-Ejemplos:
+Ejemplos futuros:
 
-```
-empresa
-usuario
-mensaje
-conversacion
-whatsapp
-ia
-agente
-crm
-```
+- empresa
+- usuario
+- whatsapp
+- conversacion
+- mensaje
+- ia
+- agente
+- crm
 
-Cada módulo debe mantener esta estructura:
 
-```
-modulo/
-├── domain/
-├── application/
-├── infrastructure/
-└── presentation/
-```
-
-Ejemplo:
-
-```
-empresa/
-
-domain/
-└── empresa.ts
-
-application/
-└── empresa-service.ts
-
-infrastructure/
-└── prisma-empresa-repository.ts
-
-presentation/
-└── empresa-controller.ts
-```
+Pero solamente se implementará un módulo a la vez.
 
 ---
 
-# 8. Responsabilidad de cada capa
+# 9. Estructura interna de módulo
+
 
 ## Domain
 
 Contiene:
 
-* Entidades
-* Reglas de negocio
-* Validaciones propias del dominio
+- Entidades.
+- Reglas de negocio.
+- Validaciones.
 
-No debe conocer:
+No conoce:
 
-* Prisma
-* HTTP
-* Fastify
-* PostgreSQL
+- Prisma.
+- Fastify.
+- PostgreSQL.
 
----
 
 ## Application
 
 Contiene:
 
-* Casos de uso
-* Servicios
-* Coordinación entre dominio y repositorios
+- Casos de uso.
+- Servicios.
 
-Debe depender de interfaces, no de implementaciones concretas.
+Ejemplo:
 
----
+EmpresaService.
+
 
 ## Infrastructure
 
 Contiene:
 
-* Prisma
-* Base de datos
-* APIs externas
-* Implementaciones de repositorios
+- Implementaciones Repository.
+- Prisma.
+- Servicios externos.
 
-Aquí vive la comunicación con el mundo externo.
-
----
 
 ## Presentation
 
 Contiene:
 
-* Controllers
-* Routes
-* Validación HTTP
-* Respuestas API
-
-No debe contener reglas de negocio.
+- Controllers.
+- Rutas HTTP.
+- Validación de entrada.
 
 ---
 
-# 9. Ejemplo de flujo
+# 10. Estado actual del proyecto
 
-Crear empresa:
+Estamos en:
 
-```
-POST /empresas
+## Fase 2 - Módulo Empresa
 
-        |
-        v
 
-EmpresaController
+Objetivo:
 
-        |
-        v
+Crear el primer módulo vertical funcionando completamente.
 
-EmpresaService
 
-        |
-        v
+Debe permitir:
 
-EmpresaRepository
+Crear empresa.
 
-        |
-        v
+Consultar empresa.
 
-Prisma
+Persistir información en PostgreSQL.
 
-        |
-        v
+Responder mediante API REST.
 
-PostgreSQL
-```
-
-Respuesta:
-
-```
-PostgreSQL
-
-        |
-        v
-
-Repository
-
-        |
-        v
-
-Service
-
-        |
-        v
-
-Controller
-
-        |
-        v
-
-JSON Response
-```
 
 ---
 
-# 10. Reglas para desarrollo asistido por IA
+# 11. Lo que NO se debe implementar todavía
 
-Copilot debe respetar:
 
-* No crear microservicios.
-* No crear Kubernetes.
-* No crear sistemas distribuidos sin necesidad.
-* No crear abstracciones sin uso real.
-* No mover lógica de negocio al Controller.
-* No colocar Prisma directamente en Services.
-* No colocar lógica de negocio en Repository.
-* No modificar arquitectura sin autorización.
-* No crear módulos innecesarios.
-* Priorizar código simple y mantenible.
+No crear:
 
-Cada cambio debe seguir este proceso:
+- JWT.
+- Login.
+- Usuarios.
+- Roles.
+- WhatsApp.
+- IA.
+- Agentes.
+- Eventos complejos.
+- Redis.
+- Colas.
+- Microservicios.
 
-1. Leer arquitectura.
-2. Modificar un archivo o pequeño conjunto de archivos.
-3. Ejecutar pruebas.
-4. Revisar errores.
-5. Commit.
-6. Continuar con el siguiente paso.
+
+Aunque sean parte del futuro del producto.
 
 ---
 
-# 11. Observabilidad inicial
+# 12. Base de datos
 
-Desde el inicio se implementará:
 
-* Logger
-* Manejo centralizado de errores
-* Health Check
-* Swagger
+La base de datos debe manejarse mediante:
 
-Futuro:
+- Prisma.
+- PostgreSQL.
+- Docker.
 
-* Métricas
-* Tracing
-* Alertas
-* Dashboard avanzado
 
----
+Herramientas permitidas para revisar DB:
 
-# 12. Requisitos de cada módulo
+- Prisma CLI.
+- psql dentro del contenedor.
 
-Todo módulo debe incluir:
 
-* Entidad de dominio
-* Repository Interface
-* Repository Implementation
-* Service
-* Controller
-* Documentación
-* Tests
+No utilizar:
 
-No se considera terminado un módulo si solamente existe código de dominio.
+- Python.
+- Jupyter Notebook.
+- Scripts externos.
+
+
+La solución debe mantenerse dentro del stack del proyecto.
 
 ---
 
-# 13. Gestión con Git
+# 13. Uso de IA en desarrollo
 
-El desarrollo debe realizarse mediante ramas.
 
-Ejemplo:
+Copilot debe trabajar como un desarrollador del equipo.
 
-```
+
+Antes de modificar:
+
+1. Leer ARCHITECTURE.md.
+2. Revisar código existente.
+3. Entender la fase actual.
+4. Cambiar solamente lo necesario.
+
+
+No agregar dependencias ni tecnologías nuevas sin autorización.
+
+---
+
+# 14. Validación obligatoria
+
+
+Antes de finalizar cualquier tarea ejecutar:
+
+
+npm run build
+
+
+npm test
+
+
+Si corresponde:
+
+
+npx prisma db push
+
+
+y probar endpoints.
+
+
+---
+
+# 15. Git
+
+
+Trabajar mediante ramas:
+
 main
 
 feature/empresa
 
 feature/usuario
 
-feature/mensaje
-```
 
-No desarrollar directamente sobre `main`.
-
-Cada funcionalidad debe tener:
-
-* Código
-* Tests
-* Commit independiente
+No trabajar directamente sobre main.
 
 ---
 
-# 14. Fases del proyecto
+# 16. Objetivo inmediato
 
-## Fase 1 - Infraestructura base
 
-Objetivo:
+Completar Empresa.
 
-Tener una aplicación funcionando correctamente.
+Cuando Empresa funcione correctamente:
 
-Incluye:
+- Persistencia funcionando.
+- Endpoint funcionando.
+- Tests funcionando.
 
-* Proyecto TypeScript
-* Fastify
-* Prisma
-* PostgreSQL
-* Docker
-* Configuración
-* Logger
-* Manejo de errores
-* Health Check
-* Swagger
-* Tests base
 
-Criterio de cierre:
+Recién después comenzar Usuario.
 
-La aplicación inicia correctamente y conecta con PostgreSQL.
-
----
-
-# Fase 2 - Primer módulo vertical
-
-Módulo Empresa:
-
-Incluye:
-
-* Entidad Empresa
-* Repository
-* Service
-* Controller
-* CRUD
-* Swagger
-* Tests
-* Persistencia real
-
-Criterio de cierre:
-
-Crear una empresa mediante API y verla persistida en PostgreSQL.
-
----
-
-# Fase 3 - Usuarios
-
-Incluye:
-
-* Usuario
-* Login
-* JWT
-* Roles
-* Autorización
-
----
-
-# Fase 4 - WhatsApp
-
-Incluye:
-
-* Conexión WhatsApp
-* Instancias
-* Mensajes
-* Conversaciones
-
----
-
-# Fase 5 - Inteligencia Artificial
-
-Incluye:
-
-* Prompt
-* Contexto
-* Respuestas
-* Memoria
-* Configuración del asistente
-
----
-
-# Fase 6 - Panel Web
-
-Incluye:
-
-* Dashboard
-* Empresas
-* Usuarios
-* Conversaciones
-* Administración SaaS
-
----
-
-# 15. Filosofía del proyecto
-
-Abiel debe evolucionar de forma incremental.
-
-La prioridad es:
-
-1. Producto funcional.
-2. Clientes reales.
-3. Aprendizaje del mercado.
-4. Escalabilidad progresiva.
-
-No construir una plataforma compleja antes de validar el producto.
-
-La arquitectura debe crecer junto con las necesidades reales.
-
----
-
-# Regla final
-
-Cada nueva funcionalidad debe responder:
-
-"¿Esto ayuda al MVP actual o es una necesidad futura?"
-
-Si es futuro, se documenta pero no se implementa todavía.
