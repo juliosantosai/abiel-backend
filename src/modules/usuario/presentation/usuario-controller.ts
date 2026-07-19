@@ -5,7 +5,7 @@ export class UsuarioController {
   constructor(private readonly usuarioService: UsuarioService) {}
 
   async getAll(_request: FastifyRequest, reply: FastifyReply) {
-    const usuarios = await this.usuarioService.listarUsuarios();
+    const usuarios = await this.usuarioService.obtenerUsuarios();
     return reply.send(usuarios);
   }
 
@@ -19,20 +19,38 @@ export class UsuarioController {
     return reply.send(usuario);
   }
 
-  async create(request: FastifyRequest<{ Body: { nombre?: string; email?: string; activo?: boolean } }>, reply: FastifyReply) {
-    const { nombre, email, activo } = request.body;
-    const usuario = await this.usuarioService.crearUsuario({ nombre: nombre ?? "", email: email ?? "", activo });
+  async create(
+    request: FastifyRequest<{
+      Body: { empresaId?: string; nombre?: string; email?: string; activo?: boolean };
+    }>,
+    reply: FastifyReply
+  ) {
+    const { empresaId, nombre, email, activo } = request.body;
+    const usuario = await this.usuarioService.crearUsuario({
+      empresaId: empresaId ?? "",
+      nombre: nombre ?? "",
+      email: email ?? "",
+      activo,
+    });
     return reply.status(201).send(usuario);
   }
 
-  async update(request: FastifyRequest<{ Params: { id: string }; Body: { nombre?: string; email?: string; activo?: boolean } }>, reply: FastifyReply) {
+  async update(
+    request: FastifyRequest<{ Params: { id: string }; Body: { nombre?: string; email?: string } }>,
+    reply: FastifyReply
+  ) {
     const usuario = await this.usuarioService.actualizarUsuario(request.params.id, request.body);
     return reply.send(usuario);
   }
 
-  async delete(request: FastifyRequest<{ Params: { id: string } }>, reply: FastifyReply) {
-    await this.usuarioService.eliminarUsuario(request.params.id);
-    return reply.status(204).send();
+  async activar(request: FastifyRequest<{ Params: { id: string } }>, reply: FastifyReply) {
+    const usuario = await this.usuarioService.activarUsuario(request.params.id);
+    return reply.send(usuario);
+  }
+
+  async desactivar(request: FastifyRequest<{ Params: { id: string } }>, reply: FastifyReply) {
+    const usuario = await this.usuarioService.desactivarUsuario(request.params.id);
+    return reply.send(usuario);
   }
 }
 
@@ -43,5 +61,6 @@ export function registerUsuarioRoutes(app: FastifyInstance, usuarioService: Usua
   app.get("/usuarios", controller.getAll.bind(controller));
   app.get("/usuarios/:id", controller.getById.bind(controller));
   app.put("/usuarios/:id", controller.update.bind(controller));
-  app.delete("/usuarios/:id", controller.delete.bind(controller));
+  app.patch("/usuarios/:id/activar", controller.activar.bind(controller));
+  app.patch("/usuarios/:id/desactivar", controller.desactivar.bind(controller));
 }

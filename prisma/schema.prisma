@@ -4,20 +4,22 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  
 }
 
 model Empresa {
-  id        String   @id
+  id        String    @id
   nombre    String
   plan      String
   activo    Boolean
   createdAt DateTime
   updatedAt DateTime
+  usuarios  Usuario[]
 }
 
 model Usuario {
   id        String   @id
+  empresaId String
+  empresa   Empresa  @relation(fields: [empresaId], references: [id])
   nombre    String
   email     String
   activo    Boolean

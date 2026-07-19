@@ -11,6 +11,14 @@ export class PrismaUsuarioRepository implements UsuarioRepository {
     return prisma.usuario.findMany();
   }
 
+  async findByEmpresaId(empresaId: string): Promise<UsuarioProps[]> {
+    return prisma.usuario.findMany({ where: { empresaId } });
+  }
+
+  async findByIdAndEmpresaId(id: string, empresaId: string): Promise<UsuarioProps | null> {
+    return prisma.usuario.findFirst({ where: { id, empresaId } });
+  }
+
   async create(usuario: UsuarioProps): Promise<UsuarioProps> {
     return prisma.usuario.create({ data: usuario });
   }
@@ -20,9 +28,5 @@ export class PrismaUsuarioRepository implements UsuarioRepository {
       where: { id },
       data: usuario,
     });
-  }
-
-  async delete(id: string): Promise<void> {
-    await prisma.usuario.delete({ where: { id } });
   }
 }

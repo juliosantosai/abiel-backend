@@ -15,11 +15,10 @@ describe("Usuario HTTP endpoints", () => {
   afterEach(async () => {
     await prisma.usuario.deleteMany({
       where: {
-        id: {
-          startsWith: "usuario-endpoint-",
-        },
+        empresaId: "empresa-endpoint-1",
       },
     });
+    await prisma.empresa.deleteMany({ where: { id: "empresa-endpoint-1" } });
   });
 
   afterAll(async () => {
@@ -27,10 +26,22 @@ describe("Usuario HTTP endpoints", () => {
   });
 
   it("creates, lists, retrieves, updates and deletes a usuario", async () => {
+    await prisma.empresa.create({
+      data: {
+        id: "empresa-endpoint-1",
+        nombre: "Empresa Endpoint Test",
+        plan: "STARTER",
+        activo: true,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+    });
+
     const createResponse = await app.inject({
       method: "POST",
       url: "/usuarios",
       payload: {
+        empresaId: "empresa-endpoint-1",
         nombre: "Usuario Endpoint Test",
         email: "endpoint@example.com",
       },
@@ -39,6 +50,7 @@ describe("Usuario HTTP endpoints", () => {
     expect(createResponse.statusCode).toBe(201);
     const created = createResponse.json();
     expect(created).toHaveProperty("id");
+    expect(created.empresaId).toBe("empresa-endpoint-1");
     expect(created.nombre).toBe("Usuario Endpoint Test");
     expect(created.email).toBe("endpoint@example.com");
     expect(created.activo).toBe(true);
@@ -60,18 +72,20 @@ describe("Usuario HTTP endpoints", () => {
       url: `/usuarios/${created.id}`,
       payload: {
         email: "updated@example.com",
-        activo: false,
       },
     });
     expect(updateResponse.statusCode).toBe(200);
     const updated = updateResponse.json();
     expect(updated.email).toBe("updated@example.com");
-    expect(updated.activo).toBe(false);
 
-    const deleteResponse = await app.inject({ method: "DELETE", url: `/usuarios/${created.id}` });
-    expect(deleteResponse.statusCode).toBe(204);
+    const activateResponse = await app.inject({ method: "PATCH", url: `/usuarios/${created.id}/activar` });
+    expect(activateResponse.statusCode).toBe(200);
+    const activated = activateResponse.json();
+    expect(activated.activo).toBe(true);
 
-    const deletedGetResponse = await app.inject({ method: "GET", url: `/usuarios/${created.id}` });
-    expect(deletedGetResponse.statusCode).toBe(404);
+    const deactivateResponse = await app.inject({ method: "PATCH", url: `/usuarios/${created.id}/desactivar` });
+    expect(deactivateResponse.statusCode).toBe(200);
+    const deactivated = deactivateResponse.json();
+    expect(deactivated.activo).toBe(false);
   });
 });

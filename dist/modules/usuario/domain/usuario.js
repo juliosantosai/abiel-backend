@@ -3,12 +3,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Usuario = void 0;
 class Usuario {
     id;
+    empresaId;
     _nombre;
     _email;
     _activo;
     createdAt;
     _updatedAt;
     constructor(props) {
+        if (!props.empresaId || props.empresaId.trim() === "") {
+            throw new Error("El empresaId del usuario es obligatorio");
+        }
         if (!props.nombre || props.nombre.trim() === "") {
             throw new Error("El nombre del usuario es obligatorio");
         }
@@ -19,6 +23,7 @@ class Usuario {
             throw new Error("El email del usuario no es válido");
         }
         this.id = props.id;
+        this.empresaId = props.empresaId.trim();
         this._nombre = props.nombre.trim();
         this._email = props.email.trim().toLowerCase();
         this._activo = props.activo;
@@ -69,6 +74,7 @@ class Usuario {
     toJSON() {
         return {
             id: this.id,
+            empresaId: this.empresaId,
             nombre: this._nombre,
             email: this._email,
             activo: this._activo,

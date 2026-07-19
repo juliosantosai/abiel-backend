@@ -1,5 +1,6 @@
 export interface UsuarioProps {
   id: string;
+  empresaId: string;
   nombre: string;
   email: string;
   activo: boolean;
@@ -9,6 +10,7 @@ export interface UsuarioProps {
 
 export class Usuario {
   readonly id: string;
+  readonly empresaId: string;
   private _nombre: string;
   private _email: string;
   private _activo: boolean;
@@ -16,6 +18,10 @@ export class Usuario {
   private _updatedAt: Date;
 
   constructor(props: UsuarioProps) {
+    if (!props.empresaId || props.empresaId.trim() === "") {
+      throw new Error("El empresaId del usuario es obligatorio");
+    }
+
     if (!props.nombre || props.nombre.trim() === "") {
       throw new Error("El nombre del usuario es obligatorio");
     }
@@ -29,6 +35,7 @@ export class Usuario {
     }
 
     this.id = props.id;
+    this.empresaId = props.empresaId.trim();
     this._nombre = props.nombre.trim();
     this._email = props.email.trim().toLowerCase();
     this._activo = props.activo;
@@ -91,6 +98,7 @@ export class Usuario {
   toJSON(): UsuarioProps {
     return {
       id: this.id,
+      empresaId: this.empresaId,
       nombre: this._nombre,
       email: this._email,
       activo: this._activo,

@@ -6,14 +6,28 @@ const repository = new PrismaUsuarioRepository();
 
 describe("Usuario Prisma repository", () => {
   const testId = `usuario-test-${Date.now()}`;
+  const testEmpresaId = "empresa-test-1";
 
   afterEach(async () => {
-    await prisma.usuario.deleteMany({ where: { id: testId } });
+    await prisma.usuario.deleteMany({ where: { empresaId: testEmpresaId } });
+    await prisma.empresa.deleteMany({ where: { id: testEmpresaId } });
   });
 
-  it("creates, reads, updates and deletes a usuario", async () => {
+  it("creates, reads and updates a usuario and queries by empresaId", async () => {
+    await prisma.empresa.create({
+      data: {
+        id: testEmpresaId,
+        nombre: "Empresa Test",
+        plan: "STARTER",
+        activo: true,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+    });
+
     const created = await repository.create({
       id: testId,
+      empresaId: testEmpresaId,
       nombre: "Usuario Test",
       email: "usuario-test@example.com",
       activo: true,
@@ -23,6 +37,7 @@ describe("Usuario Prisma repository", () => {
 
     expect(created).toMatchObject({
       id: testId,
+      empresaId: testEmpresaId,
       nombre: "Usuario Test",
       email: "usuario-test@example.com",
       activo: true,
@@ -41,9 +56,11 @@ describe("Usuario Prisma repository", () => {
     expect(updated?.nombre).toBe("Usuario Test Updated");
     expect(updated?.activo).toBe(false);
 
-    await repository.delete(testId);
+    const foundByEmpresa = await repository.findByEmpresaId(testEmpresaId);
+    expect(foundByEmpresa.some((item) => item.id === testId)).toBe(true);
 
-    const deleted = await repository.findById(testId);
-    expect(deleted).toBeNull();
+    const foundByIdAndEmpresa = await repository.findByIdAndEmpresaId(testId, testEmpresaId);
+    expect(foundByIdAndEmpresa).not.toBeNull();
+    expect(foundByIdAndEmpresa?.empresaId).toBe(testEmpresaId);
   });
 });

@@ -8,7 +8,7 @@ class UsuarioController {
         this.usuarioService = usuarioService;
     }
     async getAll(_request, reply) {
-        const usuarios = await this.usuarioService.listarUsuarios();
+        const usuarios = await this.usuarioService.obtenerUsuarios();
         return reply.send(usuarios);
     }
     async getById(request, reply) {
@@ -19,17 +19,26 @@ class UsuarioController {
         return reply.send(usuario);
     }
     async create(request, reply) {
-        const { nombre, email, activo } = request.body;
-        const usuario = await this.usuarioService.crearUsuario({ nombre: nombre ?? "", email: email ?? "", activo });
+        const { empresaId, nombre, email, activo } = request.body;
+        const usuario = await this.usuarioService.crearUsuario({
+            empresaId: empresaId ?? "",
+            nombre: nombre ?? "",
+            email: email ?? "",
+            activo,
+        });
         return reply.status(201).send(usuario);
     }
     async update(request, reply) {
         const usuario = await this.usuarioService.actualizarUsuario(request.params.id, request.body);
         return reply.send(usuario);
     }
-    async delete(request, reply) {
-        await this.usuarioService.eliminarUsuario(request.params.id);
-        return reply.status(204).send();
+    async activar(request, reply) {
+        const usuario = await this.usuarioService.activarUsuario(request.params.id);
+        return reply.send(usuario);
+    }
+    async desactivar(request, reply) {
+        const usuario = await this.usuarioService.desactivarUsuario(request.params.id);
+        return reply.send(usuario);
     }
 }
 exports.UsuarioController = UsuarioController;
@@ -39,5 +48,6 @@ function registerUsuarioRoutes(app, usuarioService) {
     app.get("/usuarios", controller.getAll.bind(controller));
     app.get("/usuarios/:id", controller.getById.bind(controller));
     app.put("/usuarios/:id", controller.update.bind(controller));
-    app.delete("/usuarios/:id", controller.delete.bind(controller));
+    app.patch("/usuarios/:id/activar", controller.activar.bind(controller));
+    app.patch("/usuarios/:id/desactivar", controller.desactivar.bind(controller));
 }

@@ -11,6 +11,7 @@ class UsuarioService {
     async crearUsuario(input) {
         const usuario = new usuario_1.Usuario({
             id: (0, uuid_1.generateUuid)(),
+            empresaId: input.empresaId,
             nombre: input.nombre,
             email: input.email,
             activo: input.activo ?? true,
@@ -22,7 +23,7 @@ class UsuarioService {
     async obtenerUsuarioPorId(id) {
         return this.usuarioRepository.findById(id);
     }
-    async listarUsuarios() {
+    async obtenerUsuarios() {
         return this.usuarioRepository.findAll();
     }
     async actualizarUsuario(id, input) {
@@ -37,22 +38,37 @@ class UsuarioService {
         if (input.email !== undefined) {
             usuario.cambiarEmail(input.email);
         }
-        if (input.activo !== undefined) {
-            if (input.activo) {
-                usuario.activar();
-            }
-            else {
-                usuario.desactivar();
-            }
-        }
         const updated = await this.usuarioRepository.update(id, usuario.toJSON());
         if (!updated) {
             throw new Error("No se pudo actualizar el usuario");
         }
         return updated;
     }
-    async eliminarUsuario(id) {
-        await this.usuarioRepository.delete(id);
+    async activarUsuario(id) {
+        const existing = await this.usuarioRepository.findById(id);
+        if (!existing) {
+            throw new Error("Usuario no encontrado");
+        }
+        const usuario = new usuario_1.Usuario(existing);
+        usuario.activar();
+        const updated = await this.usuarioRepository.update(id, usuario.toJSON());
+        if (!updated) {
+            throw new Error("No se pudo activar el usuario");
+        }
+        return updated;
+    }
+    async desactivarUsuario(id) {
+        const existing = await this.usuarioRepository.findById(id);
+        if (!existing) {
+            throw new Error("Usuario no encontrado");
+        }
+        const usuario = new usuario_1.Usuario(existing);
+        usuario.desactivar();
+        const updated = await this.usuarioRepository.update(id, usuario.toJSON());
+        if (!updated) {
+            throw new Error("No se pudo desactivar el usuario");
+        }
+        return updated;
     }
 }
 exports.UsuarioService = UsuarioService;
