@@ -30,7 +30,8 @@ describe("MembershipService", () => {
     const roleRepo = new PrismaRoleRepository();
     const usuarioRepo = new PrismaUsuarioRepository();
     const membershipRepo = new PrismaMembershipRepository();
-    const service = new MembershipService(membershipRepo, usuarioRepo, roleRepo);
+    const empresaFinder = { findById: async (id: string) => prisma.empresa.findUnique({ where: { id } }) };
+    const service = new MembershipService(membershipRepo, usuarioRepo, roleRepo, empresaFinder as any);
 
     const tenantRoleId = generateUuid();
     await prisma.rol.create({ data: { id: tenantRoleId, empresaId: testEmpresaB, tipo: "TENANT", nombre: `test-role-tenant-${Date.now()}`, descripcion: null, activo: true, createdAt: new Date(), updatedAt: new Date() } });
@@ -47,7 +48,8 @@ describe("MembershipService", () => {
     const roleRepo = new PrismaRoleRepository();
     const usuarioRepo = new PrismaUsuarioRepository();
     const membershipRepo = new PrismaMembershipRepository();
-    const service = new MembershipService(membershipRepo, usuarioRepo, roleRepo);
+    const empresaFinder = { findById: async (id: string) => prisma.empresa.findUnique({ where: { id } }) };
+    const service = new MembershipService(membershipRepo, usuarioRepo, roleRepo, empresaFinder as any);
 
     const globalRoleId = generateUuid();
     await prisma.rol.create({ data: { id: globalRoleId, empresaId: null, tipo: "GLOBAL", nombre: `test-role-global-${Date.now()}`, descripcion: null, activo: true, createdAt: new Date(), updatedAt: new Date() } });
@@ -60,7 +62,8 @@ describe("MembershipService", () => {
     const roleRepo = new PrismaRoleRepository();
     const usuarioRepo = new PrismaUsuarioRepository();
     const membershipRepo = new PrismaMembershipRepository();
-    const service = new MembershipService(membershipRepo, usuarioRepo, roleRepo);
+    const empresaFinder = { findById: async (id: string) => prisma.empresa.findUnique({ where: { id } }) };
+    const service = new MembershipService(membershipRepo, usuarioRepo, roleRepo, empresaFinder as any);
 
     const tenantRoleId = generateUuid();
     await prisma.rol.create({ data: { id: tenantRoleId, empresaId: testEmpresaA, tipo: "TENANT", nombre: `test-role-dup-${Date.now()}`, descripcion: null, activo: true, createdAt: new Date(), updatedAt: new Date() } });
@@ -73,7 +76,8 @@ describe("MembershipService", () => {
     const roleRepo = new PrismaRoleRepository();
     const usuarioRepo = new PrismaUsuarioRepository();
     const membershipRepo = new PrismaMembershipRepository();
-    const service = new MembershipService(membershipRepo, usuarioRepo, roleRepo);
+    const empresaFinder = { findById: async (id: string) => prisma.empresa.findUnique({ where: { id } }) };
+    const service = new MembershipService(membershipRepo, usuarioRepo, roleRepo, empresaFinder as any);
 
     await expect(service.crearMembership({ usuarioId: testUsuarioId, empresaId: testEmpresaA, rolId: "non-existent-role" })).rejects.toThrow("Rol no encontrado");
   });

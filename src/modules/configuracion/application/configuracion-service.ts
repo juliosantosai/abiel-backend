@@ -1,18 +1,18 @@
 import { generateUuid } from "../../../shared/utils/uuid";
-import { Configuracion, type ConfiguracionProps } from "../domain/configuracion";
+import { Configuracion, type ConfiguracionProps, type IdiomaConfiguracion } from "../domain/configuracion";
 import type { ConfiguracionRepository } from "../infrastructure/configuracion-repository";
 import type { EmpresaRepository } from "../../empresa/infrastructure/empresa-repository";
 
 export type CreateConfiguracionInput = {
   empresaId: string;
-  idioma?: string;
+  idioma?: IdiomaConfiguracion;
   zonaHoraria?: string;
   notificacionesEmail?: boolean;
   activo?: boolean;
 };
 
 export type UpdateConfiguracionInput = {
-  idioma?: string;
+  idioma?: IdiomaConfiguracion;
   zonaHoraria?: string;
   notificacionesEmail?: boolean;
   activo?: boolean;
@@ -40,7 +40,7 @@ export class ConfiguracionService {
     const configuracion = new Configuracion({
       id: generateUuid(),
       empresaId: input.empresaId,
-      idioma: (input.idioma as any) ?? "ES",
+      idioma: input.idioma ?? "ES",
       zonaHoraria: input.zonaHoraria ?? "UTC",
       notificacionesEmail: input.notificacionesEmail ?? true,
       activo: input.activo ?? true,

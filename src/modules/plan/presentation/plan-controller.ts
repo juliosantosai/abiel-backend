@@ -1,5 +1,6 @@
 import type { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 import type { PlanService } from "../application/plan-service";
+import type { PlanIntervalo } from "../domain/plan";
 
 export class PlanController {
   constructor(private readonly planService: PlanService) {}
@@ -26,7 +27,7 @@ export class PlanController {
         slug?: string;
         descripcion?: string;
         precio?: number;
-        intervalo?: string;
+        intervalo?: PlanIntervalo;
         activo?: boolean;
       };
     }>,
@@ -37,8 +38,8 @@ export class PlanController {
       nombre: nombre ?? "",
       slug: slug ?? "",
       descripcion,
-      precio: precio as number,
-      intervalo: intervalo as any,
+      precio: precio ?? 0,
+      intervalo: intervalo ?? "MENSUAL",
       activo,
     });
 
@@ -53,13 +54,13 @@ export class PlanController {
         slug?: string;
         descripcion?: string;
         precio?: number;
-        intervalo?: string;
+        intervalo?: PlanIntervalo;
         activo?: boolean;
       };
     }>,
     reply: FastifyReply
   ) {
-    const plan = await this.planService.actualizarPlan(request.params.id, request.body as any);
+    const plan = await this.planService.actualizarPlan(request.params.id, request.body);
     return reply.send(plan);
   }
 

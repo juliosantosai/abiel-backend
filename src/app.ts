@@ -55,7 +55,7 @@ export async function createApp() {
   const roleRepository = new PrismaRoleRepository();
 
   const membershipRepository = new PrismaMembershipRepository();
-  const membershipService = new MembershipService(membershipRepository, usuarioRepository, roleRepository);
+  const membershipService = new MembershipService(membershipRepository, usuarioRepository, roleRepository, empresaRepository);
 
   // Create RoleService with MembershipCreator injected (no runtime casts)
   const roleService = new RoleService(roleRepository, membershipService);

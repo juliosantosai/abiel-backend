@@ -4,6 +4,7 @@ import type { MembershipRepository } from "../infrastructure/membership-reposito
 import type { UsuarioRepository } from "../infrastructure/usuario-repository";
 import type { RoleFinder } from "../../../shared/contracts/role-finder";
 import type { EmpresaFinder } from "../../../shared/contracts/empresa-finder";
+import { GLOBAL_TENANT_ID } from "../../../shared/constants/tenant";
 
 export type CreateMembershipInput = {
   usuarioId: string;
@@ -35,15 +36,15 @@ export class MembershipService {
       throw new Error("El rol TENANT debe pertenecer a la empresa indicada");
     }
 
-    if (existingRol.tipo === "GLOBAL" && input.empresaId !== "global") {
-      throw new Error('El rol GLOBAL debe usar empresaId "global"');
+    if (existingRol.tipo === "GLOBAL" && input.empresaId !== GLOBAL_TENANT_ID) {
+      throw new Error(`El rol GLOBAL debe usar empresaId "${GLOBAL_TENANT_ID}"`);
     }
 
-    if (existingRol.tipo === "TENANT" && input.empresaId === "global") {
-      throw new Error('Los roles TENANT no pueden usar empresaId "global"');
+    if (existingRol.tipo === "TENANT" && input.empresaId === GLOBAL_TENANT_ID) {
+      throw new Error(`Los roles TENANT no pueden usar empresaId "${GLOBAL_TENANT_ID}"`);
     }
 
-    if (input.empresaId !== "global") {
+    if (input.empresaId !== GLOBAL_TENANT_ID) {
       const empresa = await this.empresaFinder.findById(input.empresaId);
       if (!empresa) {
         throw new Error("Empresa no encontrada");
@@ -56,8 +57,8 @@ export class MembershipService {
     }
 
     const memberships = await this.membershipRepository.findByUsuarioId(input.usuarioId);
-    if (memberships && memberships.length > 0 && input.empresaId !== "global") {
-      const other = memberships.find((m) => m.empresaId !== input.empresaId && m.empresaId !== "global");
+    if (memberships && memberships.length > 0 && input.empresaId !== GLOBAL_TENANT_ID) {
+      const other = memberships.find((m) => m.empresaId !== input.empresaId && m.empresaId !== GLOBAL_TENANT_ID);
       if (other) {
         throw new Error("El usuario ya pertenece a otra empresa");
       }

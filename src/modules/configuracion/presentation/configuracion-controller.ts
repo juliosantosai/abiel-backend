@@ -1,5 +1,6 @@
 import type { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 import type { ConfiguracionService } from "../application/configuracion-service";
+import type { IdiomaConfiguracion } from "../domain/configuracion";
 
 export class ConfiguracionController {
   constructor(private readonly configuracionService: ConfiguracionService) {}
@@ -31,7 +32,7 @@ export class ConfiguracionController {
 
   async create(
     request: FastifyRequest<{
-      Body: { empresaId?: string; idioma?: string; zonaHoraria?: string; notificacionesEmail?: boolean; activo?: boolean };
+      Body: { empresaId?: string; idioma?: IdiomaConfiguracion; zonaHoraria?: string; notificacionesEmail?: boolean; activo?: boolean };
     }>,
     reply: FastifyReply
   ) {
@@ -47,7 +48,7 @@ export class ConfiguracionController {
   }
 
   async update(
-    request: FastifyRequest<{ Params: { id: string }; Body: { idioma?: string; zonaHoraria?: string; notificacionesEmail?: boolean; activo?: boolean } }>,
+    request: FastifyRequest<{ Params: { id: string }; Body: { idioma?: IdiomaConfiguracion; zonaHoraria?: string; notificacionesEmail?: boolean; activo?: boolean } }>,
     reply: FastifyReply
   ) {
     const configuracion = await this.configuracionService.actualizar(request.params.id, request.body);

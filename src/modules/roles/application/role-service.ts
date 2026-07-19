@@ -3,6 +3,7 @@ import { Permiso, type PermisoProps } from "../domain/permiso";
 import { Rol, type RolProps } from "../domain/rol";
 import type { RoleRepository } from "../infrastructure/role-repository";
 import type { MembershipCreator } from "../../../shared/contracts/membership-creator";
+import { GLOBAL_TENANT_ID } from "../../../shared/constants/tenant";
 
 export type CreateRolInput = {
   empresaId?: string | null;
@@ -253,7 +254,7 @@ export class RoleService {
       return;
     }
 
-    await this.membershipCreator.crearMembership({ usuarioId, empresaId: "global", rolId, activo: true });
+    await this.membershipCreator.crearMembership({ usuarioId, empresaId: GLOBAL_TENANT_ID, rolId, activo: true });
   }
 
   async removerRolDeUsuario(usuarioId: string, rolId: string): Promise<void> {
