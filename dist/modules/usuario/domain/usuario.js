@@ -3,16 +3,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Usuario = void 0;
 class Usuario {
     id;
-    empresaId;
     _nombre;
     _email;
+    _passwordHash;
     _activo;
     createdAt;
     _updatedAt;
     constructor(props) {
-        if (!props.empresaId || props.empresaId.trim() === "") {
-            throw new Error("El empresaId del usuario es obligatorio");
-        }
         if (!props.nombre || props.nombre.trim() === "") {
             throw new Error("El nombre del usuario es obligatorio");
         }
@@ -22,10 +19,13 @@ class Usuario {
         if (!Usuario.isValidEmail(props.email)) {
             throw new Error("El email del usuario no es válido");
         }
+        if (!props.passwordHash || props.passwordHash.trim() === "") {
+            throw new Error("El passwordHash del usuario es obligatorio");
+        }
         this.id = props.id;
-        this.empresaId = props.empresaId.trim();
         this._nombre = props.nombre.trim();
         this._email = props.email.trim().toLowerCase();
+        this._passwordHash = props.passwordHash.trim();
         this._activo = props.activo;
         this.createdAt = props.createdAt;
         this._updatedAt = props.updatedAt;
@@ -35,6 +35,9 @@ class Usuario {
     }
     get email() {
         return this._email;
+    }
+    get passwordHash() {
+        return this._passwordHash;
     }
     get activo() {
         return this._activo;
@@ -59,6 +62,13 @@ class Usuario {
         this._email = email.trim().toLowerCase();
         this._touch();
     }
+    cambiarPasswordHash(passwordHash) {
+        if (!passwordHash || passwordHash.trim() === "") {
+            throw new Error("El passwordHash del usuario es obligatorio");
+        }
+        this._passwordHash = passwordHash.trim();
+        this._touch();
+    }
     activar() {
         if (!this._activo) {
             this._activo = true;
@@ -74,9 +84,9 @@ class Usuario {
     toJSON() {
         return {
             id: this.id,
-            empresaId: this.empresaId,
             nombre: this._nombre,
             email: this._email,
+            passwordHash: this._passwordHash,
             activo: this._activo,
             createdAt: this.createdAt,
             updatedAt: this._updatedAt,

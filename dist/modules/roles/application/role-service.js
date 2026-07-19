@@ -175,10 +175,13 @@ class RoleService {
         if (!rol) {
             throw new Error("Rol no encontrado");
         }
-        if (rol.tipo === "TENANT" && rol.empresaId && usuario.empresaId !== rol.empresaId) {
-            throw new Error("El usuario y el rol deben pertenecer al mismo tenant");
+        if (rol.tipo === "TENANT" && rol.empresaId) {
+            // For tenant roles, create membership scoped to the role's empresaId
+            await this.roleRepository.assignRoleToUser(usuarioId, rolId, rol.empresaId);
+            return;
         }
-        await this.roleRepository.assignRoleToUser(usuarioId, rolId);
+        // For global roles, create a membership without empresa scope (use 'global' sentinel)
+        await this.roleRepository.assignRoleToUser(usuarioId, rolId, null);
     }
     async removerRolDeUsuario(usuarioId, rolId) {
         await this.roleRepository.removeRoleFromUser(usuarioId, rolId);

@@ -21,22 +21,22 @@ export class UsuarioController {
 
   async create(
     request: FastifyRequest<{
-      Body: { empresaId?: string; nombre?: string; email?: string; activo?: boolean };
+      Body: { nombre?: string; email?: string; passwordHash?: string; activo?: boolean };
     }>,
     reply: FastifyReply
   ) {
-    const { empresaId, nombre, email, activo } = request.body;
+    const { nombre, email, passwordHash, activo } = request.body;
     const usuario = await this.usuarioService.crearUsuario({
-      empresaId: empresaId ?? "",
       nombre: nombre ?? "",
       email: email ?? "",
+      passwordHash: passwordHash ?? "",
       activo,
     });
     return reply.status(201).send(usuario);
   }
 
   async update(
-    request: FastifyRequest<{ Params: { id: string }; Body: { nombre?: string; email?: string } }>,
+    request: FastifyRequest<{ Params: { id: string }; Body: { nombre?: string; email?: string; passwordHash?: string } }>,
     reply: FastifyReply
   ) {
     const usuario = await this.usuarioService.actualizarUsuario(request.params.id, request.body);

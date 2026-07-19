@@ -3,26 +3,33 @@ import { Usuario, type UsuarioProps } from "../domain/usuario";
 import type { UsuarioRepository } from "../infrastructure/usuario-repository";
 
 export type CreateUsuarioInput = {
-  empresaId: string;
   nombre: string;
   email: string;
+  passwordHash: string;
   activo?: boolean;
 };
 
 export type UpdateUsuarioInput = {
   nombre?: string;
   email?: string;
+  passwordHash?: string;
 };
 
 export class UsuarioService {
   constructor(private readonly usuarioRepository: UsuarioRepository) {}
 
   async crearUsuario(input: CreateUsuarioInput): Promise<UsuarioProps> {
+    const existing = await this.usuarioRepository.findByEmail(input.email);
+
+    if (existing) {
+      throw new Error("El email del usuario ya está registrado");
+    }
+
     const usuario = new Usuario({
       id: generateUuid(),
-      empresaId: input.empresaId,
       nombre: input.nombre,
       email: input.email,
+      passwordHash: input.passwordHash,
       activo: input.activo ?? true,
       createdAt: new Date(),
       updatedAt: new Date(),
@@ -54,6 +61,10 @@ export class UsuarioService {
 
     if (input.email !== undefined) {
       usuario.cambiarEmail(input.email);
+    }
+
+    if (input.passwordHash !== undefined) {
+      usuario.cambiarPasswordHash(input.passwordHash);
     }
 
     const updated = await this.usuarioRepository.update(id, usuario.toJSON());

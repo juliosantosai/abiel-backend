@@ -19,11 +19,11 @@ class UsuarioController {
         return reply.send(usuario);
     }
     async create(request, reply) {
-        const { empresaId, nombre, email, activo } = request.body;
+        const { nombre, email, passwordHash, activo } = request.body;
         const usuario = await this.usuarioService.crearUsuario({
-            empresaId: empresaId ?? "",
             nombre: nombre ?? "",
             email: email ?? "",
+            passwordHash: passwordHash ?? "",
             activo,
         });
         return reply.status(201).send(usuario);

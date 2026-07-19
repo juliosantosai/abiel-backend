@@ -26,6 +26,9 @@ const configuracion_controller_1 = require("./modules/configuracion/presentation
 const prisma_role_repository_1 = require("./modules/roles/infrastructure/prisma-role-repository");
 const role_service_1 = require("./modules/roles/application/role-service");
 const role_controller_1 = require("./modules/roles/presentation/role-controller");
+const prisma_membership_repository_1 = require("./modules/usuario/infrastructure/prisma-membership-repository");
+const membership_service_1 = require("./modules/usuario/application/membership-service");
+const membership_controller_1 = require("./modules/usuario/presentation/membership-controller");
 async function createApp() {
     const app = (0, fastify_1.default)({
         logger: logger_1.logger,
@@ -50,6 +53,9 @@ async function createApp() {
     const roleRepository = new prisma_role_repository_1.PrismaRoleRepository();
     const roleService = new role_service_1.RoleService(roleRepository);
     (0, role_controller_1.registerRoleRoutes)(app, roleService);
+    const membershipRepository = new prisma_membership_repository_1.PrismaMembershipRepository();
+    const membershipService = new membership_service_1.MembershipService(membershipRepository, usuarioRepository, roleRepository);
+    (0, membership_controller_1.registerMembershipRoutes)(app, membershipService);
     app.get("/", {
         schema: {
             description: "API base endpoint",

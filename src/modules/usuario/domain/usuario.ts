@@ -1,8 +1,8 @@
 export interface UsuarioProps {
   id: string;
-  empresaId: string;
   nombre: string;
   email: string;
+  passwordHash: string;
   activo: boolean;
   createdAt: Date;
   updatedAt: Date;
@@ -10,18 +10,14 @@ export interface UsuarioProps {
 
 export class Usuario {
   readonly id: string;
-  readonly empresaId: string;
   private _nombre: string;
   private _email: string;
+  private _passwordHash: string;
   private _activo: boolean;
   readonly createdAt: Date;
   private _updatedAt: Date;
 
   constructor(props: UsuarioProps) {
-    if (!props.empresaId || props.empresaId.trim() === "") {
-      throw new Error("El empresaId del usuario es obligatorio");
-    }
-
     if (!props.nombre || props.nombre.trim() === "") {
       throw new Error("El nombre del usuario es obligatorio");
     }
@@ -34,10 +30,14 @@ export class Usuario {
       throw new Error("El email del usuario no es válido");
     }
 
+    if (!props.passwordHash || props.passwordHash.trim() === "") {
+      throw new Error("El passwordHash del usuario es obligatorio");
+    }
+
     this.id = props.id;
-    this.empresaId = props.empresaId.trim();
     this._nombre = props.nombre.trim();
     this._email = props.email.trim().toLowerCase();
+    this._passwordHash = props.passwordHash.trim();
     this._activo = props.activo;
     this.createdAt = props.createdAt;
     this._updatedAt = props.updatedAt;
@@ -49,6 +49,10 @@ export class Usuario {
 
   get email() {
     return this._email;
+  }
+
+  get passwordHash() {
+    return this._passwordHash;
   }
 
   get activo() {
@@ -81,6 +85,15 @@ export class Usuario {
     this._touch();
   }
 
+  cambiarPasswordHash(passwordHash: string) {
+    if (!passwordHash || passwordHash.trim() === "") {
+      throw new Error("El passwordHash del usuario es obligatorio");
+    }
+
+    this._passwordHash = passwordHash.trim();
+    this._touch();
+  }
+
   activar() {
     if (!this._activo) {
       this._activo = true;
@@ -98,9 +111,9 @@ export class Usuario {
   toJSON(): UsuarioProps {
     return {
       id: this.id,
-      empresaId: this.empresaId,
       nombre: this._nombre,
       email: this._email,
+      passwordHash: this._passwordHash,
       activo: this._activo,
       createdAt: this.createdAt,
       updatedAt: this._updatedAt,

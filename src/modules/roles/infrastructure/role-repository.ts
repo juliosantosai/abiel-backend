@@ -13,9 +13,9 @@ export interface RoleRepository {
   findAllPermisos(): Promise<PermisoProps[]>;
   createPermiso(permiso: PermisoProps): Promise<PermisoProps>;
   updatePermiso(id: string, permiso: Partial<PermisoProps>): Promise<PermisoProps | null>;
-  findUsuarioById(id: string): Promise<{ id: string; empresaId: string } | null>;
-  assignRoleToUser(usuarioId: string, rolId: string): Promise<void>;
-  removeRoleFromUser(usuarioId: string, rolId: string): Promise<void>;
+  findUsuarioById(id: string): Promise<{ id: string } | null>;
+  assignRoleToUser(usuarioId: string, rolId: string, empresaId?: string | null): Promise<void>;
+  removeRoleFromUser(usuarioId: string, rolId: string, empresaId?: string | null): Promise<void>;
   findRolPermisoByRolAndPermiso(rolId: string, permisoId: string): Promise<{ id: string } | null>;
   assignPermissionToRole(rolId: string, permisoId: string): Promise<void>;
   removePermissionFromRole(rolId: string, permisoId: string): Promise<void>;

@@ -9,11 +9,15 @@ class UsuarioService {
         this.usuarioRepository = usuarioRepository;
     }
     async crearUsuario(input) {
+        const existing = await this.usuarioRepository.findByEmail(input.email);
+        if (existing) {
+            throw new Error("El email del usuario ya está registrado");
+        }
         const usuario = new usuario_1.Usuario({
             id: (0, uuid_1.generateUuid)(),
-            empresaId: input.empresaId,
             nombre: input.nombre,
             email: input.email,
+            passwordHash: input.passwordHash,
             activo: input.activo ?? true,
             createdAt: new Date(),
             updatedAt: new Date(),
@@ -37,6 +41,9 @@ class UsuarioService {
         }
         if (input.email !== undefined) {
             usuario.cambiarEmail(input.email);
+        }
+        if (input.passwordHash !== undefined) {
+            usuario.cambiarPasswordHash(input.passwordHash);
         }
         const updated = await this.usuarioRepository.update(id, usuario.toJSON());
         if (!updated) {

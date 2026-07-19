@@ -13,14 +13,14 @@ describe("usuario module", () => {
     const service = new UsuarioService(repository as any);
 
     const result = await service.crearUsuario({
-      empresaId: "empresa-1",
       nombre: "Juan",
       email: "juan@example.com",
+      passwordHash: "hash-123",
     });
 
-    expect(result.empresaId).toBe("empresa-1");
     expect(result.nombre).toBe("Juan");
     expect(result.email).toBe("juan@example.com");
+    expect(result.passwordHash).toBe("hash-123");
     expect(result.activo).toBe(true);
     expect(repository.create).toHaveBeenCalled();
   });
@@ -30,16 +30,16 @@ describe("usuario module", () => {
     const service = new UsuarioService(repository as any);
 
     await expect(
-      service.crearUsuario({ empresaId: "empresa-1", nombre: "Juan", email: "invalid-email" })
+      service.crearUsuario({ nombre: "Juan", email: "invalid-email", passwordHash: "hash-123" })
     ).rejects.toThrow("El email del usuario no es válido");
   });
 
   it("changes nombre and email on Usuario entity", () => {
     const usuario = new Usuario({
       id: "usuario-1",
-      empresaId: "empresa-1",
       nombre: "Juan",
       email: "juan@example.com",
+      passwordHash: "hash-123",
       activo: true,
       createdAt: new Date("2026-01-01T00:00:00Z"),
       updatedAt: new Date("2026-01-01T00:00:00Z"),
@@ -60,27 +60,27 @@ describe("usuario module", () => {
       obtenerUsuarios: vi.fn().mockResolvedValue([]),
       obtenerUsuarioPorId: vi.fn().mockResolvedValue({
         id: "usuario-1",
-        empresaId: "empresa-1",
         nombre: "Juan",
         email: "juan@example.com",
+        passwordHash: "hash-123",
         activo: true,
         createdAt: new Date(),
         updatedAt: new Date(),
       }),
       crearUsuario: vi.fn().mockImplementation(async (input) => ({
         id: "usuario-2",
-        empresaId: input.empresaId,
         nombre: input.nombre,
         email: input.email,
+        passwordHash: input.passwordHash,
         activo: input.activo ?? true,
         createdAt: new Date(),
         updatedAt: new Date(),
       })),
       actualizarUsuario: vi.fn().mockImplementation(async (id, input) => ({
         id,
-        empresaId: "empresa-1",
         nombre: input.nombre ?? "Juan",
         email: input.email ?? "juan@example.com",
+        passwordHash: "hash-123",
         activo: true,
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -96,9 +96,9 @@ describe("usuario module", () => {
       })),
       desactivarUsuario: vi.fn().mockImplementation(async (id) => ({
         id,
-        empresaId: "empresa-1",
         nombre: "Juan",
         email: "juan@example.com",
+        passwordHash: "hash-123",
         activo: false,
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -111,7 +111,7 @@ describe("usuario module", () => {
     const createResponse = await app.inject({
       method: "POST",
       url: "/usuarios",
-      payload: { empresaId: "empresa-1", nombre: "Juan", email: "juan@example.com" },
+      payload: { nombre: "Juan", email: "juan@example.com", passwordHash: "hash-123" },
     });
     expect(createResponse.statusCode).toBe(201);
 

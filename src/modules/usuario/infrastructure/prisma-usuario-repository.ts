@@ -11,12 +11,8 @@ export class PrismaUsuarioRepository implements UsuarioRepository {
     return prisma.usuario.findMany();
   }
 
-  async findByEmpresaId(empresaId: string): Promise<UsuarioProps[]> {
-    return prisma.usuario.findMany({ where: { empresaId } });
-  }
-
-  async findByIdAndEmpresaId(id: string, empresaId: string): Promise<UsuarioProps | null> {
-    return prisma.usuario.findFirst({ where: { id, empresaId } });
+  async findByEmail(email: string): Promise<UsuarioProps | null> {
+    return prisma.usuario.findUnique({ where: { email } });
   }
 
   async create(usuario: UsuarioProps): Promise<UsuarioProps> {

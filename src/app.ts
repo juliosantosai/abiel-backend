@@ -20,6 +20,9 @@ import { registerConfiguracionRoutes } from "./modules/configuracion/presentatio
 import { PrismaRoleRepository } from "./modules/roles/infrastructure/prisma-role-repository";
 import { RoleService } from "./modules/roles/application/role-service";
 import { registerRoleRoutes } from "./modules/roles/presentation/role-controller";
+import { PrismaMembershipRepository } from "./modules/usuario/infrastructure/prisma-membership-repository";
+import { MembershipService } from "./modules/usuario/application/membership-service";
+import { registerMembershipRoutes } from "./modules/usuario/presentation/membership-controller";
 
 export async function createApp() {
   const app = Fastify({
@@ -52,6 +55,10 @@ export async function createApp() {
   const roleRepository = new PrismaRoleRepository();
   const roleService = new RoleService(roleRepository);
   registerRoleRoutes(app, roleService);
+
+  const membershipRepository = new PrismaMembershipRepository();
+  const membershipService = new MembershipService(membershipRepository, usuarioRepository, roleRepository);
+  registerMembershipRoutes(app, membershipService);
 
   app.get(
     "/",

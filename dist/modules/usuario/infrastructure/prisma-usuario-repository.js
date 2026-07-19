@@ -9,11 +9,8 @@ class PrismaUsuarioRepository {
     async findAll() {
         return prisma_1.prisma.usuario.findMany();
     }
-    async findByEmpresaId(empresaId) {
-        return prisma_1.prisma.usuario.findMany({ where: { empresaId } });
-    }
-    async findByIdAndEmpresaId(id, empresaId) {
-        return prisma_1.prisma.usuario.findFirst({ where: { id, empresaId } });
+    async findByEmail(email) {
+        return prisma_1.prisma.usuario.findUnique({ where: { email } });
     }
     async create(usuario) {
         return prisma_1.prisma.usuario.create({ data: usuario });
