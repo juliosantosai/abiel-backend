@@ -4,11 +4,14 @@ import { setupSwagger } from "./shared/config/swagger";
 import { setupErrorHandler } from "./shared/errors/error-handler";
 import { PrismaEmpresaRepository } from "./modules/empresa/infrastructure/prisma-empresa-repository";
 import { EmpresaService } from "./modules/empresa/application/empresa-service";
-import { registerEmpresaRoutes } from "./modules/empresa/presentation/empresa-controller";
 import { PrismaUsuarioRepository } from "./modules/usuario/infrastructure/prisma-usuario-repository";
 import { UsuarioService } from "./modules/usuario/application/usuario-service";
-import { registerUsuarioRoutes } from "./modules/usuario/presentation/usuario-controller";
 import { InMemoryEventBus } from "./shared/events/in-memory-event-bus";
+import { PrismaAgentRepository } from "./modules/agente/infrastructure/prisma-agent-repository";
+import { AgentOrchestrator } from "./modules/agente/application/agent-orchestrator";
+import { MessageReceivedEventHandler } from "./modules/agente/application/message-received-event-handler";
+import { NoopAgentRuntime } from "./shared/ai/noop-agent-runtime";
+import { AgentService } from "./modules/agente/application/agent-service";
 import { PrismaPlanRepository } from "./modules/plan/infrastructure/prisma-plan-repository";
 import { PlanService } from "./modules/plan/application/plan-service";
 import { registerPlanRoutes } from "./modules/plan/presentation/plan-controller";
@@ -26,7 +29,7 @@ import { MembershipService } from "./modules/usuario/application/membership-serv
 import { registerMembershipRoutes } from "./modules/usuario/presentation/membership-controller";
 import { createAuthInfrastructure } from "./modules/auth/infrastructure/auth-infrastructure-factory";
 import { ConversationService } from "./modules/conversacion/application/conversation-service";
-import { registerConversationRoutes } from "./modules/conversacion/presentation/conversation-controller";
+import { registerApiV1 } from "./api/v1";
 
 export async function createApp() {
   const app = Fastify({
@@ -38,24 +41,19 @@ export async function createApp() {
 
   const empresaRepository = new PrismaEmpresaRepository();
   const empresaService = new EmpresaService(empresaRepository);
-  registerEmpresaRoutes(app, empresaService);
 
   const eventBus = new InMemoryEventBus();
   const usuarioRepository = new PrismaUsuarioRepository();
   const usuarioService = new UsuarioService(usuarioRepository, eventBus);
-  registerUsuarioRoutes(app, usuarioService);
 
   const planRepository = new PrismaPlanRepository();
   const planService = new PlanService(planRepository);
-  registerPlanRoutes(app, planService);
 
   const suscripcionRepository = new PrismaSuscripcionRepository();
   const suscripcionService = new SuscripcionService(suscripcionRepository, empresaRepository, planRepository);
-  registerSuscripcionRoutes(app, suscripcionService);
 
   const configuracionRepository = new PrismaConfiguracionRepository();
   const configuracionService = new ConfiguracionService(configuracionRepository, empresaRepository);
-  registerConfiguracionRoutes(app, configuracionService);
 
   const roleRepository = new PrismaRoleRepository();
 
@@ -67,15 +65,41 @@ export async function createApp() {
     { create: async () => ({ id: "msg-1", conversationId: "conv-1", empresaId: "empresa-1", usuarioId: "user-1", contenido: "", rol: "USER", createdAt: new Date() }), findByConversationId: async () => [] } as any,
     eventBus
   );
-  registerConversationRoutes(app, conversationService);
+  // Conversation routes will be mounted by registerApiV1
+
+  // Agent orchestration wiring: repository + runtime + orchestrator + handler
+  const agentRepository = new PrismaAgentRepository();
+  const noopRuntime = new NoopAgentRuntime();
+  const { PrismaConversationRepository } = await import("./modules/conversacion/infrastructure/prisma-conversation-repository");
+  const { PrismaMessageRepository } = await import("./modules/conversacion/infrastructure/prisma-message-repository");
+  const convRepo = new PrismaConversationRepository();
+  const msgRepo = new PrismaMessageRepository();
+  const agentOrchestrator = new AgentOrchestrator(agentRepository, convRepo, msgRepo, noopRuntime, eventBus);
+  const messageHandler = new MessageReceivedEventHandler(agentOrchestrator);
+  eventBus.subscribe("MessageReceived", messageHandler);
+
+  const agentService = new AgentService(agentRepository, eventBus);
 
   const { tokenService, authService, authorizationService, authContextFactory, passwordHasher } = createAuthInfrastructure();
 
   // Create RoleService with MembershipCreator injected (no runtime casts)
   const roleService = new RoleService(roleRepository, membershipService);
-  registerRoleRoutes(app, roleService);
 
-  registerMembershipRoutes(app, membershipService);
+  // Register API v1 in a single place. This will mount sub-routers under /api/v1
+  registerApiV1(app, {
+    empresaService,
+    planService,
+    roleService,
+    suscripcionService,
+    usuarioService,
+    membershipService,
+    conversationService,
+    agentService,
+    configuracionService,
+    tokenService,
+    authService,
+    authContextFactory,
+  });
 
   app.get(
     "/",

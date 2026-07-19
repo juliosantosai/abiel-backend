@@ -16,6 +16,7 @@ model Empresa {
   suscripciones       Suscripcion[]
   configuracion       Configuracion?
   roles               Rol[]
+  agents              Agent[]
 }
 
 model Usuario {
@@ -74,6 +75,70 @@ model Configuracion {
   activo              Boolean
   createdAt           DateTime
   updatedAt           DateTime
+}
+
+enum ConversationStatusType {
+  OPEN
+  WAITING_AGENT
+  HANDOFF
+  CLOSED
+  ARCHIVED
+}
+
+enum MessageRoleType {
+  USER
+  ASSISTANT
+  SYSTEM
+  TOOL
+}
+
+model Conversation {
+  id          String                 @id
+  empresaId   String
+  clienteId   String
+  titulo      String?
+  status      ConversationStatusType
+  createdAt   DateTime
+  updatedAt   DateTime
+
+  messages    Message[]
+
+  @@index([empresaId])
+  @@index([clienteId])
+}
+
+model Message {
+  id            String           @id
+  conversationId String
+  conversation  Conversation     @relation(fields: [conversationId], references: [id])
+  empresaId     String
+  usuarioId     String
+  content       String
+  role          MessageRoleType
+  createdAt     DateTime
+
+  @@index([conversationId])
+  @@index([empresaId])
+}
+
+model Agent {
+  id          String   @id
+  empresaId   String
+  name        String
+  description String?
+  status      String
+  runtimeId   String?
+  definition  Json
+  settings    Json
+  metadata    Json?
+  version     Int      @default(1)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  empresa     Empresa @relation(fields: [empresaId], references: [id])
+
+  @@index([empresaId])
+  @@index([empresaId, status])
 }
 
 enum RoleType {

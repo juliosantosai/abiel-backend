@@ -4,10 +4,8 @@ import type { AuthenticatedUser } from "../domain/auth";
 import { TenantContext } from "../../../shared/context/tenant-context";
 
 export class NoopAuthContextFactory implements AuthContextFactory {
-  async buildContext(user: AuthenticatedUser): Promise<TenantContext> {
-    if (!user) {
-      throw new UnauthorizedError("Authenticated user is required to build TenantContext");
-    }
+  async buildContext(user: AuthenticatedUser | null): Promise<TenantContext | null> {
+    if (!user) return null;
 
     if (!user.activo) {
       throw new UnauthorizedError("User account is inactive");
