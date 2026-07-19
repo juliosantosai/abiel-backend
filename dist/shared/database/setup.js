@@ -46,8 +46,8 @@ function hasPrismaMigrations() {
     return (0, fs_1.existsSync)(migrationsPath) && (0, fs_1.readdirSync)(migrationsPath).length > 0;
 }
 async function createDatabaseIfNotExists() {
-    if (env_1.env.NODE_ENV === "production" || env_1.env.NODE_ENV === "test") {
-        // In production and test we do not auto-create databases from the app.
+    if (env_1.env.NODE_ENV === "production") {
+        // In production we do not auto-create databases from the app.
         return;
     }
     const { adminUrl, databaseName } = parseDatabaseUrl(env_1.env.DATABASE_URL);

@@ -55,8 +55,8 @@ function hasPrismaMigrations() {
 }
 
 export async function createDatabaseIfNotExists() {
-  if (env.NODE_ENV === "production" || env.NODE_ENV === "test") {
-    // In production and test we do not auto-create databases from the app.
+  if (env.NODE_ENV === "production") {
+    // In production we do not auto-create databases from the app.
     return;
   }
 

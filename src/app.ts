@@ -5,6 +5,9 @@ import { setupErrorHandler } from "./shared/errors/error-handler";
 import { PrismaEmpresaRepository } from "./modules/empresa/infrastructure/prisma-empresa-repository";
 import { EmpresaService } from "./modules/empresa/application/empresa-service";
 import { registerEmpresaRoutes } from "./modules/empresa/presentation/empresa-controller";
+import { PrismaUsuarioRepository } from "./modules/usuario/infrastructure/prisma-usuario-repository";
+import { UsuarioService } from "./modules/usuario/application/usuario-service";
+import { registerUsuarioRoutes } from "./modules/usuario/presentation/usuario-controller";
 
 export async function createApp() {
   const app = Fastify({
@@ -17,6 +20,10 @@ export async function createApp() {
   const empresaRepository = new PrismaEmpresaRepository();
   const empresaService = new EmpresaService(empresaRepository);
   registerEmpresaRoutes(app, empresaService);
+
+  const usuarioRepository = new PrismaUsuarioRepository();
+  const usuarioService = new UsuarioService(usuarioRepository);
+  registerUsuarioRoutes(app, usuarioService);
 
   app.get(
     "/",

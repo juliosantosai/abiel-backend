@@ -1,26 +1,21 @@
-import { afterEach, beforeAll, describe, expect, it } from "vitest";
-import { PrismaEmpresaRepository } from "../../src/modules/empresa/infrastructure/prisma-empresa-repository";
+import { afterEach, describe, expect, it } from "vitest";
+import { PrismaUsuarioRepository } from "../../src/modules/usuario/infrastructure/prisma-usuario-repository";
 import { prisma } from "../../src/shared/database/prisma";
-import { ensurePrismaSchema } from "../setup";
 
-const repository = new PrismaEmpresaRepository();
+const repository = new PrismaUsuarioRepository();
 
-describe("Empresa Prisma repository", () => {
-  const testId = `empresa-test-${Date.now()}`;
-
-  beforeAll(() => {
-    ensurePrismaSchema();
-  });
+describe("Usuario Prisma repository", () => {
+  const testId = `usuario-test-${Date.now()}`;
 
   afterEach(async () => {
-    await prisma.empresa.deleteMany({ where: { id: testId } });
+    await prisma.usuario.deleteMany({ where: { id: testId } });
   });
 
-  it("creates, reads, updates and deletes a empresa", async () => {
+  it("creates, reads, updates and deletes a usuario", async () => {
     const created = await repository.create({
       id: testId,
-      nombre: "Empresa Test",
-      plan: "starter",
+      nombre: "Usuario Test",
+      email: "usuario-test@example.com",
       activo: true,
       createdAt: new Date(),
       updatedAt: new Date(),
@@ -28,8 +23,8 @@ describe("Empresa Prisma repository", () => {
 
     expect(created).toMatchObject({
       id: testId,
-      nombre: "Empresa Test",
-      plan: "starter",
+      nombre: "Usuario Test",
+      email: "usuario-test@example.com",
       activo: true,
     });
 
@@ -38,15 +33,16 @@ describe("Empresa Prisma repository", () => {
     expect(found?.id).toBe(testId);
 
     const updated = await repository.update(testId, {
-      plan: "enterprise",
+      nombre: "Usuario Test Updated",
       activo: false,
     });
 
     expect(updated).not.toBeNull();
-    expect(updated?.plan).toBe("enterprise");
+    expect(updated?.nombre).toBe("Usuario Test Updated");
     expect(updated?.activo).toBe(false);
 
     await repository.delete(testId);
+
     const deleted = await repository.findById(testId);
     expect(deleted).toBeNull();
   });

@@ -11,6 +11,9 @@ const error_handler_1 = require("./shared/errors/error-handler");
 const prisma_empresa_repository_1 = require("./modules/empresa/infrastructure/prisma-empresa-repository");
 const empresa_service_1 = require("./modules/empresa/application/empresa-service");
 const empresa_controller_1 = require("./modules/empresa/presentation/empresa-controller");
+const prisma_usuario_repository_1 = require("./modules/usuario/infrastructure/prisma-usuario-repository");
+const usuario_service_1 = require("./modules/usuario/application/usuario-service");
+const usuario_controller_1 = require("./modules/usuario/presentation/usuario-controller");
 async function createApp() {
     const app = (0, fastify_1.default)({
         logger: logger_1.logger,
@@ -20,6 +23,9 @@ async function createApp() {
     const empresaRepository = new prisma_empresa_repository_1.PrismaEmpresaRepository();
     const empresaService = new empresa_service_1.EmpresaService(empresaRepository);
     (0, empresa_controller_1.registerEmpresaRoutes)(app, empresaService);
+    const usuarioRepository = new prisma_usuario_repository_1.PrismaUsuarioRepository();
+    const usuarioService = new usuario_service_1.UsuarioService(usuarioRepository);
+    (0, usuario_controller_1.registerUsuarioRoutes)(app, usuarioService);
     app.get("/", {
         schema: {
             description: "API base endpoint",

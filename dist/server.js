@@ -4,22 +4,19 @@ const app_1 = require("./app");
 const env_1 = require("./shared/config/env");
 const database_1 = require("./shared/database/database");
 let hasStarted = false;
-async function listenWithFallback(app, port, host) {
-    const candidates = [port, port + 1, port + 2, port + 3];
-    for (const candidate of candidates) {
-        try {
-            await app.listen({ port: candidate, host });
-            return candidate;
-        }
-        catch (error) {
-            const err = error;
-            if (err.code !== "EADDRINUSE") {
-                throw error;
-            }
-            console.warn(`Port ${candidate} is busy, trying ${candidate + 1}...`);
-        }
+async function listenOnPort(app, port, host) {
+    try {
+        await app.listen({ port, host });
+        return port;
     }
-    throw new Error(`Unable to start the server. Ports ${candidates.join(", ")} are unavailable.`);
+    catch (error) {
+        const err = error;
+        if (err.code === "EADDRINUSE") {
+            console.error(`Port ${port} already in use. Server startup aborted.`);
+            process.exit(1);
+        }
+        throw error;
+    }
 }
 async function start() {
     if (hasStarted) {
@@ -40,7 +37,7 @@ async function start() {
         process.on("SIGTERM", () => {
             void shutdown("SIGTERM");
         });
-        const port = await listenWithFallback(app, env_1.env.PORT, env_1.env.HOST);
+        const port = await listenOnPort(app, env_1.env.PORT, env_1.env.HOST);
         console.log(`Abiel Backend running on port ${port}`);
     }
     catch (error) {

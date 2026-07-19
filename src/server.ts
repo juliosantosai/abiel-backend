@@ -4,25 +4,20 @@ import { connectDatabase } from "./shared/database/database";
 
 let hasStarted = false;
 
-async function listenWithFallback(app: Awaited<ReturnType<typeof createApp>>, port: number, host: string) {
-  const candidates = [port, port + 1, port + 2, port + 3];
+async function listenOnPort(app: Awaited<ReturnType<typeof createApp>>, port: number, host: string) {
+  try {
+    await app.listen({ port, host });
+    return port;
+  } catch (error) {
+    const err = error as NodeJS.ErrnoException;
 
-  for (const candidate of candidates) {
-    try {
-      await app.listen({ port: candidate, host });
-      return candidate;
-    } catch (error) {
-      const err = error as NodeJS.ErrnoException;
-
-      if (err.code !== "EADDRINUSE") {
-        throw error;
-      }
-
-      console.warn(`Port ${candidate} is busy, trying ${candidate + 1}...`);
+    if (err.code === "EADDRINUSE") {
+      console.error(`Port ${port} already in use. Server startup aborted.`);
+      process.exit(1);
     }
-  }
 
-  throw new Error(`Unable to start the server. Ports ${candidates.join(", ")} are unavailable.`);
+    throw error;
+  }
 }
 
 async function start() {
@@ -50,7 +45,7 @@ async function start() {
       void shutdown("SIGTERM");
     });
 
-    const port = await listenWithFallback(app, env.PORT, env.HOST);
+    const port = await listenOnPort(app, env.PORT, env.HOST);
     console.log(`Abiel Backend running on port ${port}`);
   } catch (error) {
     console.error("Failed to start the server", error);
