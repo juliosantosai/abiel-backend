@@ -351,7 +351,7 @@ describe("roles service", () => {
         createdAt: new Date(),
         updatedAt: new Date(),
       }),
-      findUsuarioById: vi.fn().mockResolvedValue({ id: "usuario-1", empresaId: "empresa-a" }),
+      findUsuarioById: vi.fn().mockResolvedValue({ id: "usuario-1" }),
       findByNameAndType: vi.fn(),
       findByNameAndTypeExcludingId: vi.fn(),
       createRol: vi.fn(),
@@ -369,7 +369,12 @@ describe("roles service", () => {
       findRolPermisoByRolAndPermiso: vi.fn(),
     };
 
-    const service = new RoleService(repository as any);
+    const membershipCreator = {
+      crearMembership: vi.fn().mockRejectedValue(new Error("El usuario y el rol deben pertenecer al mismo tenant")),
+      eliminarMembership: vi.fn(),
+    };
+
+    const service = new RoleService(repository as any, membershipCreator as any);
 
     await expect(service.asignarRolAUsuario("usuario-1", "rol-10")).rejects.toThrow(
       "El usuario y el rol deben pertenecer al mismo tenant"

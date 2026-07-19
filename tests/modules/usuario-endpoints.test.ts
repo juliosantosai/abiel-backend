@@ -13,11 +13,8 @@ describe("Usuario HTTP endpoints", () => {
   registerUsuarioRoutes(app, service);
 
   afterEach(async () => {
-    await prisma.usuario.deleteMany({
-      where: {
-        empresaId: "empresa-endpoint-1",
-      },
-    });
+    await prisma.membership.deleteMany({ where: { empresaId: "empresa-endpoint-1" } });
+    await prisma.usuario.deleteMany({ where: { email: "endpoint@example.com" } });
     await prisma.empresa.deleteMany({ where: { id: "empresa-endpoint-1" } });
   });
 
@@ -41,19 +38,22 @@ describe("Usuario HTTP endpoints", () => {
       method: "POST",
       url: "/usuarios",
       payload: {
-        empresaId: "empresa-endpoint-1",
         nombre: "Usuario Endpoint Test",
         email: "endpoint@example.com",
+        passwordHash: "hash-123",
       },
     });
 
     expect(createResponse.statusCode).toBe(201);
     const created = createResponse.json();
     expect(created).toHaveProperty("id");
-    expect(created.empresaId).toBe("empresa-endpoint-1");
     expect(created.nombre).toBe("Usuario Endpoint Test");
     expect(created.email).toBe("endpoint@example.com");
     expect(created.activo).toBe(true);
+
+    // create a tenant role and membership linking usuario to empresa
+    const role = await prisma.rol.create({ data: { id: `rol-${Date.now()}`, empresaId: "empresa-endpoint-1", tipo: "TENANT", nombre: `role-${Date.now()}`, descripcion: null, activo: true, createdAt: new Date(), updatedAt: new Date() } });
+    await prisma.membership.create({ data: { id: `m-${Date.now()}`, usuarioId: created.id, empresaId: "empresa-endpoint-1", rolId: role.id, activo: true, createdAt: new Date(), updatedAt: new Date() } });
 
     const listResponse = await app.inject({ method: "GET", url: "/usuarios" });
     expect(listResponse.statusCode).toBe(200);
@@ -67,16 +67,17 @@ describe("Usuario HTTP endpoints", () => {
     expect(found.id).toBe(created.id);
     expect(found.nombre).toBe("Usuario Endpoint Test");
 
+    const updatedEmail = `updated-${Date.now()}@example.com`;
     const updateResponse = await app.inject({
       method: "PUT",
       url: `/usuarios/${created.id}`,
       payload: {
-        email: "updated@example.com",
+        email: updatedEmail,
       },
     });
     expect(updateResponse.statusCode).toBe(200);
     const updated = updateResponse.json();
-    expect(updated.email).toBe("updated@example.com");
+    expect(updated.email).toBe(updatedEmail);
 
     const activateResponse = await app.inject({ method: "PATCH", url: `/usuarios/${created.id}/activar` });
     expect(activateResponse.statusCode).toBe(200);

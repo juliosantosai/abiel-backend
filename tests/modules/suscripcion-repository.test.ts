@@ -18,7 +18,7 @@ describe("Suscripcion Prisma repository", () => {
         },
       },
     });
-    await prisma.usuario.deleteMany({ where: { empresaId: { startsWith: "empresa-suscripcion-test-" } } });
+    await prisma.membership.deleteMany({ where: { empresaId: { startsWith: "empresa-suscripcion-test-" } } });
     await prisma.empresa.deleteMany({ where: { id: { startsWith: "empresa-suscripcion-test-" } } });
     await prisma.plan.deleteMany({ where: { slug: { startsWith: "plan-suscripcion-test-" } } });
   });

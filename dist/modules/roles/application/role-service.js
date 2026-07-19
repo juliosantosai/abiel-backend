@@ -6,8 +6,10 @@ const permiso_1 = require("../domain/permiso");
 const rol_1 = require("../domain/rol");
 class RoleService {
     roleRepository;
-    constructor(roleRepository) {
+    membershipCreator;
+    constructor(roleRepository, membershipCreator) {
         this.roleRepository = roleRepository;
+        this.membershipCreator = membershipCreator;
     }
     async crearRol(input) {
         const rol = new rol_1.Rol({
@@ -167,24 +169,21 @@ class RoleService {
         return updated;
     }
     async asignarRolAUsuario(usuarioId, rolId) {
-        const usuario = await this.roleRepository.findUsuarioById(usuarioId);
         const rol = await this.roleRepository.findById(rolId);
-        if (!usuario) {
-            throw new Error("Usuario no encontrado");
-        }
         if (!rol) {
             throw new Error("Rol no encontrado");
         }
-        if (rol.tipo === "TENANT" && rol.empresaId) {
-            // For tenant roles, create membership scoped to the role's empresaId
-            await this.roleRepository.assignRoleToUser(usuarioId, rolId, rol.empresaId);
+        if (rol.tipo === "TENANT") {
+            if (!rol.empresaId) {
+                throw new Error("Rol TENANT sin empresaId");
+            }
+            await this.membershipCreator.crearMembership({ usuarioId, empresaId: rol.empresaId, rolId, activo: true });
             return;
         }
-        // For global roles, create a membership without empresa scope (use 'global' sentinel)
-        await this.roleRepository.assignRoleToUser(usuarioId, rolId, null);
+        await this.membershipCreator.crearMembership({ usuarioId, empresaId: "global", rolId, activo: true });
     }
     async removerRolDeUsuario(usuarioId, rolId) {
-        await this.roleRepository.removeRoleFromUser(usuarioId, rolId);
+        await this.membershipCreator.eliminarMembership(usuarioId, rolId, null);
     }
     async asignarPermisoARol(rolId, permisoId) {
         const rol = await this.roleRepository.findById(rolId);

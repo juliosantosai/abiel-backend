@@ -53,11 +53,14 @@ export async function createApp() {
   registerConfiguracionRoutes(app, configuracionService);
 
   const roleRepository = new PrismaRoleRepository();
-  const roleService = new RoleService(roleRepository);
-  registerRoleRoutes(app, roleService);
 
   const membershipRepository = new PrismaMembershipRepository();
   const membershipService = new MembershipService(membershipRepository, usuarioRepository, roleRepository);
+
+  // Create RoleService with MembershipCreator injected (no runtime casts)
+  const roleService = new RoleService(roleRepository, membershipService);
+  registerRoleRoutes(app, roleService);
+
   registerMembershipRoutes(app, membershipService);
 
   app.get(

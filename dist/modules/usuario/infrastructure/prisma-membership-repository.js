@@ -21,5 +21,12 @@ class PrismaMembershipRepository {
     async update(id, membership) {
         return prisma_1.prisma.membership.update({ where: { id }, data: membership });
     }
+    async deleteByUsuarioRolAndEmpresa(usuarioId, rolId, empresaId) {
+        const where = { usuarioId, rolId };
+        if (empresaId !== undefined && empresaId !== null) {
+            where.empresaId = empresaId;
+        }
+        await prisma_1.prisma.membership.deleteMany({ where });
+    }
 }
 exports.PrismaMembershipRepository = PrismaMembershipRepository;

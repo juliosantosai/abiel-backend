@@ -2,7 +2,8 @@ import { generateUuid } from "../../../shared/utils/uuid";
 import { Membership, type MembershipProps } from "../domain/membership";
 import type { MembershipRepository } from "../infrastructure/membership-repository";
 import type { UsuarioRepository } from "../infrastructure/usuario-repository";
-import type { RoleRepository } from "../../roles/infrastructure/role-repository";
+import type { RoleFinder } from "../../../shared/contracts/role-finder";
+import type { EmpresaFinder } from "../../../shared/contracts/empresa-finder";
 
 export type CreateMembershipInput = {
   usuarioId: string;
@@ -15,7 +16,8 @@ export class MembershipService {
   constructor(
     private readonly membershipRepository: MembershipRepository,
     private readonly usuarioRepository: UsuarioRepository,
-    private readonly roleRepository: RoleRepository
+    private readonly roleFinder: RoleFinder,
+    private readonly empresaFinder: EmpresaFinder
   ) {}
 
   async crearMembership(input: CreateMembershipInput): Promise<MembershipProps> {
@@ -24,9 +26,28 @@ export class MembershipService {
       throw new Error("Usuario no encontrado");
     }
 
-    const existingRol = await this.roleRepository.findById(input.rolId);
+    const existingRol = await this.roleFinder.findById(input.rolId);
     if (!existingRol) {
       throw new Error("Rol no encontrado");
+    }
+
+    if (existingRol.tipo === "TENANT" && existingRol.empresaId !== input.empresaId) {
+      throw new Error("El rol TENANT debe pertenecer a la empresa indicada");
+    }
+
+    if (existingRol.tipo === "GLOBAL" && input.empresaId !== "global") {
+      throw new Error('El rol GLOBAL debe usar empresaId "global"');
+    }
+
+    if (existingRol.tipo === "TENANT" && input.empresaId === "global") {
+      throw new Error('Los roles TENANT no pueden usar empresaId "global"');
+    }
+
+    if (input.empresaId !== "global") {
+      const empresa = await this.empresaFinder.findById(input.empresaId);
+      if (!empresa) {
+        throw new Error("Empresa no encontrada");
+      }
     }
 
     const existingMembership = await this.membershipRepository.findByUsuarioAndEmpresa(input.usuarioId, input.empresaId);
@@ -34,8 +55,12 @@ export class MembershipService {
       throw new Error("La membership ya existe para este usuario en la empresa");
     }
 
-    if (existingRol.tipo === "TENANT" && existingRol.empresaId !== input.empresaId) {
-      throw new Error("El rol TENANT debe pertenecer a la empresa indicada");
+    const memberships = await this.membershipRepository.findByUsuarioId(input.usuarioId);
+    if (memberships && memberships.length > 0 && input.empresaId !== "global") {
+      const other = memberships.find((m) => m.empresaId !== input.empresaId && m.empresaId !== "global");
+      if (other) {
+        throw new Error("El usuario ya pertenece a otra empresa");
+      }
     }
 
     const membership = new Membership({
@@ -87,5 +112,10 @@ export class MembershipService {
     }
 
     return updated;
+  }
+
+  async eliminarMembership(usuarioId: string, rolId: string, empresaId?: string | null): Promise<void> {
+    // allow removal or deactivation via repository
+    await this.membershipRepository.deleteByUsuarioRolAndEmpresa(usuarioId, rolId, empresaId ?? null);
   }
 }

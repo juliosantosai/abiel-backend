@@ -9,7 +9,8 @@ describe("Usuario Prisma repository", () => {
   const testEmpresaId = "empresa-test-1";
 
   afterEach(async () => {
-    await prisma.usuario.deleteMany({ where: { empresaId: testEmpresaId } });
+    await prisma.membership.deleteMany({ where: { usuarioId: testId } });
+    await prisma.usuario.deleteMany({ where: { id: testId } });
     await prisma.empresa.deleteMany({ where: { id: testEmpresaId } });
   });
 
@@ -27,9 +28,9 @@ describe("Usuario Prisma repository", () => {
 
     const created = await repository.create({
       id: testId,
-      empresaId: testEmpresaId,
       nombre: "Usuario Test",
       email: "usuario-test@example.com",
+      passwordHash: "hash-123",
       activo: true,
       createdAt: new Date(),
       updatedAt: new Date(),
@@ -37,7 +38,6 @@ describe("Usuario Prisma repository", () => {
 
     expect(created).toMatchObject({
       id: testId,
-      empresaId: testEmpresaId,
       nombre: "Usuario Test",
       email: "usuario-test@example.com",
       activo: true,
@@ -56,11 +56,11 @@ describe("Usuario Prisma repository", () => {
     expect(updated?.nombre).toBe("Usuario Test Updated");
     expect(updated?.activo).toBe(false);
 
-    const foundByEmpresa = await repository.findByEmpresaId(testEmpresaId);
-    expect(foundByEmpresa.some((item) => item.id === testId)).toBe(true);
+    // create a role and membership to link usuario to empresa, then validate membership
+    const role = await prisma.rol.create({ data: { id: `rol-${Date.now()}`, empresaId: testEmpresaId, tipo: "TENANT", nombre: `role-${Date.now()}`, descripcion: null, activo: true, createdAt: new Date(), updatedAt: new Date() } });
+    await prisma.membership.create({ data: { id: `m-${Date.now()}`, usuarioId: testId, empresaId: testEmpresaId, rolId: role.id, activo: true, createdAt: new Date(), updatedAt: new Date() } });
 
-    const foundByIdAndEmpresa = await repository.findByIdAndEmpresaId(testId, testEmpresaId);
-    expect(foundByIdAndEmpresa).not.toBeNull();
-    expect(foundByIdAndEmpresa?.empresaId).toBe(testEmpresaId);
+    const memberships = await prisma.membership.findMany({ where: { usuarioId: testId } });
+    expect(memberships.length).toBeGreaterThan(0);
   });
 });

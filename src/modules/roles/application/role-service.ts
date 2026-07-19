@@ -2,6 +2,7 @@ import { generateUuid } from "../../../shared/utils/uuid";
 import { Permiso, type PermisoProps } from "../domain/permiso";
 import { Rol, type RolProps } from "../domain/rol";
 import type { RoleRepository } from "../infrastructure/role-repository";
+import type { MembershipCreator } from "../../../shared/contracts/membership-creator";
 
 export type CreateRolInput = {
   empresaId?: string | null;
@@ -32,7 +33,7 @@ export type UpdatePermisoInput = {
 };
 
 export class RoleService {
-  constructor(private readonly roleRepository: RoleRepository) {}
+  constructor(private readonly roleRepository: RoleRepository, private readonly membershipCreator: MembershipCreator) {}
 
   async crearRol(input: CreateRolInput): Promise<RolProps> {
     const rol = new Rol({
@@ -238,29 +239,25 @@ export class RoleService {
   }
 
   async asignarRolAUsuario(usuarioId: string, rolId: string): Promise<void> {
-    const usuario = await this.roleRepository.findUsuarioById(usuarioId);
     const rol = await this.roleRepository.findById(rolId);
-
-    if (!usuario) {
-      throw new Error("Usuario no encontrado");
-    }
 
     if (!rol) {
       throw new Error("Rol no encontrado");
     }
 
-    if (rol.tipo === "TENANT" && rol.empresaId) {
-      // For tenant roles, create membership scoped to the role's empresaId
-      await this.roleRepository.assignRoleToUser(usuarioId, rolId, rol.empresaId);
+    if (rol.tipo === "TENANT") {
+      if (!rol.empresaId) {
+        throw new Error("Rol TENANT sin empresaId");
+      }
+      await this.membershipCreator.crearMembership({ usuarioId, empresaId: rol.empresaId, rolId, activo: true });
       return;
     }
 
-    // For global roles, create a membership without empresa scope (use 'global' sentinel)
-    await this.roleRepository.assignRoleToUser(usuarioId, rolId, null);
+    await this.membershipCreator.crearMembership({ usuarioId, empresaId: "global", rolId, activo: true });
   }
 
   async removerRolDeUsuario(usuarioId: string, rolId: string): Promise<void> {
-    await this.roleRepository.removeRoleFromUser(usuarioId, rolId);
+    await this.membershipCreator.eliminarMembership(usuarioId, rolId, null);
   }
 
   async asignarPermisoARol(rolId: string, permisoId: string): Promise<void> {

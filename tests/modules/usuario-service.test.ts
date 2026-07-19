@@ -7,51 +7,40 @@ describe("UsuarioService", () => {
     const repository = {
       create: vi.fn().mockImplementation(async (usuario) => usuario),
       findById: vi.fn(),
+      findByEmail: vi.fn().mockResolvedValue(null),
       findAll: vi.fn(),
       update: vi.fn(),
-      findByEmpresaId: vi.fn(),
-      findByIdAndEmpresaId: vi.fn(),
     };
 
     const service = new UsuarioService(repository as any);
 
     const result = await service.crearUsuario({
-      empresaId: "empresa-1",
       nombre: "Juan",
       email: "juan@example.com",
+      passwordHash: "hash-123",
     });
 
-    expect(result.empresaId).toBe("empresa-1");
     expect(result.nombre).toBe("Juan");
     expect(result.email).toBe("juan@example.com");
     expect(result.activo).toBe(true);
+    expect(result.passwordHash).toBe("hash-123");
     expect(repository.create).toHaveBeenCalled();
   });
-
-  it("throws when empresaId is missing", async () => {
-    const repository = { create: vi.fn() };
-    const service = new UsuarioService(repository as any);
-
-    await expect(
-      service.crearUsuario({ nombre: "Juan", email: "juan@example.com", empresaId: "" })
-    ).rejects.toThrow("El empresaId del usuario es obligatorio");
-  });
-
   it("throws when email is invalid", async () => {
-    const repository = { create: vi.fn() };
+    const repository = { create: vi.fn(), findByEmail: vi.fn().mockResolvedValue(null) };
     const service = new UsuarioService(repository as any);
 
     await expect(
-      service.crearUsuario({ empresaId: "empresa-1", nombre: "Juan", email: "invalid-email" })
+      service.crearUsuario({ nombre: "Juan", email: "invalid-email", passwordHash: "hash-123" })
     ).rejects.toThrow("El email del usuario no es válido");
   });
 
   it("activates and deactivates a usuario", async () => {
     const existing = new Usuario({
       id: "usuario-1",
-      empresaId: "empresa-1",
       nombre: "Juan",
       email: "juan@example.com",
+      passwordHash: "hash-123",
       activo: false,
       createdAt: new Date("2026-01-01T00:00:00Z"),
       updatedAt: new Date("2026-01-01T00:00:00Z"),
@@ -62,8 +51,6 @@ describe("UsuarioService", () => {
       update: vi.fn().mockImplementation(async (id, usuario) => usuario as any),
       findAll: vi.fn(),
       create: vi.fn(),
-      findByEmpresaId: vi.fn(),
-      findByIdAndEmpresaId: vi.fn(),
     };
 
     const service = new UsuarioService(repository as any);

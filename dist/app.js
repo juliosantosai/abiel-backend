@@ -51,10 +51,11 @@ async function createApp() {
     const configuracionService = new configuracion_service_1.ConfiguracionService(configuracionRepository, empresaRepository);
     (0, configuracion_controller_1.registerConfiguracionRoutes)(app, configuracionService);
     const roleRepository = new prisma_role_repository_1.PrismaRoleRepository();
-    const roleService = new role_service_1.RoleService(roleRepository);
-    (0, role_controller_1.registerRoleRoutes)(app, roleService);
     const membershipRepository = new prisma_membership_repository_1.PrismaMembershipRepository();
     const membershipService = new membership_service_1.MembershipService(membershipRepository, usuarioRepository, roleRepository);
+    // Create RoleService with MembershipCreator injected (no runtime casts)
+    const roleService = new role_service_1.RoleService(roleRepository, membershipService);
+    (0, role_controller_1.registerRoleRoutes)(app, roleService);
     (0, membership_controller_1.registerMembershipRoutes)(app, membershipService);
     app.get("/", {
         schema: {

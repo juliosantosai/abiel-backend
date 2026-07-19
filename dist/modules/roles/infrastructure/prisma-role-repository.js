@@ -49,21 +49,7 @@ class PrismaRoleRepository {
     async updatePermiso(id, permiso) {
         return prisma_1.prisma.permiso.update({ where: { id }, data: permiso });
     }
-    async findUsuarioById(id) {
-        const usuario = await prisma_1.prisma.usuario.findUnique({ where: { id } });
-        return usuario ? { id: usuario.id } : null;
-    }
-    async assignRoleToUser(usuarioId, rolId, empresaId) {
-        const empresa = empresaId ?? "global";
-        await prisma_1.prisma.membership.create({ data: { id: `${usuarioId}-${rolId}-${empresa}`, usuarioId, empresaId: empresa, rolId, activo: true, createdAt: new Date(), updatedAt: new Date() } });
-    }
-    async removeRoleFromUser(usuarioId, rolId, empresaId) {
-        const where = { usuarioId, rolId };
-        if (empresaId !== undefined && empresaId !== null) {
-            where.empresaId = empresaId;
-        }
-        await prisma_1.prisma.membership.deleteMany({ where });
-    }
+    // Membership persistence is handled by the Usuario module (PrismaMembershipRepository)
     async findRolPermisoByRolAndPermiso(rolId, permisoId) {
         const existing = await prisma_1.prisma.rolPermiso.findFirst({ where: { rolId, permisoId } });
         return existing ? { id: existing.id } : null;

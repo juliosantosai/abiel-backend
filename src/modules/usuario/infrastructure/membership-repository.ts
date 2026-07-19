@@ -7,4 +7,5 @@ export interface MembershipRepository {
   findByUsuarioAndEmpresa(usuarioId: string, empresaId: string): Promise<MembershipProps | null>;
   create(membership: MembershipProps): Promise<MembershipProps>;
   update(id: string, membership: Partial<MembershipProps>): Promise<MembershipProps | null>;
+  deleteByUsuarioRolAndEmpresa(usuarioId: string, rolId: string, empresaId?: string | null): Promise<void>;
 }

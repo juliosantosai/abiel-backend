@@ -25,6 +25,14 @@ class MembershipService {
         if (existingMembership) {
             throw new Error("La membership ya existe para este usuario en la empresa");
         }
+        // Enforce tenant uniqueness: if the usuario already has memberships in a different empresa, reject
+        const memberships = await this.membershipRepository.findByUsuarioId(input.usuarioId);
+        if (memberships && memberships.length > 0) {
+            const other = memberships.find((m) => m.empresaId !== input.empresaId);
+            if (other) {
+                throw new Error("El usuario ya pertenece a otra empresa");
+            }
+        }
         if (existingRol.tipo === "TENANT" && existingRol.empresaId !== input.empresaId) {
             throw new Error("El rol TENANT debe pertenecer a la empresa indicada");
         }
@@ -67,6 +75,10 @@ class MembershipService {
             throw new Error("No se pudo desactivar la membership");
         }
         return updated;
+    }
+    async eliminarMembership(usuarioId, rolId, empresaId) {
+        // allow removal or deactivation via repository
+        await this.membershipRepository.deleteByUsuarioRolAndEmpresa(usuarioId, rolId, empresaId ?? null);
     }
 }
 exports.MembershipService = MembershipService;

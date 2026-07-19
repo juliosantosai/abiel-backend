@@ -8,6 +8,7 @@ describe("usuario module", () => {
   it("creates a usuario and validates required fields", async () => {
     const repository = {
       create: vi.fn().mockImplementation(async (usuario) => usuario),
+      findByEmail: vi.fn().mockResolvedValue(null),
     };
 
     const service = new UsuarioService(repository as any);
@@ -26,7 +27,7 @@ describe("usuario module", () => {
   });
 
   it("throws when email is invalid", async () => {
-    const repository = { create: vi.fn() };
+    const repository = { create: vi.fn(), findByEmail: vi.fn().mockResolvedValue(null) };
     const service = new UsuarioService(repository as any);
 
     await expect(
@@ -87,9 +88,9 @@ describe("usuario module", () => {
       })),
       activarUsuario: vi.fn().mockImplementation(async (id) => ({
         id,
-        empresaId: "empresa-1",
         nombre: "Juan",
         email: "juan@example.com",
+        passwordHash: "hash-123",
         activo: true,
         createdAt: new Date(),
         updatedAt: new Date(),

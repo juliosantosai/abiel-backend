@@ -8,6 +8,5 @@ describe("roles repository", () => {
     expect(typeof repository.findAll).toBe("function");
     expect(typeof repository.createRol).toBe("function");
     expect(typeof repository.createPermiso).toBe("function");
-    expect(typeof repository.assignRoleToUser).toBe("function");
   });
 });
