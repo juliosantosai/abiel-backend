@@ -15,12 +15,41 @@ async function createApp() {
     });
     (0, error_handler_1.setupErrorHandler)(app);
     await (0, swagger_1.setupSwagger)(app);
-    app.get("/", async () => ({
+    app.get("/", {
+        schema: {
+            description: "API base endpoint",
+            summary: "Root endpoint",
+            response: {
+                200: {
+                    type: "object",
+                    properties: {
+                        name: { type: "string" },
+                        version: { type: "string" },
+                        status: { type: "string" },
+                    },
+                },
+            },
+        },
+    }, async () => ({
         name: "Abiel Backend",
         version: "1.0.0",
         status: "running",
     }));
-    app.get("/health", async () => ({
+    app.get("/health", {
+        schema: {
+            description: "Health check endpoint",
+            summary: "Health status",
+            response: {
+                200: {
+                    type: "object",
+                    properties: {
+                        status: { type: "string" },
+                        service: { type: "string" },
+                    },
+                },
+            },
+        },
+    }, async () => ({
         status: "ok",
         service: "abiel-backend",
     }));

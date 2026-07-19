@@ -12,16 +12,53 @@ export async function createApp() {
   setupErrorHandler(app);
   await setupSwagger(app);
 
-  app.get("/", async () => ({
-    name: "Abiel Backend",
-    version: "1.0.0",
-    status: "running",
-  }));
+  app.get(
+    "/",
+    {
+      schema: {
+        description: "API base endpoint",
+        summary: "Root endpoint",
+        response: {
+          200: {
+            type: "object",
+            properties: {
+              name: { type: "string" },
+              version: { type: "string" },
+              status: { type: "string" },
+            },
+          },
+        },
+      },
+    },
+    async () => ({
+      name: "Abiel Backend",
+      version: "1.0.0",
+      status: "running",
+    })
+  );
 
-  app.get("/health", async () => ({
-    status: "ok",
-    service: "abiel-backend",
-  }));
+  app.get(
+    "/health",
+    {
+      schema: {
+        description: "Health check endpoint",
+        summary: "Health status",
+        response: {
+          200: {
+            type: "object",
+            properties: {
+              status: { type: "string" },
+              service: { type: "string" },
+            },
+          },
+        },
+      },
+    },
+    async () => ({
+      status: "ok",
+      service: "abiel-backend",
+    })
+  );
 
   app.post("/auth/login", async (request, reply) => {
     const { email, password } = request.body as { email?: string; password?: string };
