@@ -48,4 +48,20 @@ export class PrismaConversationRepository implements ConversationRepository {
     const records = await prisma.conversation.findMany({ where: { empresaId } });
     return records.map(mapConversation);
   }
+
+  async update(id: string, empresaId: string, patch: Partial<ConversationProps>): Promise<ConversationProps | null> {
+    const existing = await prisma.conversation.findFirst({ where: { id, empresaId } });
+    if (!existing) return null;
+
+    const updated = await prisma.conversation.update({
+      where: { id },
+      data: {
+        status: patch.estado ?? existing.status,
+        titulo: patch.titulo ?? existing.titulo,
+        updatedAt: new Date(),
+      },
+    });
+
+    return mapConversation(updated);
+  }
 }

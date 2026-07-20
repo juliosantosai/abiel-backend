@@ -17,6 +17,10 @@ model Empresa {
   configuracion       Configuracion?
   roles               Rol[]
   agents              Agent[]
+  tasks               Task[]
+  workflowDefinitions WorkflowDefinition[]
+  workflowExecutions  WorkflowExecution[]
+  workflowStepExecutions WorkflowStepExecution[]
 }
 
 model Usuario {
@@ -79,6 +83,9 @@ model Configuracion {
 
 enum ConversationStatusType {
   OPEN
+  BOT_ACTIVE
+  HUMAN_INTERVENTION
+  BLOCKED
   WAITING_AGENT
   HANDOFF
   CLOSED
@@ -200,4 +207,126 @@ model RolPermiso {
   updatedAt DateTime
 
   @@unique([rolId, permisoId])
+}
+
+enum TaskType {
+  HUMAN
+  AUTOMATED
+}
+
+enum TaskPriority {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+enum TaskStatus {
+  PENDING
+  ASSIGNED
+  IN_PROGRESS
+  WAITING
+  COMPLETED
+  FAILED
+  CANCELLED
+}
+
+model Task {
+  id                 String      @id
+  empresaId          String
+  empresa            Empresa     @relation(fields: [empresaId], references: [id])
+  workflowExecutionId String?
+  workflowStepId     String?
+  title              String
+  description        String?
+  type               TaskType
+  priority           TaskPriority
+  assignedTo         String?
+  status             TaskStatus
+  sla                Json?
+  input              Json?
+  result             Json?
+  metadata           Json?
+  createdAt          DateTime    @default(now())
+  updatedAt          DateTime    @updatedAt
+  resolvedAt         DateTime?
+
+  @@index([empresaId])
+  @@index([empresaId, status])
+  @@index([empresaId, workflowExecutionId])
+}
+
+// Workflow models
+model WorkflowDefinition {
+  id          String   @id
+  empresaId   String
+  empresa     Empresa  @relation(fields: [empresaId], references: [id])
+  name        String
+  description String?
+  version     String
+  steps       Json
+  metadata    Json?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  executions  WorkflowExecution[]
+
+  @@index([empresaId])
+}
+
+model WorkflowExecution {
+  id                    String    @id
+  empresaId             String
+  empresa               Empresa   @relation(fields: [empresaId], references: [id])
+  workflowDefinitionId  String
+  workflowDefinition    WorkflowDefinition @relation(fields: [workflowDefinitionId], references: [id])
+  workflowVersion       String
+  correlationId         String?
+  currentStepIndex      Int
+  status                String
+  input                 Json?
+  output                Json?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  stepExecutions        WorkflowStepExecution[]
+
+  @@index([empresaId])
+  @@index([empresaId, workflowDefinitionId])
+}
+
+model WorkflowStepExecution {
+  id           String   @id
+  empresaId    String
+  empresa      Empresa  @relation(fields: [empresaId], references: [id])
+  executionId  String
+  execution    WorkflowExecution @relation(fields: [executionId], references: [id])
+  stepId       String
+  startedAt    DateTime @default(now())
+  endedAt      DateTime?
+  status       String
+  input        Json?
+  output       Json?
+  retries      Int      @default(0)
+
+  @@index([empresaId, executionId])
+}
+
+enum SeverityType {
+  INFO
+  WARNING
+  CRITICAL
+}
+
+model SystemEventLog {
+  id          String       @id @default(uuid())
+  severity    SeverityType @default(INFO)
+  type        String
+  ipAddress   String       @db.VarChar(45)
+  endpoint    String
+  metadata    Json
+  createdAt   DateTime     @default(now())
+
+  @@index([ipAddress])
+  @@index([type])
+  @@index([createdAt])
 }

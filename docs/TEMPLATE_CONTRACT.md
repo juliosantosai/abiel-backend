@@ -1,3 +1,17 @@
+Estado actual de implementación
+
+- Módulo `Template` implementado con versiones y blueprints:
+  - `TemplateServiceImpl` permite crear plantillas y versiones (snapshots `TemplateVersion`).
+  - Repositorio in-memory para tests: `src/modules/template/infrastructure/in-memory-template-repository.ts`.
+
+Tests existentes
+
+- `tests/modules/template-service.test.ts` valida creación de template y versiones, y recuperación de blueprint.
+
+Pendientes
+
+- Persistencia Prisma para templates si se requiere persistencia a largo plazo.
+- Validaciones de blueprint contra un esquema (opcional).
 # Template Contract
 
 Objetivo

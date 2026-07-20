@@ -1,3 +1,29 @@
+Estado actual de implementación
+
+- Se implementó un `WorkflowServiceImpl` con flujo básico de ejecución:
+  - `startExecution()` crea ejecución y publica eventos `WorkflowExecutionStarted`.
+  - `executeNextStep()` emite `TaskCreateRequested` para pasos `HUMAN`, `AgentExecutionRequested` para `AGENT_CALL` y completa automáticamente pasos `AUTOMATIC`.
+  - `handleEvent()` permite continuar ejecución al recibir eventos de completado.
+
+Tests existentes
+
+- Tests unitarios básicos para `WorkflowServiceImpl` en `tests/modules/workflow-service.test.ts`.
+
+Pendientes
+
+- Cobertura adicional para casos de error, timeouts, rollback de ejecuciones y persistencia de estados en repositorio real.
+- No se agregó persistencia avanzada ni executor distribuido (pendiente en Fase siguiente).
+ 
+Estado de Workflow Core (implementación actual)
+
+- `WorkflowServiceImpl` implementa creación de ejecuciones, avance de pasos, publicación de eventos (`WorkflowExecutionStarted`, `WorkflowStepCompleted`, `WorkflowExecutionCompleted`, `TaskCreateRequested`, `AgentExecutionRequested`) y manejo de eventos correlacionados para continuar ejecuciones.
+- Repositorios: In-memory repository disponible en `src/modules/workflow/infrastructure/in-memory-workflow-repository.ts`.
+- EventBus: `InMemoryEventBus` used for intra-process communication in tests and in-memory runs.
+- Prisma persistence for workflows: no models defined yet in `prisma/schema.prisma` (Prisma repository pending schema design).
+ - Prisma persistence for workflows: models added to `prisma/schema.prisma` and `PrismaWorkflowRepository` implemented at `src/modules/workflow/infrastructure/prisma-workflow-repository.ts`.
+
+Se agregaron tests unitarios que cubren inicio, avance automático, continuación tras `TaskCompleted` y aislamiento por tenant.
+Se agregaron tests de persistencia en `tests/modules/prisma-workflow-repository.test.ts`.
 # Workflow Contract
 
 Objetivo

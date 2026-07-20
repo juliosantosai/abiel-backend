@@ -1,3 +1,17 @@
+Estado actual de implementación
+
+- Modelo de `Task` implementado en `src/modules/task/domain` y repositorios:
+  - In-memory: `src/modules/task/infrastructure/in-memory-task-repository.ts`
+  - Prisma: `src/modules/task/infrastructure/prisma-task-repository.ts` (mapeadores explicitos para JSON)
+
+Tests existentes
+
+- Unit tests para `Task` y repositorios en `tests/modules/*` (suite Vitest).
+
+Pendientes
+
+- Revisar y endurecer validaciones de `sla` y `metadata` JSON contra esquema si es necesario.
+- Añadir más pruebas de integración Prisma/DB para campos JSON.
 # Task Model
 
 Objetivo

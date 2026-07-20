@@ -30,8 +30,12 @@ import { registerMembershipRoutes } from "./modules/usuario/presentation/members
 import { createAuthInfrastructure } from "./modules/auth/infrastructure/auth-infrastructure-factory";
 import { ConversationService } from "./modules/conversacion/application/conversation-service";
 import { registerApiV1 } from "./api/v1";
+import { SecurityService } from "./modules/security/application/security-service";
+import { PrismaSecurityRepository } from "./modules/security/infrastructure/prisma-security-repository";
+import { NoopNotificationService } from "./modules/security/infrastructure/noop-notification-service";
+import { SecurityMiddleware } from "./modules/security/infrastructure/security-middleware";
 
-export async function createApp() {
+export async function createApp(overrides?: { tokenService?: any; authService?: any; authContextFactory?: any }) {
   const app = Fastify({
     logger,
   });
@@ -80,7 +84,16 @@ export async function createApp() {
 
   const agentService = new AgentService(agentRepository, eventBus);
 
-  const { tokenService, authService, authorizationService, authContextFactory, passwordHasher } = createAuthInfrastructure();
+  const securityRepository = new PrismaSecurityRepository();
+  const securityNotificationService = new NoopNotificationService();
+  const securityService = new SecurityService(securityNotificationService, securityRepository, process.env.ADMIN_WHATSAPP_NUMBER ?? "+1234567890");
+  const securityMiddleware = new SecurityMiddleware(securityService);
+
+  app.addHook("onRequest", securityMiddleware.handle.bind(securityMiddleware));
+
+  const defaultAuth = createAuthInfrastructure();
+  const authInfra = overrides ? { ...defaultAuth, ...overrides } : defaultAuth;
+  const { tokenService, authService, authContextFactory } = authInfra as any;
 
   // Create RoleService with MembershipCreator injected (no runtime casts)
   const roleService = new RoleService(roleRepository, membershipService);

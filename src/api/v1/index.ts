@@ -15,6 +15,7 @@ export interface ApiV1Deps {
   conversationService?: any;
   agentService?: any;
   configuracionService?: any;
+  taskService?: any;
   tokenService?: any;
   authService?: any;
   authContextFactory?: any;

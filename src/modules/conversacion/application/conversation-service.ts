@@ -7,6 +7,7 @@ import type { ConversationRepository } from "../infrastructure/conversation-repo
 import type { MessageRepository } from "../infrastructure/message-repository";
 import type { TenantContext } from "../../../shared/context/tenant-context";
 import type { EventBus } from "../../../shared/events/event-bus";
+import { createDomainEvent } from "../../../shared/events/domain-event";
 
 export type CreateConversationInput = {
   titulo?: string | null;
@@ -32,7 +33,7 @@ export class ConversationService {
       empresaId: context.empresaId,
       usuarioId: input.usuarioId,
       titulo: input.titulo ?? null,
-      estado: ConversationStatus.OPEN,
+      estado: ConversationStatus.BOT_ACTIVE,
       createdAt: new Date(),
       updatedAt: new Date(),
     });
@@ -78,6 +79,19 @@ export class ConversationService {
       createdAt: new Date(),
     });
 
+    if (conversation.estado === ConversationStatus.HUMAN_INTERVENTION || conversation.estado === ConversationStatus.BLOCKED) {
+      const created = await this.messageRepository.create(message.toJSON());
+      await this.eventBus.publish(createDomainEvent({
+        eventId: `human-intervention-buffer-${created.id}`,
+        occurredAt: new Date(),
+        eventName: "MessagesBuffered",
+        aggregateId: created.conversationId,
+        metadata: { tenantId: context.empresaId, userId: context.usuarioId, correlationId: created.conversationId },
+        payload: { conversationId: created.conversationId, empresaId: context.empresaId, messageId: created.id, buffered: true },
+      }));
+      return created;
+    }
+
     const created = await this.messageRepository.create(message.toJSON());
     await this.eventBus.publish({
       eventId: `message-created-${created.id}`,
@@ -98,6 +112,52 @@ export class ConversationService {
     });
 
     return created;
+  }
+
+  async iniciarIntervencionHumana(context: TenantContext, conversationId: string): Promise<ConversationProps> {
+    const conversation = await this.conversationRepository.findById(conversationId, context.empresaId);
+    if (!conversation) {
+      throw new Error("Conversación no encontrada o no pertenece al tenant actual");
+    }
+
+    const updated = await this.conversationRepository.update(conversationId, context.empresaId, { estado: ConversationStatus.HUMAN_INTERVENTION });
+    if (!updated) {
+      throw new Error("No se pudo actualizar la conversación");
+    }
+
+    await this.eventBus.publish(createDomainEvent({
+      eventId: `human-intervention-started-${conversationId}`,
+      occurredAt: new Date(),
+      eventName: "HumanInterventionStarted",
+      aggregateId: conversationId,
+      metadata: { tenantId: context.empresaId, userId: context.usuarioId, correlationId: conversationId },
+      payload: { conversationId, empresaId: context.empresaId },
+    }));
+
+    return updated;
+  }
+
+  async finalizarIntervencionHumana(context: TenantContext, conversationId: string): Promise<ConversationProps> {
+    const conversation = await this.conversationRepository.findById(conversationId, context.empresaId);
+    if (!conversation) {
+      throw new Error("Conversación no encontrada o no pertenece al tenant actual");
+    }
+
+    const updated = await this.conversationRepository.update(conversationId, context.empresaId, { estado: ConversationStatus.BOT_ACTIVE });
+    if (!updated) {
+      throw new Error("No se pudo actualizar la conversación");
+    }
+
+    await this.eventBus.publish(createDomainEvent({
+      eventId: `human-intervention-ended-${conversationId}`,
+      occurredAt: new Date(),
+      eventName: "HumanInterventionEnded",
+      aggregateId: conversationId,
+      metadata: { tenantId: context.empresaId, userId: context.usuarioId, correlationId: conversationId },
+      payload: { conversationId, empresaId: context.empresaId },
+    }));
+
+    return updated;
   }
 
   async listarMensajes(context: TenantContext, conversationId: string): Promise<MessageProps[]> {

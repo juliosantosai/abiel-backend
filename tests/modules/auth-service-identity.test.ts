@@ -1,9 +1,11 @@
 import { describe, it, expect } from "vitest";
-import { createAuthInfrastructure } from "../../src/modules/auth/infrastructure/auth-infrastructure-factory";
+import { NoopTokenService } from "../../src/modules/auth/infrastructure/noop-token-service";
+import { NoopAuthService } from "../../src/modules/auth/infrastructure/noop-auth-service";
 import { TokenValidationError, UnauthorizedError } from "../../src/shared/errors/auth-errors";
 
 describe("AuthService.resolveIdentity (noop)", () => {
-  const { authService } = createAuthInfrastructure();
+  const tokenService = new NoopTokenService();
+  const authService = new NoopAuthService(tokenService);
 
   it("returns full AuthenticatedUser for valid token", async () => {
     const token = JSON.stringify({ usuarioId: "u1", empresaId: "e1", membershipId: "m1", email: "u1@x.com", roles: ["user"], permisos: ["read"], activo: true, membershipActive: true });

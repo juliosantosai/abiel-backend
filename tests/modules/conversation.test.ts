@@ -1,5 +1,6 @@
 import { describe, it, expect, vi } from "vitest";
 import { ConversationService } from "../../src/modules/conversacion/application/conversation-service";
+import { MessageBufferService } from "../../src/modules/conversacion/application/message-buffer-service";
 import { ConversationStatus } from "../../src/modules/conversacion/domain/conversation-status";
 import { MessageRole } from "../../src/modules/conversacion/domain/message-role";
 import { TenantContext } from "../../src/shared/context/tenant-context";
@@ -70,5 +71,43 @@ describe("ConversationService", () => {
 
     await expect(service.agregarMensaje(context, { conversationId: "conversation-1", contenido: "Hola", rol: MessageRole.USER })).rejects.toThrow("No se pueden agregar mensajes a una conversación cerrada o archivada");
     expect(conversationRepository.findById).toHaveBeenCalledWith("conversation-1", "empresa-1");
+  });
+
+  it("starts human intervention and emits a human intervention event", async () => {
+    const conversationRepository = {
+      create: vi.fn(),
+      findById: vi.fn().mockResolvedValue({ id: "conversation-2", empresaId: "empresa-1", usuarioId: "user-1", estado: ConversationStatus.BOT_ACTIVE, createdAt: new Date(), updatedAt: new Date() }),
+      update: vi.fn().mockImplementation(async (_id, _empresaId, patch) => ({ id: "conversation-2", empresaId: "empresa-1", usuarioId: "user-1", ...patch, createdAt: new Date(), updatedAt: new Date() })),
+      findByEmpresaId: vi.fn(),
+    };
+    const messageRepository = { create: vi.fn(), findByConversationId: vi.fn() };
+    const eventBus = { publish: vi.fn().mockResolvedValue(undefined) };
+
+    const service = new ConversationService(conversationRepository as any, messageRepository as any, eventBus as any);
+    const updated = await service.iniciarIntervencionHumana(context, "conversation-2");
+
+    expect(updated.estado).toBe(ConversationStatus.HUMAN_INTERVENTION);
+    expect(eventBus.publish).toHaveBeenCalledWith(expect.objectContaining({ eventName: "HumanInterventionStarted" }));
+  });
+
+  it("buffers messages and publishes a single buffered event after debounce", async () => {
+    vi.useFakeTimers();
+    const eventBus = { publish: vi.fn().mockResolvedValue(undefined) };
+    const bufferService = new MessageBufferService(eventBus as any, 20);
+
+    await bufferService.bufferMessage(context, {
+      id: "msg-buffered-1",
+      conversationId: "conversation-buffer-1",
+      empresaId: "empresa-1",
+      usuarioId: "user-1",
+      contenido: "Hola",
+      rol: MessageRole.USER,
+      createdAt: new Date(),
+    } as any);
+
+    vi.advanceTimersByTime(20);
+
+    expect(eventBus.publish).toHaveBeenCalledWith(expect.objectContaining({ eventName: "MessagesBuffered" }));
+    vi.useRealTimers();
   });
 });

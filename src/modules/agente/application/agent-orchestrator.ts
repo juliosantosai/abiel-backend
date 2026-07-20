@@ -9,6 +9,7 @@ import { AgentExecution } from "../domain/agent-execution";
 import { createAgentExecutionStartedEvent } from "../domain/events/agent-execution-started.event";
 import { createAgentExecutionCompletedEvent } from "../domain/events/agent-execution-completed.event";
 import { createAgentExecutionFailedEvent } from "../domain/events/agent-execution-failed.event";
+import { ConversationStatus } from "../../conversacion/domain/conversation-status";
 
 export class AgentOrchestrator {
   constructor(
@@ -28,6 +29,10 @@ export class AgentOrchestrator {
     // ensure conversation exists in tenant
     const convo = await this.conversationRepository.findById(conversationId, tenantId);
     if (!convo) return null;
+
+    if (convo.estado === ConversationStatus.HUMAN_INTERVENTION || convo.estado === ConversationStatus.BLOCKED) {
+      return null;
+    }
 
     // gather message content if available
     const messageId = event.payload && (event.payload as any).messageId ? String((event.payload as any).messageId) : null;

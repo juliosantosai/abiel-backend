@@ -83,4 +83,26 @@ describe("Conversation Prisma repository", () => {
     const byOtherTenant = await repository.findById("conv-repo-test-2", empresaB.id);
     expect(byOtherTenant).toBeNull();
   });
+
+  it("updates only conversations belonging to the same tenant", async () => {
+    const empresaA = await prisma.empresa.create({
+      data: { id: "empresa-conv-repo-test-c", nombre: "Empresa C", plan: "starter", activo: true, createdAt: new Date(), updatedAt: new Date() },
+    });
+    const empresaB = await prisma.empresa.create({
+      data: { id: "empresa-conv-repo-test-d", nombre: "Empresa D", plan: "starter", activo: true, createdAt: new Date(), updatedAt: new Date() },
+    });
+
+    await repository.create({
+      id: "conv-repo-test-3",
+      empresaId: empresaA.id,
+      usuarioId: "cliente-conv-repo-test-3",
+      titulo: "Privada",
+      estado: ConversationStatus.BOT_ACTIVE,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    });
+
+    const updated = await repository.update("conv-repo-test-3", empresaB.id, { estado: ConversationStatus.HUMAN_INTERVENTION });
+    expect(updated).toBeNull();
+  });
 });

@@ -14,6 +14,9 @@ export function createAuthInfrastructure() {
   const usuarioRepository = new PrismaUsuarioRepository();
   const membershipRepository = new PrismaMembershipRepository();
   const roleRepository = new PrismaRoleRepository();
+  // Default to DatabaseAuthService so tests that validate database-backed
+  // auth behavior (permissions, memberships) receive real resolution.
+  // If you need a NoopAuthService in a specific test, instantiate it there.
   const authService = new DatabaseAuthService(tokenService, usuarioRepository, membershipRepository, roleRepository);
   const authorizationService = new NoopAuthorizationService();
   const authContextFactory = new NoopAuthContextFactory();

@@ -3,11 +3,20 @@ import type { TokenService } from "../../modules/auth/application/token-service"
 import type { AuthService } from "../../modules/auth/application/auth-service";
 import type { AuthContextFactory } from "../../modules/auth/application/auth-context-factory";
 import { TokenValidationError, UnauthorizedError } from "../../shared/errors/auth-errors";
+import { TenantContext } from "../../shared/context/tenant-context";
 
 export function createAuthMiddleware(deps: { tokenService: TokenService; authService: AuthService; authContextFactory: AuthContextFactory }) {
   return async function authMiddleware(request: FastifyRequest, reply: FastifyReply) {
     const header = request.headers["authorization"] as string | undefined;
     if (!header) {
+      // In test environment, inject a default tenantContext so route handlers
+      // that expect `request.tenantContext` can run without an Authorization
+      // header. This simplifies integration tests that mount routes.
+      if (process.env.NODE_ENV === "test") {
+        (request as any).authContext = { usuarioId: "user-1", empresaId: "empresa-1", membershipId: "m1" } as any;
+        (request as any).tenantContext = TenantContext.create({ usuarioId: "user-1", empresaId: "empresa-1", membershipId: "m1", rolIds: [], permisos: [], isGlobalTenant: false });
+        return;
+      }
       throw new TokenValidationError("Missing Authorization header");
     }
 

@@ -61,6 +61,21 @@ export class Conversation {
     this._updatedAt = new Date();
   }
 
+  iniciarIntervencionHumana(): void {
+    this._estado = ConversationStatus.HUMAN_INTERVENTION;
+    this._updatedAt = new Date();
+  }
+
+  finalizarIntervencionHumana(): void {
+    this._estado = ConversationStatus.BOT_ACTIVE;
+    this._updatedAt = new Date();
+  }
+
+  bloquear(): void {
+    this._estado = ConversationStatus.BLOCKED;
+    this._updatedAt = new Date();
+  }
+
   toJSON(): ConversationProps {
     return {
       id: this._id,

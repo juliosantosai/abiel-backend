@@ -1,3 +1,18 @@
+Estado actual de implementación
+
+- `ProvisioningServiceImpl` implementado en `src/modules/provisioning/application/provisioning-service-impl.ts`.
+  - Crea agentes, definiciones de workflows y tareas iniciales a partir de un `blueprint`.
+  - Genera nuevos IDs y respeta `empresaId` proveniente del `TenantContext`.
+  - Usa repositorios (AgentRepository, WorkflowRepository, TaskRepository, EmpresaRepository) en lugar de consultas directas.
+
+Tests existentes
+
+- `tests/modules/provisioning-service.test.ts` valida que la provisión crea entidades con `empresaId` correcto y llama a los repositorios.
+
+Pendientes
+
+- Asegurar idempotencia y manejo de colisiones de IDs cuando se re-intente la provisión.
+- Integrar con repositorio Prisma para agentes/workflows si se desea persistencia real.
 # Provisioning Contract
 
 Objetivo
