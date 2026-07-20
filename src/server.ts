@@ -11,12 +11,21 @@ async function listenOnPort(app: Awaited<ReturnType<typeof createApp>>, port: nu
 
   let isFree = await isPortFree(port, host);
   let attempt = 0;
+  const MAX_WAIT_ATTEMPTS = 300; // ~5 minutes at 1s intervals
 
-  while (!isFree) {
+  while (!isFree && attempt < MAX_WAIT_ATTEMPTS) {
     attempt += 1;
     logger.warn({ port, host, attempt }, "port is busy, waiting for it to become available");
     await new Promise((resolve) => setTimeout(resolve, 1000));
     isFree = await isPortFree(port, host);
+  }
+
+  if (!isFree && attempt >= MAX_WAIT_ATTEMPTS) {
+    logger.error(
+      { port, host, maxAttempts: MAX_WAIT_ATTEMPTS },
+      "port still busy after max wait attempts; likely a zombie process; try: lsof -i :PORT or pkill -9 -f node"
+    );
+    process.exit(1);
   }
 
   try {
@@ -28,10 +37,17 @@ async function listenOnPort(app: Awaited<ReturnType<typeof createApp>>, port: nu
     if (err.code === "EADDRINUSE") {
       logger.warn({ port, host }, "port became busy while starting; waiting again");
       let retryFree = await isPortFree(port, host);
+      let retryAttempt = 0;
 
-      while (!retryFree) {
+      while (!retryFree && retryAttempt < 30) {
+        retryAttempt += 1;
         await new Promise((resolve) => setTimeout(resolve, 1000));
         retryFree = await isPortFree(port, host);
+      }
+
+      if (!retryFree) {
+        logger.error({ port, host }, "port still busy after retry attempts; aborting");
+        process.exit(1);
       }
 
       await app.listen({ port, host });

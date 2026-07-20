@@ -1,0 +1,5 @@
+                  id                   | empresaId |          clienteId          |   status   
+---------------------------------------+-----------+-----------------------------+------------
+ empresa-1:549111234567@s.whatsapp.net | empresa-1 | 549111234567@s.whatsapp.net | BOT_ACTIVE
+(1 row)
+

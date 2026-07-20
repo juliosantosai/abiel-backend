@@ -39,6 +39,9 @@ import { SecurityService } from "./modules/security/application/security-service
 import { PrismaSecurityRepository } from "./modules/security/infrastructure/prisma-security-repository";
 import { NoopNotificationService } from "./modules/security/infrastructure/noop-notification-service";
 import { SecurityMiddleware } from "./modules/security/infrastructure/security-middleware";
+import { CapabilityRegistry } from "./modules/agente/application/capability-registry";
+import { EchoCapability } from "./modules/agente/application/echo-capability";
+import { OutboundMessageHandler } from "./modules/gateway/application/outbound-message-handler";
 
 export async function createApp(overrides?: { tokenService?: any; authService?: any; authContextFactory?: any }) {
   const app = Fastify({
@@ -79,11 +82,24 @@ export async function createApp(overrides?: { tokenService?: any; authService?: 
   // Agent orchestration wiring: repository + runtime + orchestrator + handler
   const agentRepository = new PrismaAgentRepository();
   const noopRuntime = new NoopAgentRuntime();
-  const agentOrchestrator = new AgentOrchestrator(agentRepository, convRepo, msgRepo, noopRuntime, eventBus);
+
+  // Setup capability registry and register capabilities
+  const capabilityRegistry = new CapabilityRegistry();
+  const echoCapability = new EchoCapability(eventBus);
+  capabilityRegistry.register(echoCapability);
+
+  // Create orchestrator with capability registry
+  const agentOrchestrator = new AgentOrchestrator(agentRepository, convRepo, msgRepo, noopRuntime, eventBus, capabilityRegistry);
   const agentMessageHandler = new AgentMessageReceivedEventHandler(agentOrchestrator);
   const conversationMessageHandler = new ConversationMessageReceivedEventHandler(conversationService);
-  eventBus.subscribe("MessageReceived", agentMessageHandler);
+  // CRITICAL: Conversation persistence handler MUST execute BEFORE agent orchestration
+  // This ensures message exists in DB when orchestrator tries to process it
   eventBus.subscribe("MessageReceived", conversationMessageHandler);
+  eventBus.subscribe("MessageReceived", agentMessageHandler);
+
+  // Setup outbound message handler for SendMessageRequested events
+  const outboundHandler = new OutboundMessageHandler();
+  eventBus.subscribe("SendMessageRequested", outboundHandler);
 
   const agentService = new AgentService(agentRepository, eventBus);
 
