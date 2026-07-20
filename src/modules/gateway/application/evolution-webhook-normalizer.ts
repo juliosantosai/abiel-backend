@@ -1,9 +1,40 @@
 import type { NormalizedInboundMessage } from "../domain/message-gateway.interface";
 import { GatewayValidationError } from "../domain/errors";
 
+/**
+ * EvolutionWebhookNormalizer convierte el payload del proveedor Evolution/WhatsApp
+ * en un mensaje normalizado utilizado por el resto de la plataforma.
+ *
+ * Separa la lógica específica del proveedor del dominio de mensajes.
+ */
 export class EvolutionWebhookNormalizer {
+  /**
+   * Normaliza el payload y valida los campos requeridos.
+   *
+   * @param tenantId Tenant que recibe el mensaje.
+   * @param payload Payload enviado por el proveedor.
+   * @returns NormalizedInboundMessage listo para la publicación del evento.
+   */
   normalizeMessage(tenantId: string, payload: unknown): NormalizedInboundMessage {
     const data = this.getObject(payload);
+    // Allow simple test payloads in development to ease manual testing
+    const isDev = process.env.NODE_ENV !== "production";
+    if (isDev && data && data.test === true) {
+      const senderId = `test-sender-${Date.now()}`;
+      const messageId = `test-message-${Date.now()}`;
+      return {
+        messageId,
+        tenantId,
+        conversationKey: `${tenantId}:${senderId}`,
+        senderId,
+        channel: "whatsapp",
+        contentType: "text",
+        text: "test",
+        media: undefined,
+        receivedAt: new Date(),
+        rawProvider: payload,
+      };
+    }
     const event = data?.event;
     const item = data?.data;
 
@@ -11,8 +42,25 @@ export class EvolutionWebhookNormalizer {
       throw new GatewayValidationError("Unsupported or invalid Evolution webhook payload");
     }
 
-    const messageId = this.requireString(item.id, "messageId");
-    const senderId = this.requireString(item.key?.remoteJid, "remoteJid");
+    const rawMessageId = item.id ?? item.key?.id ?? item.key?.ID;
+    const messageId = this.requireString(rawMessageId, "messageId");
+
+    const rawSender =
+      item.key?.remoteJid ??
+      item.key?.remoteJidAlt ??
+      item.key?.participant ??
+      data?.sender ??
+      data?.body?.sender ??
+      data?.senderId ??
+      item.sender ??
+      item.from ??
+      item.participant ??
+      data?.from ??
+      data?.destination ??
+      data?.key?.remoteJid ??
+      undefined;
+
+    const senderId = this.requireString(rawSender, "remoteJid");
     const messageContent = item.message ?? {};
     const text = this.extractText(messageContent);
 

@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { logger } from "../src/shared/logger/logger";
+import { logger, loggerOptions } from "../src/shared/logger/logger";
 
 describe("logger shared", () => {
   it("exposes a logger instance", () => {
@@ -8,12 +8,12 @@ describe("logger shared", () => {
   });
 
   it("contains a service base field", () => {
-    expect(logger.base).toBeDefined();
-    expect(logger.base).toMatchObject({ service: "abiel-backend" });
+    expect(loggerOptions.base).toBeDefined();
+    expect(loggerOptions.base).toMatchObject({ service: "abiel-backend" });
   });
 
   it("redacts sensitive fields", () => {
-    expect(logger.redact).toEqual(
+    expect(loggerOptions.redact).toEqual(
       expect.arrayContaining(["req.headers.authorization", "password", "token"])
     );
   });

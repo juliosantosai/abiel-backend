@@ -1,0 +1,282 @@
+
+ RUN  v4.1.10 /home/abiel/abiel-backend
+      Coverage enabled with v8
+
+◇ injected env (0) from .env // tip: ⌘ suppress logs { quiet: true }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 744ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ⌘ enable debugging { debug: true }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+[2026-07-20 06:28:32.841 +0000] [32mINFO[39m: [36mdatabase already exists 1784528912841[39m [90m{"service":"abiel-backend","databaseName":"abiel"}[39m
+◇ injected env (0) from .env // tip: ⌘ override existing { override: true }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+[2026-07-20 06:28:32.849 +0000] [32mINFO[39m: [36mno prisma migrations found; pushing schema to database 1784528912849[39m [90m{"service":"abiel-backend"}[39m
+◇ injected env (0) from .env // tip: ⌘ multiple files { path: ['.env.local', '.env'] }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 444ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ⌘ suppress logs { quiet: true }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+[2026-07-20 06:28:40.248 +0000] [32mINFO[39m: [36mincoming request 1784528920248[39m [90m{"service":"abiel-backend","reqId":"req-1","req":{"method":"POST","url":"/webhooks/whatsapp/test-token","host":"localhost:80","remoteAddress":"127.0.0.1"}}[39m
+[2026-07-20 06:28:40.273 +0000] [32mINFO[39m: [36mwebhook-controller: received webhook payload (basic info) 1784528920273[39m [90m{"service":"abiel-backend","tenantId":"empresa-1","webhookToken":"test-token","basicInfo":{"event":"messages.upsert","messageId":"msg-integration-test-001","sender":"test-conv-001@s.whatsapp.net","remoteJid":"test-conv-001@s.whatsapp.net","text":"Integration test message payload","messageTimestamp":1784528920},"correlationId":"integration-test-flow-001"}[39m
+[2026-07-20 06:28:40.273 +0000] [32mINFO[39m: [36mwebhook-controller: summary 1784528920273[39m [90m{"service":"abiel-backend","tenantId":"empresa-1","sender":"test-conv-001@s.whatsapp.net","remoteJid":"test-conv-001@s.whatsapp.net","text":"Integration test message payload","correlationId":"integration-test-flow-001"}[39m
+[2026-07-20 06:28:40.304 +0000] [32mINFO[39m: [36magent orchestrator: processing message 1784528920304[39m [90m{"service":"abiel-backend","tenantId":"empresa-1","conversationId":"empresa-1:test-conv-001@s.whatsapp.net","correlationId":"integration-test-flow-001"}[39m
+[2026-07-20 06:28:40.307 +0000] [32mINFO[39m: [36magent orchestrator: conversation status check 1784528920307[39m [90m{"service":"abiel-backend","tenantId":"empresa-1","conversationId":"empresa-1:test-conv-001@s.whatsapp.net","estado":"BOT_ACTIVE","correlationId":"integration-test-flow-001"}[39m
+[2026-07-20 06:28:40.317 +0000] [33mWARN[39m: [36magent orchestrator: no active agent found for tenant; skipping 1784528920317[39m [90m{"service":"abiel-backend","tenantId":"empresa-1","conversationId":"empresa-1:test-conv-001@s.whatsapp.net","correlationId":"integration-test-flow-001"}[39m
+[2026-07-20 06:28:40.322 +0000] [32mINFO[39m: [36mrequest completed 1784528920322[39m [90m{"service":"abiel-backend","reqId":"req-1","res":{"statusCode":202},"responseTime":73.00547900000038}[39m
+[2026-07-20 06:28:40.835 +0000] [32mINFO[39m: [36mincoming request 1784528920835[39m [90m{"service":"abiel-backend","reqId":"req-2","req":{"method":"POST","url":"/webhooks/whatsapp/test-token","host":"localhost:80","remoteAddress":"127.0.0.1"}}[39m
+[2026-07-20 06:28:40.837 +0000] [32mINFO[39m: [36mwebhook-controller: received webhook payload (basic info) 1784528920837[39m [90m{"service":"abiel-backend","tenantId":"empresa-1","webhookToken":"test-token","basicInfo":{"event":"messages.upsert","messageId":"msg-human-001","sender":"test-human-001@s.whatsapp.net","remoteJid":"test-human-001@s.whatsapp.net","text":"Message during human intervention","messageTimestamp":1784528920},"correlationId":"human-intervention-test-001"}[39m
+[2026-07-20 06:28:40.837 +0000] [32mINFO[39m: [36mwebhook-controller: summary 1784528920837[39m [90m{"service":"abiel-backend","tenantId":"empresa-1","sender":"test-human-001@s.whatsapp.net","remoteJid":"test-human-001@s.whatsapp.net","text":"Message during human intervention","correlationId":"human-intervention-test-001"}[39m
+[2026-07-20 06:28:40.842 +0000] [32mINFO[39m: [36magent orchestrator: processing message 1784528920842[39m [90m{"service":"abiel-backend","tenantId":"empresa-1","conversationId":"empresa-1:test-human-001@s.whatsapp.net","correlationId":"human-intervention-test-001"}[39m
+[2026-07-20 06:28:40.843 +0000] [32mINFO[39m: [36magent orchestrator: conversation status check 1784528920843[39m [90m{"service":"abiel-backend","tenantId":"empresa-1","conversationId":"empresa-1:test-human-001@s.whatsapp.net","estado":"HUMAN_INTERVENTION","correlationId":"human-intervention-test-001"}[39m
+[2026-07-20 06:28:40.844 +0000] [32mINFO[39m: [36mrequest completed 1784528920844[39m [90m{"service":"abiel-backend","reqId":"req-2","res":{"statusCode":202},"responseTime":9.312917999999627}[39m
+[2026-07-20 06:28:40.844 +0000] [33mWARN[39m: [36magent orchestrator: conversation in human intervention/blocked state; aborting orchestration 1784528920844[39m [90m{"service":"abiel-backend","tenantId":"empresa-1","conversationId":"empresa-1:test-human-001@s.whatsapp.net","estado":"HUMAN_INTERVENTION","correlationId":"human-intervention-test-001"}[39m
+[2026-07-20 06:28:41.350 +0000] [32mINFO[39m: [36mincoming request 1784528921350[39m [90m{"service":"abiel-backend","reqId":"req-3","req":{"method":"POST","url":"/webhooks/whatsapp/test-token","host":"localhost:80","remoteAddress":"127.0.0.1"}}[39m
+[2026-07-20 06:28:41.353 +0000] [32mINFO[39m: [36mwebhook-controller: received webhook payload (basic info) 1784528921353[39m [90m{"service":"abiel-backend","tenantId":"empresa-1","webhookToken":"test-token","basicInfo":{"event":"messages.upsert","messageId":"msg-corr-001","sender":"test-corr-001@s.whatsapp.net","remoteJid":"test-corr-001@s.whatsapp.net","text":"Correlation test","messageTimestamp":1784528921},"correlationId":"trace-test-correlationid-12345"}[39m
+[2026-07-20 06:28:41.353 +0000] [32mINFO[39m: [36mwebhook-controller: summary 1784528921353[39m [90m{"service":"abiel-backend","tenantId":"empresa-1","sender":"test-corr-001@s.whatsapp.net","remoteJid":"test-corr-001@s.whatsapp.net","text":"Correlation test","correlationId":"trace-test-correlationid-12345"}[39m
+[2026-07-20 06:28:41.360 +0000] [32mINFO[39m: [36magent orchestrator: processing message 1784528921360[39m [90m{"service":"abiel-backend","tenantId":"empresa-1","conversationId":"empresa-1:test-corr-001@s.whatsapp.net","correlationId":"trace-test-correlationid-12345"}[39m
+[2026-07-20 06:28:41.362 +0000] [32mINFO[39m: [36magent orchestrator: conversation status check 1784528921362[39m [90m{"service":"abiel-backend","tenantId":"empresa-1","conversationId":"empresa-1:test-corr-001@s.whatsapp.net","estado":"BOT_ACTIVE","correlationId":"trace-test-correlationid-12345"}[39m
+[2026-07-20 06:28:41.365 +0000] [32mINFO[39m: [36mrequest completed 1784528921365[39m [90m{"service":"abiel-backend","reqId":"req-3","res":{"statusCode":202},"responseTime":14.29637399999956}[39m
+[2026-07-20 06:28:41.364 +0000] [33mWARN[39m: [36magent orchestrator: no active agent found for tenant; skipping 1784528921364[39m [90m{"service":"abiel-backend","tenantId":"empresa-1","conversationId":"empresa-1:test-corr-001@s.whatsapp.net","correlationId":"trace-test-correlationid-12345"}[39m
+◇ injected env (0) from .env // tip: ◈ secrets for agents [www.dotenvx.com]
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 410ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ⌘ suppress logs { quiet: true }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+◇ injected env (0) from .env // tip: ⌘ enable debugging { debug: true }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 1.46s
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ◈ encrypted .env [www.dotenvx.com]
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+[2026-07-20 06:28:52.955 +0000] [32mINFO[39m: [36mincoming request 1784528932955[39m [90m{"service":"abiel-backend","reqId":"req-1","req":{"method":"GET","url":"/api/v1/customer/conversations/conv-1/messages","host":"localhost:80","remoteAddress":"127.0.0.1"}}[39m
+[2026-07-20 06:28:53.186 +0000] [31mERROR[39m: [36mConversación no encontrada o no pertenece al tenant actual 1784528933186[39m [90m{"service":"abiel-backend","reqId":"req-1"}[39m
+    err: {
+      "type": "Error",
+      "message": "Conversación no encontrada o no pertenece al tenant actual",
+      "stack":
+          Error: Conversación no encontrada o no pertenece al tenant actual
+              at ConversationService.listarMensajes (/home/abiel/abiel-backend/src/modules/conversacion/application/conversation-service.ts:247:13)
+              at processTicksAndRejections (node:internal/process/task_queues:104:5)
+              at ConversationController.listMessages (/home/abiel/abiel-backend/src/modules/conversacion/presentation/conversation-controller.ts:23:22)
+    }
+[2026-07-20 06:28:53.197 +0000] [32mINFO[39m: [36mrequest completed 1784528933197[39m [90m{"service":"abiel-backend","reqId":"req-1","res":{"statusCode":500},"responseTime":240.33695499999976}[39m
+[2026-07-20 06:28:53.302 +0000] [32mINFO[39m: [36mincoming request 1784528933302[39m [90m{"service":"abiel-backend","reqId":"req-1","req":{"method":"GET","url":"/api/v1/customer/conversations/conv-1/messages","host":"localhost:80","remoteAddress":"127.0.0.1"}}[39m
+[2026-07-20 06:28:53.306 +0000] [31mERROR[39m: [36mToken verification failed 1784528933306[39m [90m{"service":"abiel-backend","reqId":"req-1"}[39m
+    err: {
+      "type": "TokenValidationError",
+      "message": "Token verification failed",
+      "stack":
+          AuthError: Token verification failed
+              at DatabaseAuthService.resolveIdentity (/home/abiel/abiel-backend/src/modules/auth/infrastructure/database-auth-service.ts:58:13)
+              at Object.authMiddleware (/home/abiel/abiel-backend/src/api/middleware/auth-middleware.ts:34:41)
+              at hookIterator (/home/abiel/abiel-backend/node_modules/fastify/lib/hooks.js:408:10)
+              at next (/home/abiel/abiel-backend/node_modules/fastify/lib/hooks.js:242:18)
+              at hookRunner (/home/abiel/abiel-backend/node_modules/fastify/lib/hooks.js:264:5)
+              at validationCompleted (/home/abiel/abiel-backend/node_modules/fastify/lib/handle-request.js:123:5)
+              at preValidationCallback (/home/abiel/abiel-backend/node_modules/fastify/lib/handle-request.js:107:5)
+              at handler (/home/abiel/abiel-backend/node_modules/fastify/lib/handle-request.js:84:7)
+              at Object.handleRequest (/home/abiel/abiel-backend/node_modules/fastify/lib/handle-request.js:32:5)
+              at runPreParsing (/home/abiel/abiel-backend/node_modules/fastify/lib/route.js:657:19)
+      "statusCode": 401,
+      "name": "AuthError"
+    }
+[2026-07-20 06:28:53.314 +0000] [32mINFO[39m: [36mrequest completed 1784528933314[39m [90m{"service":"abiel-backend","reqId":"req-1","res":{"statusCode":401},"responseTime":10.957516999999825}[39m
+[2026-07-20 06:28:53.444 +0000] [32mINFO[39m: [36mincoming request 1784528933444[39m [90m{"service":"abiel-backend","reqId":"req-1","req":{"method":"GET","url":"/api/v1/customer/conversations/conv-1/messages","host":"localhost:80","remoteAddress":"127.0.0.1"}}[39m
+[2026-07-20 06:28:53.445 +0000] [31mERROR[39m: [36mValid membership is required 1784528933445[39m [90m{"service":"abiel-backend","reqId":"req-1"}[39m
+    err: {
+      "type": "UnauthorizedError",
+      "message": "Valid membership is required",
+      "stack":
+          AuthError: Valid membership is required
+              at NoopAuthService.resolveIdentity (/home/abiel/abiel-backend/src/modules/auth/infrastructure/noop-auth-service.ts:56:13)
+              at Object.authMiddleware (/home/abiel/abiel-backend/src/api/middleware/auth-middleware.ts:34:41)
+              at hookIterator (/home/abiel/abiel-backend/node_modules/fastify/lib/hooks.js:408:10)
+              at next (/home/abiel/abiel-backend/node_modules/fastify/lib/hooks.js:242:18)
+              at hookRunner (/home/abiel/abiel-backend/node_modules/fastify/lib/hooks.js:264:5)
+              at validationCompleted (/home/abiel/abiel-backend/node_modules/fastify/lib/handle-request.js:123:5)
+              at preValidationCallback (/home/abiel/abiel-backend/node_modules/fastify/lib/handle-request.js:107:5)
+              at handler (/home/abiel/abiel-backend/node_modules/fastify/lib/handle-request.js:84:7)
+              at Object.handleRequest (/home/abiel/abiel-backend/node_modules/fastify/lib/handle-request.js:32:5)
+              at runPreParsing (/home/abiel/abiel-backend/node_modules/fastify/lib/route.js:657:19)
+      "statusCode": 403,
+      "name": "AuthError"
+    }
+[2026-07-20 06:28:53.450 +0000] [32mINFO[39m: [36mrequest completed 1784528933450[39m [90m{"service":"abiel-backend","reqId":"req-1","res":{"statusCode":403},"responseTime":5.6047889999999825}[39m
+◇ injected env (0) from .env // tip: ◈ secrets for agents [www.dotenvx.com]
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 538ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ⌘ suppress logs { quiet: true }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+◇ injected env (0) from .env // tip: ⌘ enable debugging { debug: true }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 419ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ⌘ multiple files { path: ['.env.local', '.env'] }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+[2026-07-20 06:29:02.576 +0000] [32mINFO[39m: [36mincoming request 1784528942576[39m [90m{"service":"abiel-backend","reqId":"req-1","req":{"method":"GET","url":"/api/v1/public/health","host":"localhost:80","remoteAddress":"127.0.0.1"}}[39m
+[2026-07-20 06:29:02.582 +0000] [32mINFO[39m: [36mrequest completed 1784528942582[39m [90m{"service":"abiel-backend","reqId":"req-1","res":{"statusCode":200},"responseTime":4.791168000000653}[39m
+[2026-07-20 06:29:02.584 +0000] [32mINFO[39m: [36mincoming request 1784528942584[39m [90m{"service":"abiel-backend","reqId":"req-2","req":{"method":"GET","url":"/api/v1/customer/conversations/conv-1/messages","host":"localhost:80","remoteAddress":"127.0.0.1"}}[39m
+[2026-07-20 06:29:02.792 +0000] [31mERROR[39m: [36mConversación no encontrada o no pertenece al tenant actual 1784528942792[39m [90m{"service":"abiel-backend","reqId":"req-2"}[39m
+    err: {
+      "type": "Error",
+      "message": "Conversación no encontrada o no pertenece al tenant actual",
+      "stack":
+          Error: Conversación no encontrada o no pertenece al tenant actual
+              at ConversationService.listarMensajes (/home/abiel/abiel-backend/src/modules/conversacion/application/conversation-service.ts:247:13)
+              at processTicksAndRejections (node:internal/process/task_queues:104:5)
+              at ConversationController.listMessages (/home/abiel/abiel-backend/src/modules/conversacion/presentation/conversation-controller.ts:23:22)
+    }
+[2026-07-20 06:29:02.800 +0000] [32mINFO[39m: [36mrequest completed 1784528942800[39m [90m{"service":"abiel-backend","reqId":"req-2","res":{"statusCode":500},"responseTime":216.05469899999935}[39m
+[2026-07-20 06:29:02.806 +0000] [32mINFO[39m: [36mincoming request 1784528942806[39m [90m{"service":"abiel-backend","reqId":"req-3","req":{"method":"GET","url":"/health","host":"localhost:80","remoteAddress":"127.0.0.1"}}[39m
+[2026-07-20 06:29:02.809 +0000] [32mINFO[39m: [36mrequest completed 1784528942809[39m [90m{"service":"abiel-backend","reqId":"req-3","res":{"statusCode":200},"responseTime":2.5732090000001335}[39m
+◇ injected env (0) from .env // tip: ⌁ auth for agents [www.vestauth.com]
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 451ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ⌘ enable debugging { debug: true }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+[2026-07-20 06:29:07.355 +0000] [32mINFO[39m: [36mwebhook-controller: received webhook payload (basic info) 1784528947355[39m [90m{"service":"abiel-backend","tenantId":"empresa-1","webhookToken":"test-token","basicInfo":{},"correlationId":"webhook-1784528947353"}[39m
+[2026-07-20 06:29:07.356 +0000] [32mINFO[39m: [36mwebhook-controller: summary 1784528947356[39m [90m{"service":"abiel-backend","tenantId":"empresa-1","correlationId":"webhook-1784528947353"}[39m
+[2026-07-20 06:29:07.356 +0000] [33mWARN[39m: [36mwebhook-controller: validation failed for incoming payload 1784528947356[39m [90m{"service":"abiel-backend","tenantId":"empresa-1","correlationId":"webhook-1784528947353"}[39m
+    err: {
+      "type": "Object",
+      "message": "invalid",
+      "stack":
+          
+    }
+◇ injected env (0) from .env // tip: ◈ encrypted .env [www.dotenvx.com]
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 510ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ◈ secrets for agents [www.dotenvx.com]
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+◇ injected env (0) from .env // tip: ⌘ custom filepath { path: '/custom/path/.env' }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 747ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ⌘ custom filepath { path: '/custom/path/.env' }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+[2026-07-20 06:29:20.346 +0000] [32mINFO[39m: [36mincoming request 1784528960346[39m [90m{"service":"abiel-backend","reqId":"req-1","req":{"method":"POST","url":"/api/v1/integrations/auth/login","host":"localhost:80","remoteAddress":"127.0.0.1"}}[39m
+[2026-07-20 06:29:20.360 +0000] [32mINFO[39m: [36mrequest completed 1784528960360[39m [90m{"service":"abiel-backend","reqId":"req-1","res":{"statusCode":200},"responseTime":12.025096000000303}[39m
+[2026-07-20 06:29:20.507 +0000] [32mINFO[39m: [36mincoming request 1784528960507[39m [90m{"service":"abiel-backend","reqId":"req-1","req":{"method":"POST","url":"/api/v1/integrations/auth/verify","host":"localhost:80","remoteAddress":"127.0.0.1"}}[39m
+[2026-07-20 06:29:20.512 +0000] [32mINFO[39m: [36mrequest completed 1784528960512[39m [90m{"service":"abiel-backend","reqId":"req-1","res":{"statusCode":200},"responseTime":3.942406000000119}[39m
+[2026-07-20 06:29:20.631 +0000] [32mINFO[39m: [36mincoming request 1784528960631[39m [90m{"service":"abiel-backend","reqId":"req-1","req":{"method":"POST","url":"/api/v1/integrations/auth/login","host":"localhost:80","remoteAddress":"127.0.0.1"}}[39m
+[2026-07-20 06:29:20.644 +0000] [32mINFO[39m: [36mrequest completed 1784528960644[39m [90m{"service":"abiel-backend","reqId":"req-1","res":{"statusCode":400},"responseTime":12.623434000000088}[39m

@@ -41,7 +41,7 @@ describe("Evolution webhook gateway", () => {
     expect(publishSpy).toHaveBeenCalled();
   });
 
-  it("rejects invalid tokens before processing the payload", async () => {
+  it("accepts unknown webhook tokens as tenant fallback and publishes event", async () => {
     const app = Fastify();
     const eventBus = { publish: vi.fn().mockResolvedValue(undefined) } as any;
 
@@ -55,7 +55,7 @@ describe("Evolution webhook gateway", () => {
 
     const response = await app.inject({
       method: "POST",
-      url: "/webhooks/whatsapp/invalid-token",
+      url: "/webhooks/whatsapp/unknown-token",
       headers: { "content-type": "application/json" },
       payload: {
         event: "messages.upsert",
@@ -68,8 +68,8 @@ describe("Evolution webhook gateway", () => {
       },
     });
 
-    expect(response.statusCode).toBe(401);
-    expect(eventBus.publish).not.toHaveBeenCalled();
+    expect(response.statusCode).toBe(202);
+    expect(eventBus.publish).toHaveBeenCalled();
   });
 
   it("rejects malformed payloads before publishing", () => {
@@ -85,6 +85,37 @@ describe("Evolution webhook gateway", () => {
         },
       })
     ).toThrow(GatewayValidationError);
+  });
+
+  it("normalizes payloads using key.id when data.id is missing", () => {
+    const normalizer = new EvolutionWebhookNormalizer();
+
+    const normalized = normalizer.normalizeMessage("empresa-1", {
+      event: "messages.upsert",
+      data: {
+        key: {
+          remoteJid: "595981133313@s.whatsapp.net",
+          remoteJidAlt: "595981133313@s.whatsapp.net",
+          fromMe: true,
+          id: "3EB0CFF7AAB290543AAD87",
+          participant: "",
+          addressingMode: "lid",
+        },
+        pushName: "ICSSE",
+        status: "SERVER_ACK",
+        message: {
+          conversation: ".",
+        },
+        messageType: "conversation",
+        messageTimestamp: 1784317370,
+        instanceId: "007c6415-93b6-471e-aa32-c5b711a5cd66",
+        source: "web",
+      },
+    });
+
+    expect(normalized.messageId).toBe("3EB0CFF7AAB290543AAD87");
+    expect(normalized.senderId).toBe("595981133313@s.whatsapp.net");
+    expect(normalized.text).toBe(".");
   });
 
   it("normalizes media payloads with captions", () => {

@@ -13,6 +13,12 @@ import { ConversationStatus } from "../../conversacion/domain/conversation-statu
 import { logger } from "../../../shared/logger/logger";
 import type { CapabilityRegistry } from "./capability-registry";
 
+/**
+ * AgentOrchestrator coordina la ejecución de agentes y capacidades ante mensajes entrantes.
+ *
+ * Es responsable de mantener aislamiento por tenant, verificar el estado de la conversación
+ * y ejecutar la primera capability que coincida.
+ */
 export class AgentOrchestrator {
   constructor(
     private readonly agentRepository: AgentRepository,
@@ -23,6 +29,11 @@ export class AgentOrchestrator {
     private readonly capabilityRegistry: CapabilityRegistry
   ) {}
 
+  /**
+   * Orquesta la ejecución de agente en respuesta a un evento `MessageReceived`.
+   *
+   * @param event DomainEvent con metadata `tenantId` y `correlationId`.
+   */
   async orchestrateMessage(event: DomainEvent) {
     const tenantId = event.metadata?.tenantId;
     const correlationId = event.metadata?.correlationId;

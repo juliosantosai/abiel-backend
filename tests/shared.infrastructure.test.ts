@@ -10,13 +10,13 @@ vi.mock("../src/shared/database/prisma", () => ({
 describe("shared infrastructure", () => {
   it("exposes env defaults and logger configuration", async () => {
     const { env } = await import("../src/shared/config/env");
-    const { logger } = await import("../src/shared/logger/logger");
+    const { logger, loggerOptions } = await import("../src/shared/logger/logger");
 
     expect(env.NODE_ENV).toBeDefined();
     expect(env.PORT).toBeGreaterThan(0);
     expect(env.JWT_SECRET).toBeTruthy();
     expect(logger.level).toBeDefined();
-    expect(logger.base.service).toBe("abiel-backend");
+    expect(loggerOptions.base.service).toBe("abiel-backend");
   });
 
   it("connects to the database with prisma", async () => {

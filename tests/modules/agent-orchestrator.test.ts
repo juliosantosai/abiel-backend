@@ -1,5 +1,6 @@
 import { describe, it, expect, vi } from "vitest";
 import { AgentOrchestrator } from "../../src/modules/agente/application/agent-orchestrator";
+import { CapabilityRegistry } from "../../src/modules/agente/application/capability-registry";
 import { createMessageReceivedEvent } from "../../src/modules/conversacion/domain/events/message-received.event";
 import { ConversationStatus } from "../../src/modules/conversacion/domain/conversation-status";
 
@@ -10,7 +11,8 @@ describe("AgentOrchestrator", () => {
     const msgRepo = { findByConversationId: vi.fn().mockResolvedValue([]) } as any;
     const runtime = { execute: vi.fn() } as any;
     const bus = { publish: vi.fn() } as any;
-    const orchestrator = new AgentOrchestrator(repo, convRepo, msgRepo, runtime, bus);
+    const capabilityRegistry = new CapabilityRegistry();
+    const orchestrator = new AgentOrchestrator(repo, convRepo, msgRepo, runtime, bus, capabilityRegistry);
 
     const event = createMessageReceivedEvent({ messageId: "m1", conversationId: "c1", empresaId: "e1" }, { tenantId: "e1" });
     const res = await orchestrator.orchestrateMessage(event as any);
@@ -24,7 +26,8 @@ describe("AgentOrchestrator", () => {
     const msgRepo = { findByConversationId: vi.fn().mockResolvedValue([{ id: "m2", conversationId: "c2", empresaId: "e1", contenido: "hello" }]) } as any;
     const runtime = { execute: vi.fn().mockResolvedValue({ success: true, response: { output: "ok" } }) } as any;
     const bus = { publish: vi.fn() } as any;
-    const orchestrator = new AgentOrchestrator(repo, convRepo, msgRepo, runtime, bus);
+    const capabilityRegistry = new CapabilityRegistry();
+    const orchestrator = new AgentOrchestrator(repo, convRepo, msgRepo, runtime, bus, capabilityRegistry);
 
     const event = createMessageReceivedEvent({ messageId: "m2", conversationId: "c2", empresaId: "e1" }, { tenantId: "e1" });
     const res = await orchestrator.orchestrateMessage(event as any);
@@ -39,7 +42,8 @@ describe("AgentOrchestrator", () => {
     const msgRepo = { findByConversationId: vi.fn().mockResolvedValue([{ id: "m3", conversationId: "c3", empresaId: "e1", contenido: "hello" }]) } as any;
     const runtime = { execute: vi.fn().mockResolvedValue({ success: true }) } as any;
     const bus = { publish: vi.fn() } as any;
-    const orchestrator = new AgentOrchestrator(repo, convRepo, msgRepo, runtime, bus);
+    const capabilityRegistry = new CapabilityRegistry();
+    const orchestrator = new AgentOrchestrator(repo, convRepo, msgRepo, runtime, bus, capabilityRegistry);
 
     const event = createMessageReceivedEvent({ messageId: "m3", conversationId: "c3", empresaId: "e1" }, { tenantId: "e1" });
     const res = await orchestrator.orchestrateMessage(event as any);

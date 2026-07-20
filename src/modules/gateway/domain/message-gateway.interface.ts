@@ -29,6 +29,12 @@ export interface NormalizedInboundMessage {
   rawProvider: unknown;
 }
 
+/**
+ * Result returned by the message gateway after webhook processing.
+ *
+ * `accepted` indica si el payload fue aceptado para el workflow interno.
+ * `eventPublished` indica si se generó un evento de dominio para procesamiento posterior.
+ */
 export interface GatewayProcessingResult {
   accepted: boolean;
   eventPublished: boolean;
@@ -38,7 +44,9 @@ export interface GatewayProcessingResult {
 
 /**
  * Port for inbound external messages.
- * The gateway acts as an adapter, normalizing payloads and delegating to the EventBus.
+ *
+ * El gateway actúa como adaptador de proveedor. Normaliza payloads, valida tenant y
+ * publica eventos de dominio que otros módulos consumen.
  */
 export interface IMessageGateway {
   processWebhook(

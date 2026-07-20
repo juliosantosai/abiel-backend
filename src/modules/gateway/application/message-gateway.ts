@@ -5,6 +5,12 @@ import type { GatewayProcessingResult, IMessageGateway, NormalizedInboundMessage
 import type { WebhookDeliveryRepository } from "../domain/webhook-delivery-repository";
 import type { EvolutionWebhookNormalizer } from "./evolution-webhook-normalizer";
 
+/**
+ * Gateway de mensajes entrantes.
+ *
+ * Procesa payloads de webhook, aplica deduplicación y publica `MessageReceived` en el EventBus.
+ * Mantiene aislamiento multitenant mediante tenantId en metadata y deliveryKey.
+ */
 export class MessageGateway implements IMessageGateway {
   private readonly seenMessages = new Set<string>();
 
@@ -14,6 +20,14 @@ export class MessageGateway implements IMessageGateway {
     private readonly deliveryRepository?: WebhookDeliveryRepository
   ) {}
 
+  /**
+   * Process a webhook payload for a tenant.
+   *
+   * @param tenantId Tenant identifier used for isolation and event metadata.
+   * @param payload Raw webhook payload.
+   * @param context Optional webhook context with correlation data.
+   * @returns GatewayProcessingResult with acceptance and event publication details.
+   */
   async processWebhook(tenantId: string, payload: unknown, context?: WebhookContext): Promise<GatewayProcessingResult> {
     if (!tenantId || tenantId.trim() === "") {
       throw new GatewayUnauthorizedError("Tenant is required");
@@ -91,6 +105,14 @@ export class MessageGateway implements IMessageGateway {
     }
   }
 
+  /**
+   * Normalize a raw webhook payload into the internal normalized message contract.
+   *
+   * @param tenantId Tenant identifier for the normalized message.
+   * @param payload Raw webhook payload.
+   * @param _context Optional webhook execution context.
+   * @returns NormalizedInboundMessage with standard fields used by the event bus.
+   */
   normalizeMessage(tenantId: string, payload: unknown, _context?: WebhookContext): NormalizedInboundMessage {
     return this.normalizer.normalizeMessage(tenantId, payload);
   }

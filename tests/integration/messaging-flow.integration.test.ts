@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeAll, afterAll } from "vitest";
 import { createApp } from "../../src/app";
 import type { FastifyInstance } from "fastify";
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "../../src/shared/database/prisma";
 
 /**
  * Integration Test: Complete Message Flow
@@ -16,11 +16,32 @@ import { PrismaClient } from "@prisma/client";
 
 describe("Messaging Flow Integration", () => {
   let app: FastifyInstance;
-  let prisma: PrismaClient;
 
   beforeAll(async () => {
     app = await createApp();
-    prisma = new PrismaClient();
+    // Ensure test tenant exists and cleanup any previous test data
+    await prisma.empresa.upsert({
+      where: { id: "empresa-1" },
+      update: { webhookToken: "test-token", activo: true, updatedAt: new Date() },
+      create: {
+        id: "empresa-1",
+        nombre: "Empresa Test",
+        plan: "test-plan",
+        activo: true,
+        webhookToken: "test-token",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+    });
+
+    // Remove any leftover conversations/messages from previous runs
+    const testConversationIds = [
+      "empresa-1:test-conv-001@s.whatsapp.net",
+      "empresa-1:test-human-001@s.whatsapp.net",
+      "empresa-1:test-corr-001@s.whatsapp.net",
+    ];
+    await prisma.message.deleteMany({ where: { conversationId: { in: testConversationIds } } });
+    await prisma.conversation.deleteMany({ where: { id: { in: testConversationIds } } });
   });
 
   afterAll(async () => {

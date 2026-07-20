@@ -1,5 +1,6 @@
 import { describe, it, expect, vi } from "vitest";
 import { AgentOrchestrator } from "../../src/modules/agente/application/agent-orchestrator";
+import { CapabilityRegistry } from "../../src/modules/agente/application/capability-registry";
 import { InMemoryEventBus } from "../../src/shared/events/in-memory-event-bus";
 
 const makeEvent = (empresaId: string, conversationId = "c1", messageId = "m1", correlationId?: string) => ({
@@ -20,8 +21,9 @@ describe("AgentExecution architecture", () => {
     const runtime = { execute: vi.fn().mockResolvedValue({ success: true }) } as any;
     const bus = new InMemoryEventBus();
     const publishSpy = vi.spyOn(bus, "publish");
+    const capabilityRegistry = new CapabilityRegistry();
 
-    const orch = new AgentOrchestrator(repo as any, convoRepo as any, messageRepo as any, runtime as any, bus as any);
+    const orch = new AgentOrchestrator(repo as any, convoRepo as any, messageRepo as any, runtime as any, bus as any, capabilityRegistry);
     const ev = makeEvent("e1");
     const res = await orch.orchestrateMessage(ev as any);
 
@@ -36,8 +38,9 @@ describe("AgentExecution architecture", () => {
     const messageRepo = { findByConversationId: vi.fn().mockResolvedValue([{ id: "m1", conversationId: "c1", empresaId: "e1", contenido: "hola" }]) } as any;
     const runtime = { execute: vi.fn().mockResolvedValue({ success: true }) } as any;
     const bus = new InMemoryEventBus();
+    const capabilityRegistry = new CapabilityRegistry();
 
-    const orch = new AgentOrchestrator(repo as any, convoRepo as any, messageRepo as any, runtime as any, bus as any);
+    const orch = new AgentOrchestrator(repo as any, convoRepo as any, messageRepo as any, runtime as any, bus as any, capabilityRegistry);
     const ev = makeEvent("e1");
     const res = await orch.orchestrateMessage(ev as any);
 
@@ -52,8 +55,9 @@ describe("AgentExecution architecture", () => {
     const runtime = { execute: vi.fn().mockRejectedValue(new Error("boom")) } as any;
     const bus = new InMemoryEventBus();
     const publishSpy = vi.spyOn(bus, "publish");
+    const capabilityRegistry = new CapabilityRegistry();
 
-    const orch = new AgentOrchestrator(repo as any, convoRepo as any, messageRepo as any, runtime as any, bus as any);
+    const orch = new AgentOrchestrator(repo as any, convoRepo as any, messageRepo as any, runtime as any, bus as any, capabilityRegistry);
     const ev = makeEvent("e1");
     await expect(orch.orchestrateMessage(ev as any)).rejects.toThrow("boom");
 
@@ -70,8 +74,9 @@ describe("AgentExecution architecture", () => {
     const runtime = { execute: vi.fn().mockResolvedValue({ success: true }) } as any;
     const bus = new InMemoryEventBus();
     const publishSpy = vi.spyOn(bus, "publish");
+    const capabilityRegistry = new CapabilityRegistry();
 
-    const orch = new AgentOrchestrator(repo as any, convoRepo as any, messageRepo as any, runtime as any, bus as any);
+    const orch = new AgentOrchestrator(repo as any, convoRepo as any, messageRepo as any, runtime as any, bus as any, capabilityRegistry);
     const ev = makeEvent("e1", "c1", "m1", "corr-123");
     await orch.orchestrateMessage(ev as any);
 

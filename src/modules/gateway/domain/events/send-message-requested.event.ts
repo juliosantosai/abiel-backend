@@ -1,7 +1,7 @@
-import type { DomainEvent } from "../../../shared/events/domain-event";
-import { createDomainEvent } from "../../../shared/events/domain-event";
+import type { DomainEvent, DomainEventPayload } from "../../../../shared/events/domain-event";
+import { createDomainEvent } from "../../../../shared/events/domain-event";
 
-export interface SendMessageRequestedPayload {
+export interface SendMessageRequestedPayload extends DomainEventPayload {
   tenantId: string;
   conversationId: string;
   messageContent: string;

@@ -27,6 +27,12 @@ export type InboundMessageInput = {
   rol: MessageRole;
 };
 
+/**
+ * ConversationService encapsulates conversation lifecycle rules and message persistence.
+ *
+ * Está enfocado en mantener aislamiento por tenant y en publicar eventos de dominio
+ * una vez que la operación se completa.
+ */
 export class ConversationService {
   constructor(
     private readonly conversationRepository: ConversationRepository,
@@ -34,6 +40,13 @@ export class ConversationService {
     private readonly eventBus: EventBus
   ) {}
 
+  /**
+   * Crea una conversación nueva dentro del tenant.
+   *
+   * @param context Contexto de tenant que contiene empresaId y usuarioId.
+   * @param input Datos para crear la conversación.
+   * @returns La conversación creada.
+   */
   async crearConversation(context: TenantContext, input: CreateConversationInput): Promise<ConversationProps> {
     const conversation = new Conversation({
       id: generateUuid(),
@@ -66,6 +79,15 @@ export class ConversationService {
     return created;
   }
 
+  /**
+   * Agrega un mensaje a una conversación existente.
+   *
+   * En conversaciones en estado de intervención humana o bloqueadas,
+   * el mensaje se persiste pero se publica `MessagesBuffered`.
+   *
+   * @param context TenantContext que contiene el tenant actual.
+   * @param input Datos del mensaje a agregar.
+   */
   async agregarMensaje(context: TenantContext, input: CreateMessageInput): Promise<MessageProps> {
     const conversation = await this.conversationRepository.findById(input.conversationId, context.empresaId);
     if (!conversation) {
@@ -121,6 +143,14 @@ export class ConversationService {
     return created;
   }
 
+  /**
+   * Procesa un mensaje entrante desde el gateway o desde un evento de dominio.
+   *
+   * Si la conversación no existe, la crea dentro del tenant actual.
+   *
+   * @param context TenantContext con empresaId y usuarioId.
+   * @param input Datos del mensaje entrante.
+   */
   async procesarMensajeEntrante(context: TenantContext, input: InboundMessageInput): Promise<MessageProps> {
     let conversation = await this.conversationRepository.findById(input.conversationId, context.empresaId);
 
@@ -135,7 +165,16 @@ export class ConversationService {
         updatedAt: new Date(),
       });
 
-      conversation = await this.conversationRepository.create(createdConversation.toJSON());
+      try {
+        conversation = await this.conversationRepository.create(createdConversation.toJSON());
+      } catch (error) {
+        // If a concurrent request created the conversation first, re-fetch it.
+        const existing = await this.conversationRepository.findById(input.conversationId, context.empresaId);
+        if (!existing) {
+          throw error;
+        }
+        conversation = existing;
+      }
     }
 
     return this.agregarMensaje(context, {
@@ -145,6 +184,11 @@ export class ConversationService {
     });
   }
 
+  /**
+   * Cambia el estado de una conversación a intervención humana.
+   *
+   * Publica `HumanInterventionStarted` y bloquea la orquestación de agentes para ese flujo.
+   */
   async iniciarIntervencionHumana(context: TenantContext, conversationId: string): Promise<ConversationProps> {
     const conversation = await this.conversationRepository.findById(conversationId, context.empresaId);
     if (!conversation) {
@@ -168,6 +212,9 @@ export class ConversationService {
     return updated;
   }
 
+  /**
+   * Finaliza la intervención humana y permite que el bot vuelva a procesar mensajes.
+   */
   async finalizarIntervencionHumana(context: TenantContext, conversationId: string): Promise<ConversationProps> {
     const conversation = await this.conversationRepository.findById(conversationId, context.empresaId);
     if (!conversation) {
@@ -191,6 +238,9 @@ export class ConversationService {
     return updated;
   }
 
+  /**
+   * Lista los mensajes de una conversación dentro del tenant actual.
+   */
   async listarMensajes(context: TenantContext, conversationId: string): Promise<MessageProps[]> {
     const conversation = await this.conversationRepository.findById(conversationId, context.empresaId);
     if (!conversation) {
