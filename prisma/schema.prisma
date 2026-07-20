@@ -11,6 +11,7 @@ model Empresa {
   nombre              String
   plan                String
   activo              Boolean
+  webhookToken        String?           @unique
   createdAt           DateTime
   updatedAt           DateTime
   suscripciones       Suscripcion[]

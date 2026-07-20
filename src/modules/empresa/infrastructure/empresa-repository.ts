@@ -2,6 +2,7 @@ import type { EmpresaProps } from "../domain/empresa";
 
 export interface EmpresaRepository {
   findById(id: string): Promise<EmpresaProps | null>;
+  findByWebhookToken(token: string): Promise<EmpresaProps | null>;
   findAll(): Promise<EmpresaProps[]>;
   create(empresa: EmpresaProps): Promise<EmpresaProps>;
   update(id: string, empresa: Partial<EmpresaProps>): Promise<EmpresaProps | null>;

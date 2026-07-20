@@ -7,6 +7,10 @@ export class PrismaEmpresaRepository implements EmpresaRepository {
     return prisma.empresa.findUnique({ where: { id } });
   }
 
+  async findByWebhookToken(token: string): Promise<EmpresaProps | null> {
+    return prisma.empresa.findUnique({ where: { webhookToken: token } as any });
+  }
+
   async findAll(): Promise<EmpresaProps[]> {
     return prisma.empresa.findMany();
   }

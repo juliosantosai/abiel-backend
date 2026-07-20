@@ -30,6 +30,9 @@ import { registerMembershipRoutes } from "./modules/usuario/presentation/members
 import { createAuthInfrastructure } from "./modules/auth/infrastructure/auth-infrastructure-factory";
 import { ConversationService } from "./modules/conversacion/application/conversation-service";
 import { registerApiV1 } from "./api/v1";
+import { registerWebhookController } from "./modules/gateway/presentation/webhook.controller";
+import { EvolutionWebhookNormalizer } from "./modules/gateway/application/evolution-webhook-normalizer";
+import { MessageGateway } from "./modules/gateway/application/message-gateway";
 import { SecurityService } from "./modules/security/application/security-service";
 import { PrismaSecurityRepository } from "./modules/security/infrastructure/prisma-security-repository";
 import { NoopNotificationService } from "./modules/security/infrastructure/noop-notification-service";
@@ -83,6 +86,12 @@ export async function createApp(overrides?: { tokenService?: any; authService?: 
   eventBus.subscribe("MessageReceived", messageHandler);
 
   const agentService = new AgentService(agentRepository, eventBus);
+
+  const gateway = new MessageGateway(eventBus, new EvolutionWebhookNormalizer());
+  registerWebhookController(app, {
+    empresaRepository,
+    gateway,
+  });
 
   const securityRepository = new PrismaSecurityRepository();
   const securityNotificationService = new NoopNotificationService();
