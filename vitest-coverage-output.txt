@@ -280,3 +280,1322 @@ The database is already in sync with the Prisma schema.
 [2026-07-20 06:29:20.512 +0000] [32mINFO[39m: [36mrequest completed 1784528960512[39m [90m{"service":"abiel-backend","reqId":"req-1","res":{"statusCode":200},"responseTime":3.942406000000119}[39m
 [2026-07-20 06:29:20.631 +0000] [32mINFO[39m: [36mincoming request 1784528960631[39m [90m{"service":"abiel-backend","reqId":"req-1","req":{"method":"POST","url":"/api/v1/integrations/auth/login","host":"localhost:80","remoteAddress":"127.0.0.1"}}[39m
 [2026-07-20 06:29:20.644 +0000] [32mINFO[39m: [36mrequest completed 1784528960644[39m [90m{"service":"abiel-backend","reqId":"req-1","res":{"statusCode":400},"responseTime":12.623434000000088}[39m
+◇ injected env (0) from .env // tip: ⌘ custom filepath { path: '/custom/path/.env' }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 687ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ⌘ custom filepath { path: '/custom/path/.env' }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+◇ injected env (0) from .env // tip: ◈ encrypted .env [www.dotenvx.com]
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 1.09s
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ⌘ suppress logs { quiet: true }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+◇ injected env (0) from .env // tip: ⌘ custom filepath { path: '/custom/path/.env' }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 535ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ⌘ multiple files { path: ['.env.local', '.env'] }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+◇ injected env (0) from .env // tip: ⌘ multiple files { path: ['.env.local', '.env'] }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 524ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ⌘ custom filepath { path: '/custom/path/.env' }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+◇ injected env (0) from .env // tip: ⌘ multiple files { path: ['.env.local', '.env'] }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 430ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ⌘ suppress logs { quiet: true }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+◇ injected env (0) from .env // tip: ⌘ custom filepath { path: '/custom/path/.env' }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 590ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ⌘ custom filepath { path: '/custom/path/.env' }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+◇ injected env (0) from .env // tip: ⌘ enable debugging { debug: true }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 490ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ⌘ suppress logs { quiet: true }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+◇ injected env (0) from .env // tip: ⌁ auth for agents [www.vestauth.com]
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 439ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ⌘ suppress logs { quiet: true }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+◇ injected env (0) from .env // tip: ⌘ suppress logs { quiet: true }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 492ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ⌘ multiple files { path: ['.env.local', '.env'] }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+◇ injected env (0) from .env // tip: ◈ encrypted .env [www.dotenvx.com]
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 720ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ⌁ auth for agents [www.vestauth.com]
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+◇ injected env (0) from .env // tip: ⌘ custom filepath { path: '/custom/path/.env' }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 672ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ⌘ multiple files { path: ['.env.local', '.env'] }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+◇ injected env (0) from .env // tip: ⌘ enable debugging { debug: true }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 433ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ⌘ custom filepath { path: '/custom/path/.env' }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+◇ injected env (0) from .env // tip: ⌘ suppress logs { quiet: true }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 410ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ⌘ override existing { override: true }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+◇ injected env (0) from .env // tip: ⌘ custom filepath { path: '/custom/path/.env' }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 379ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ◈ encrypted .env [www.dotenvx.com]
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+◇ injected env (0) from .env // tip: ⌘ multiple files { path: ['.env.local', '.env'] }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 416ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ⌘ multiple files { path: ['.env.local', '.env'] }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+[2026-07-20 06:30:40.323 +0000] [32mINFO[39m: [36mincoming request 1784529040323[39m [90m{"service":"abiel-backend","reqId":"req-1","req":{"method":"GET","url":"/","host":"localhost:80","remoteAddress":"127.0.0.1"}}[39m
+[2026-07-20 06:30:40.329 +0000] [32mINFO[39m: [36mrequest completed 1784529040329[39m [90m{"service":"abiel-backend","reqId":"req-1","res":{"statusCode":200},"responseTime":4.914475000000039}[39m
+[2026-07-20 06:30:40.330 +0000] [32mINFO[39m: [36mincoming request 1784529040330[39m [90m{"service":"abiel-backend","reqId":"req-2","req":{"method":"GET","url":"/health","host":"localhost:80","remoteAddress":"127.0.0.1"}}[39m
+[2026-07-20 06:30:40.330 +0000] [32mINFO[39m: [36mrequest completed 1784529040330[39m [90m{"service":"abiel-backend","reqId":"req-2","res":{"statusCode":200},"responseTime":0.4961800000000949}[39m
+◇ injected env (0) from .env // tip: ◈ secrets for agents [www.dotenvx.com]
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 530ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ◈ secrets for agents [www.dotenvx.com]
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+◇ injected env (0) from .env // tip: ◈ encrypted .env [www.dotenvx.com]
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 1.14s
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ⌁ auth for agents [www.vestauth.com]
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+[2026-07-20 06:30:50.607 +0000] [32mINFO[39m: [36mwebhook-controller: received webhook payload (basic info) 1784529050607[39m [90m{"service":"abiel-backend","tenantId":"empresa-1","webhookToken":"tenant-token","basicInfo":{"event":"messages.upsert","messageId":"msg-001","sender":"549111234567@s.whatsapp.net","remoteJid":"549111234567@s.whatsapp.net","text":"Hola desde WhatsApp","messageTimestamp":1710000000},"correlationId":"webhook-1784529050606"}[39m
+[2026-07-20 06:30:50.607 +0000] [32mINFO[39m: [36mwebhook-controller: summary 1784529050607[39m [90m{"service":"abiel-backend","tenantId":"empresa-1","sender":"549111234567@s.whatsapp.net","remoteJid":"549111234567@s.whatsapp.net","text":"Hola desde WhatsApp","correlationId":"webhook-1784529050606"}[39m
+[2026-07-20 06:30:50.620 +0000] [32mINFO[39m: [36mwebhook-controller: received webhook payload (basic info) 1784529050620[39m [90m{"service":"abiel-backend","tenantId":"549111234567@s.whatsapp.net","webhookToken":"unknown-token","basicInfo":{"event":"messages.upsert","messageId":"msg-999","sender":"549111234567@s.whatsapp.net","remoteJid":"549111234567@s.whatsapp.net","text":"No debe procesarse","messageTimestamp":1710000000},"correlationId":"webhook-1784529050620"}[39m
+[2026-07-20 06:30:50.621 +0000] [32mINFO[39m: [36mwebhook-controller: summary 1784529050621[39m [90m{"service":"abiel-backend","tenantId":"549111234567@s.whatsapp.net","sender":"549111234567@s.whatsapp.net","remoteJid":"549111234567@s.whatsapp.net","text":"No debe procesarse","correlationId":"webhook-1784529050620"}[39m
+◇ injected env (0) from .env // tip: ⌘ override existing { override: true }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 470ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ⌘ override existing { override: true }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+◇ injected env (0) from .env // tip: ⌘ multiple files { path: ['.env.local', '.env'] }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 463ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ⌘ multiple files { path: ['.env.local', '.env'] }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+[2026-07-20 06:30:58.788 +0000] [32mINFO[39m: [36mwebhook-controller: received webhook payload (basic info) 1784529058788[39m [90m{"service":"abiel-backend","tenantId":"tenant-1","webhookToken":"test-token","basicInfo":{"event":"messages.upsert","messageId":"msg-001","sender":"user-1@s.whatsapp.net","remoteJid":"user-1@s.whatsapp.net","text":"hola mundo","messageTimestamp":1784529058},"correlationId":"webhook-1784529058787"}[39m
+[2026-07-20 06:30:58.788 +0000] [32mINFO[39m: [36mwebhook-controller: summary 1784529058788[39m [90m{"service":"abiel-backend","tenantId":"tenant-1","sender":"user-1@s.whatsapp.net","remoteJid":"user-1@s.whatsapp.net","text":"hola mundo","correlationId":"webhook-1784529058787"}[39m
+[2026-07-20 06:30:58.792 +0000] [32mINFO[39m: [36magent orchestrator: processing message 1784529058792[39m [90m{"service":"abiel-backend","tenantId":"tenant-1","conversationId":"tenant-1:user-1@s.whatsapp.net","correlationId":"webhook-1784529058787"}[39m
+[2026-07-20 06:30:58.793 +0000] [32mINFO[39m: [36magent orchestrator: conversation status check 1784529058793[39m [90m{"service":"abiel-backend","tenantId":"tenant-1","conversationId":"tenant-1:user-1@s.whatsapp.net","estado":"BOT_ACTIVE","correlationId":"webhook-1784529058787"}[39m
+[2026-07-20 06:30:58.793 +0000] [32mINFO[39m: [36magent orchestrator: found active agent 1784529058793[39m [90m{"service":"abiel-backend","tenantId":"tenant-1","conversationId":"tenant-1:user-1@s.whatsapp.net","agentId":"agent-1","correlationId":"webhook-1784529058787"}[39m
+[2026-07-20 06:30:58.793 +0000] [32mINFO[39m: [36magent orchestrator: execution started 1784529058793[39m [90m{"service":"abiel-backend","execId":"exec-1784529058793-401rx2","tenantId":"tenant-1","conversationId":"tenant-1:user-1@s.whatsapp.net","correlationId":"webhook-1784529058787"}[39m
+[2026-07-20 06:30:58.794 +0000] [32mINFO[39m: [36magent orchestrator: invoking capabilities 1784529058794[39m [90m{"service":"abiel-backend","execId":"exec-1784529058793-401rx2","correlationId":"webhook-1784529058787"}[39m
+[2026-07-20 06:30:58.794 +0000] [32mINFO[39m: [36magent orchestrator: capability matched 1784529058794[39m [90m{"service":"abiel-backend","execId":"exec-1784529058793-401rx2","capabilityId":"echo-capability","correlationId":"webhook-1784529058787"}[39m
+[2026-07-20 06:30:58.794 +0000] [32mINFO[39m: [36mecho-capability: executing 1784529058794[39m [90m{"service":"abiel-backend","tenantId":"tenant-1","agentId":"agent-1","conversationId":"tenant-1:user-1@s.whatsapp.net","messageId":"d665e895-13b2-458e-8521-2cb509344df3","correlationId":"webhook-1784529058787"}[39m
+[2026-07-20 06:30:58.794 +0000] [32mINFO[39m: [36mecho-capability: generated response 1784529058794[39m [90m{"service":"abiel-backend","output":"Echo: \"hola mundo\"","tenantId":"tenant-1","correlationId":"webhook-1784529058787"}[39m
+[2026-07-20 06:30:58.794 +0000] [32mINFO[39m: [36mecho-capability: published SendMessageRequested event 1784529058794[39m [90m{"service":"abiel-backend","tenantId":"tenant-1","conversationId":"tenant-1:user-1@s.whatsapp.net","correlationId":"webhook-1784529058787"}[39m
+[2026-07-20 06:30:58.795 +0000] [32mINFO[39m: [36magent orchestrator: execution completed successfully 1784529058795[39m [90m{"service":"abiel-backend","execId":"exec-1784529058793-401rx2","correlationId":"webhook-1784529058787"}[39m
+[2026-07-20 06:30:58.814 +0000] [32mINFO[39m: [36mwebhook-controller: received webhook payload (basic info) 1784529058814[39m [90m{"service":"abiel-backend","tenantId":"tenant-1","webhookToken":"test-token","basicInfo":{"event":"messages.upsert","messageId":"msg-002","sender":"user-2@s.whatsapp.net","remoteJid":"user-2@s.whatsapp.net","text":"mensaje seguro","messageTimestamp":1784529058},"correlationId":"webhook-1784529058814"}[39m
+[2026-07-20 06:30:58.814 +0000] [32mINFO[39m: [36mwebhook-controller: summary 1784529058814[39m [90m{"service":"abiel-backend","tenantId":"tenant-1","sender":"user-2@s.whatsapp.net","remoteJid":"user-2@s.whatsapp.net","text":"mensaje seguro","correlationId":"webhook-1784529058814"}[39m
+[2026-07-20 06:30:58.814 +0000] [32mINFO[39m: [36magent orchestrator: processing message 1784529058814[39m [90m{"service":"abiel-backend","tenantId":"tenant-1","conversationId":"tenant-1:user-2@s.whatsapp.net","correlationId":"webhook-1784529058814"}[39m
+[2026-07-20 06:30:58.814 +0000] [32mINFO[39m: [36magent orchestrator: conversation status check 1784529058814[39m [90m{"service":"abiel-backend","tenantId":"tenant-1","conversationId":"tenant-1:user-2@s.whatsapp.net","estado":"BOT_ACTIVE","correlationId":"webhook-1784529058814"}[39m
+[2026-07-20 06:30:58.814 +0000] [33mWARN[39m: [36magent orchestrator: no active agent found for tenant; skipping 1784529058814[39m [90m{"service":"abiel-backend","tenantId":"tenant-1","conversationId":"tenant-1:user-2@s.whatsapp.net","correlationId":"webhook-1784529058814"}[39m
+[2026-07-20 06:30:58.821 +0000] [32mINFO[39m: [36mwebhook-controller: received webhook payload (basic info) 1784529058821[39m [90m{"service":"abiel-backend","tenantId":"tenant-1","webhookToken":"test-token","basicInfo":{"event":"messages.upsert","messageId":"msg-003","sender":"user-3@s.whatsapp.net","remoteJid":"user-3@s.whatsapp.net","text":"fallback test","messageTimestamp":1784529058},"correlationId":"webhook-1784529058821"}[39m
+[2026-07-20 06:30:58.821 +0000] [32mINFO[39m: [36mwebhook-controller: summary 1784529058821[39m [90m{"service":"abiel-backend","tenantId":"tenant-1","sender":"user-3@s.whatsapp.net","remoteJid":"user-3@s.whatsapp.net","text":"fallback test","correlationId":"webhook-1784529058821"}[39m
+[2026-07-20 06:30:58.821 +0000] [32mINFO[39m: [36magent orchestrator: processing message 1784529058821[39m [90m{"service":"abiel-backend","tenantId":"tenant-1","conversationId":"tenant-1:user-3@s.whatsapp.net","correlationId":"webhook-1784529058821"}[39m
+[2026-07-20 06:30:58.821 +0000] [32mINFO[39m: [36magent orchestrator: conversation status check 1784529058821[39m [90m{"service":"abiel-backend","tenantId":"tenant-1","conversationId":"tenant-1:user-3@s.whatsapp.net","estado":"BOT_ACTIVE","correlationId":"webhook-1784529058821"}[39m
+[2026-07-20 06:30:58.821 +0000] [32mINFO[39m: [36magent orchestrator: found active agent 1784529058821[39m [90m{"service":"abiel-backend","tenantId":"tenant-1","conversationId":"tenant-1:user-3@s.whatsapp.net","agentId":"agent-1","correlationId":"webhook-1784529058821"}[39m
+[2026-07-20 06:30:58.821 +0000] [32mINFO[39m: [36magent orchestrator: execution started 1784529058821[39m [90m{"service":"abiel-backend","execId":"exec-1784529058821-31e1re","tenantId":"tenant-1","conversationId":"tenant-1:user-3@s.whatsapp.net","correlationId":"webhook-1784529058821"}[39m
+[2026-07-20 06:30:58.821 +0000] [32mINFO[39m: [36magent orchestrator: invoking capabilities 1784529058821[39m [90m{"service":"abiel-backend","execId":"exec-1784529058821-31e1re","correlationId":"webhook-1784529058821"}[39m
+[2026-07-20 06:30:58.821 +0000] [33mWARN[39m: [36magent orchestrator: no executable capabilities found; falling back to runtime 1784529058821[39m [90m{"service":"abiel-backend","tenantId":"tenant-1","conversationId":"tenant-1:user-3@s.whatsapp.net","correlationId":"webhook-1784529058821"}[39m
+[2026-07-20 06:30:58.822 +0000] [32mINFO[39m: [36magent orchestrator: execution completed successfully 1784529058822[39m [90m{"service":"abiel-backend","execId":"exec-1784529058821-31e1re","correlationId":"webhook-1784529058821"}[39m
+[2026-07-20 06:30:58.830 +0000] [32mINFO[39m: [36mwebhook-controller: received webhook payload (basic info) 1784529058830[39m [90m{"service":"abiel-backend","tenantId":"tenant-1","webhookToken":"test-token","basicInfo":{"event":"messages.upsert","messageId":"msg-004","sender":"user-4@s.whatsapp.net","remoteJid":"user-4@s.whatsapp.net","text":"inactive agent","messageTimestamp":1784529058},"correlationId":"webhook-1784529058830"}[39m
+[2026-07-20 06:30:58.831 +0000] [32mINFO[39m: [36mwebhook-controller: summary 1784529058831[39m [90m{"service":"abiel-backend","tenantId":"tenant-1","sender":"user-4@s.whatsapp.net","remoteJid":"user-4@s.whatsapp.net","text":"inactive agent","correlationId":"webhook-1784529058830"}[39m
+[2026-07-20 06:30:58.831 +0000] [32mINFO[39m: [36magent orchestrator: processing message 1784529058831[39m [90m{"service":"abiel-backend","tenantId":"tenant-1","conversationId":"tenant-1:user-4@s.whatsapp.net","correlationId":"webhook-1784529058830"}[39m
+[2026-07-20 06:30:58.831 +0000] [32mINFO[39m: [36magent orchestrator: conversation status check 1784529058831[39m [90m{"service":"abiel-backend","tenantId":"tenant-1","conversationId":"tenant-1:user-4@s.whatsapp.net","estado":"BOT_ACTIVE","correlationId":"webhook-1784529058830"}[39m
+[2026-07-20 06:30:58.831 +0000] [33mWARN[39m: [36magent orchestrator: no active agent found for tenant; skipping 1784529058831[39m [90m{"service":"abiel-backend","tenantId":"tenant-1","conversationId":"tenant-1:user-4@s.whatsapp.net","correlationId":"webhook-1784529058830"}[39m
+◇ injected env (0) from .env // tip: ⌘ suppress logs { quiet: true }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 531ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ◈ secrets for agents [www.dotenvx.com]
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+[2026-07-20 06:31:03.711 +0000] [32mINFO[39m: [36mwebhook-controller: received webhook payload (basic info) 1784529063711[39m [90m{"service":"abiel-backend","tenantId":"empresa-1","webhookToken":"test-token","basicInfo":{"event":"messages.upsert","messageId":"msg-smoke-001","sender":"549111234567@s.whatsapp.net","remoteJid":"549111234567@s.whatsapp.net","text":"Hola desde el mock","messageTimestamp":1710000000},"correlationId":"smoke-001"}[39m
+[2026-07-20 06:31:03.711 +0000] [32mINFO[39m: [36mwebhook-controller: summary 1784529063711[39m [90m{"service":"abiel-backend","tenantId":"empresa-1","sender":"549111234567@s.whatsapp.net","remoteJid":"549111234567@s.whatsapp.net","text":"Hola desde el mock","correlationId":"smoke-001"}[39m
+◇ injected env (0) from .env // tip: ⌘ suppress logs { quiet: true }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 460ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ⌁ auth for agents [www.vestauth.com]
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+◇ injected env (0) from .env // tip: ⌁ auth for agents [www.vestauth.com]
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 912ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ⌘ multiple files { path: ['.env.local', '.env'] }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+◇ injected env (0) from .env // tip: ⌘ suppress logs { quiet: true }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 818ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ⌘ suppress logs { quiet: true }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+◇ injected env (0) from .env // tip: ⌘ override existing { override: true }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 443ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ⌁ auth for agents [www.vestauth.com]
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+◇ injected env (0) from .env // tip: ◈ encrypted .env [www.dotenvx.com]
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 636ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ⌁ auth for agents [www.vestauth.com]
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+◇ injected env (0) from .env // tip: ◈ secrets for agents [www.dotenvx.com]
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 417ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ⌘ custom filepath { path: '/custom/path/.env' }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+◇ injected env (0) from .env // tip: ⌘ override existing { override: true }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 399ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ⌘ suppress logs { quiet: true }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+◇ injected env (0) from .env // tip: ◈ secrets for agents [www.dotenvx.com]
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 458ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ◈ encrypted .env [www.dotenvx.com]
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+◇ injected env (0) from .env // tip: ◈ secrets for agents [www.dotenvx.com]
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 436ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ◈ secrets for agents [www.dotenvx.com]
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+◇ injected env (0) from .env // tip: ⌘ suppress logs { quiet: true }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 450ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ⌁ auth for agents [www.vestauth.com]
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+◇ injected env (0) from .env // tip: ◈ secrets for agents [www.dotenvx.com]
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 431ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ⌘ suppress logs { quiet: true }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+◇ injected env (0) from .env // tip: ⌘ suppress logs { quiet: true }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 457ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ⌘ override existing { override: true }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+◇ injected env (0) from .env // tip: ⌘ enable debugging { debug: true }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 516ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ◈ encrypted .env [www.dotenvx.com]
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+◇ injected env (0) from .env // tip: ⌘ custom filepath { path: '/custom/path/.env' }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 424ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ⌘ multiple files { path: ['.env.local', '.env'] }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+◇ injected env (0) from .env // tip: ⌘ enable debugging { debug: true }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 1.05s
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ⌘ override existing { override: true }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+◇ injected env (0) from .env // tip: ◈ encrypted .env [www.dotenvx.com]
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 445ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ◈ secrets for agents [www.dotenvx.com]
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+◇ injected env (0) from .env // tip: ⌘ custom filepath { path: '/custom/path/.env' }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 490ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ⌘ suppress logs { quiet: true }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+◇ injected env (0) from .env // tip: ⌘ suppress logs { quiet: true }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 458ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ⌁ auth for agents [www.vestauth.com]
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+◇ injected env (0) from .env // tip: ⌘ override existing { override: true }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 428ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ⌘ enable debugging { debug: true }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+◇ injected env (0) from .env // tip: ⌘ override existing { override: true }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 406ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ⌘ custom filepath { path: '/custom/path/.env' }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+◇ injected env (0) from .env // tip: ⌘ custom filepath { path: '/custom/path/.env' }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 405ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ⌘ multiple files { path: ['.env.local', '.env'] }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+◇ injected env (0) from .env // tip: ◈ secrets for agents [www.dotenvx.com]
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 451ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ⌘ override existing { override: true }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+◇ injected env (0) from .env // tip: ⌘ custom filepath { path: '/custom/path/.env' }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 407ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ⌘ custom filepath { path: '/custom/path/.env' }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+◇ injected env (0) from .env // tip: ⌘ custom filepath { path: '/custom/path/.env' }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 431ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ⌘ override existing { override: true }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+◇ injected env (0) from .env // tip: ⌁ auth for agents [www.vestauth.com]
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 423ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ◈ encrypted .env [www.dotenvx.com]
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+◇ injected env (0) from .env // tip: ⌘ suppress logs { quiet: true }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 419ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ⌘ enable debugging { debug: true }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+◇ injected env (0) from .env // tip: ⌘ enable debugging { debug: true }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 553ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ⌘ override existing { override: true }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+◇ injected env (0) from .env // tip: ⌘ suppress logs { quiet: true }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 455ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ⌘ custom filepath { path: '/custom/path/.env' }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+◇ injected env (0) from .env // tip: ⌘ custom filepath { path: '/custom/path/.env' }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 532ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ◈ encrypted .env [www.dotenvx.com]
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+◇ injected env (0) from .env // tip: ⌘ enable debugging { debug: true }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 966ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ◈ secrets for agents [www.dotenvx.com]
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+◇ injected env (0) from .env // tip: ⌘ suppress logs { quiet: true }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 679ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ◈ encrypted .env [www.dotenvx.com]
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+◇ injected env (0) from .env // tip: ⌘ enable debugging { debug: true }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 464ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ⌁ auth for agents [www.vestauth.com]
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+◇ injected env (0) from .env // tip: ⌘ override existing { override: true }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 423ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ⌘ multiple files { path: ['.env.local', '.env'] }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+◇ injected env (0) from .env // tip: ⌘ enable debugging { debug: true }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 491ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ⌘ enable debugging { debug: true }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+◇ injected env (0) from .env // tip: ⌘ multiple files { path: ['.env.local', '.env'] }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 403ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ⌘ override existing { override: true }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+◇ injected env (0) from .env // tip: ⌁ auth for agents [www.vestauth.com]
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 633ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ◈ secrets for agents [www.dotenvx.com]
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+◇ injected env (0) from .env // tip: ⌘ enable debugging { debug: true }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 502ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ◈ secrets for agents [www.dotenvx.com]
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+◇ injected env (0) from .env // tip: ◈ encrypted .env [www.dotenvx.com]
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 546ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ◈ secrets for agents [www.dotenvx.com]
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+◇ injected env (0) from .env // tip: ⌘ enable debugging { debug: true }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 558ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ⌘ enable debugging { debug: true }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+◇ injected env (0) from .env // tip: ⌘ enable debugging { debug: true }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 608ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ⌘ multiple files { path: ['.env.local', '.env'] }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+◇ injected env (0) from .env // tip: ⌘ enable debugging { debug: true }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 551ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ⌘ multiple files { path: ['.env.local', '.env'] }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+◇ injected env (0) from .env // tip: ◈ secrets for agents [www.dotenvx.com]
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 522ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ⌘ suppress logs { quiet: true }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+◇ injected env (0) from .env // tip: ⌘ multiple files { path: ['.env.local', '.env'] }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 561ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ◈ secrets for agents [www.dotenvx.com]
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+◇ injected env (0) from .env // tip: ⌘ override existing { override: true }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 505ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ◈ secrets for agents [www.dotenvx.com]
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+◇ injected env (0) from .env // tip: ⌘ suppress logs { quiet: true }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 1.17s
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ⌘ multiple files { path: ['.env.local', '.env'] }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+◇ injected env (0) from .env // tip: ⌁ auth for agents [www.vestauth.com]
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 733ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ⌘ multiple files { path: ['.env.local', '.env'] }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+◇ injected env (0) from .env // tip: ◈ encrypted .env [www.dotenvx.com]
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 674ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ⌘ multiple files { path: ['.env.local', '.env'] }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+◇ injected env (0) from .env // tip: ⌘ multiple files { path: ['.env.local', '.env'] }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 791ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ⌘ override existing { override: true }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+◇ injected env (0) from .env // tip: ◈ secrets for agents [www.dotenvx.com]
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 641ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ⌘ override existing { override: true }
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+◇ injected env (0) from .env // tip: ◈ secrets for agents [www.dotenvx.com]
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (v7.8.0) to ./node_modules/@prisma/client in 897ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+◇ injected env (0) from .env // tip: ◈ encrypted .env [www.dotenvx.com]
+Loaded Prisma config from prisma.config.cjs.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "abiel", schema "public" at "localhost:5432"
+
+The database is already in sync with the Prisma schema.
+
+
+⎯⎯⎯⎯⎯⎯ Unhandled Error ⎯⎯⎯⎯⎯⎯⎯
+Error: ENOENT: no such file or directory, open '/home/abiel/abiel-backend/coverage/.tmp/coverage-4.json'
+ ❯ open node:internal/fs/promises:640:25
+ ❯ Object.readFile node:internal/fs/promises:1290:14
+ ❯ node_modules/vitest/dist/chunks/coverage.DM_a_rWm.js:763:23
+ ❯ V8CoverageProvider.readCoverageFiles node_modules/vitest/dist/chunks/coverage.DM_a_rWm.js:762:5
+ ❯ V8CoverageProvider.generateCoverage node_modules/@vitest/coverage-v8/dist/provider.js:32:3
+ ❯ node_modules/vitest/dist/chunks/cli-api.BK8pd4xc.js:13604:23
+ ❯ node_modules/vitest/dist/chunks/cli-api.BK8pd4xc.js:13617:11
+ ❯ node_modules/vitest/dist/chunks/cli-api.BK8pd4xc.js:13479:19
+ ❯ startVitest node_modules/vitest/dist/chunks/cli-api.BK8pd4xc.js:14554:8
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+Serialized Error: { errno: -2, code: 'ENOENT', syscall: 'open', path: '/home/abiel/abiel-backend/coverage/.tmp/coverage-4.json' }
+
+
+

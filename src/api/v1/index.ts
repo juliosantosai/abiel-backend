@@ -35,12 +35,10 @@ export function registerApiV1(app: FastifyInstance, deps: ApiV1Deps) {
     };
     instance.register(customerPlugin, { prefix: "/customer" });
 
-    // admin: same auth policy
+    // admin: validate against a fixed server-side API key instead of user tokens
     const adminPlugin = async (adm: FastifyInstance) => {
-      if (deps.tokenService && deps.authService && deps.authContextFactory) {
-        const { createAuthMiddleware } = await import("../middleware");
-        adm.addHook("preHandler", createAuthMiddleware({ tokenService: deps.tokenService, authService: deps.authService, authContextFactory: deps.authContextFactory }));
-      }
+      const { createAdminApiKeyMiddleware } = await import("../middleware");
+      adm.addHook("preHandler", createAdminApiKeyMiddleware());
       registerAdminRoutes(adm, deps);
     };
     instance.register(adminPlugin, { prefix: "/admin" });
