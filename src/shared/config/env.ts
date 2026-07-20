@@ -34,4 +34,5 @@ export const env = {
   DATABASE_URL: process.env.DATABASE_URL ?? "postgresql://julio:123456@localhost:5433/database?schema=public",
   JWT_SECRET: process.env.JWT_SECRET ?? "dev-secret",
   JWT_EXPIRES_IN: process.env.JWT_EXPIRES_IN ?? "1h",
+  ADMIN_API_KEY: process.env.ADMIN_API_KEY ?? "dev-admin-key",
 };
