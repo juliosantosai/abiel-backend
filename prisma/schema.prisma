@@ -331,3 +331,17 @@ model SystemEventLog {
   @@index([type])
   @@index([createdAt])
 }
+
+model WebhookDelivery {
+  id          String   @id @default(uuid())
+  deliveryKey String   @unique
+  tenantId    String
+  status      String   @default("PENDING")
+  attempts    Int      @default(0)
+  lastError   String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([tenantId])
+  @@index([status])
+}

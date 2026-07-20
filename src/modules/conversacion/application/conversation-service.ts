@@ -20,6 +20,13 @@ export type CreateMessageInput = {
   rol: MessageRole;
 };
 
+export type InboundMessageInput = {
+  conversationId: string;
+  contenido: string;
+  usuarioId: string;
+  rol: MessageRole;
+};
+
 export class ConversationService {
   constructor(
     private readonly conversationRepository: ConversationRepository,
@@ -112,6 +119,30 @@ export class ConversationService {
     });
 
     return created;
+  }
+
+  async procesarMensajeEntrante(context: TenantContext, input: InboundMessageInput): Promise<MessageProps> {
+    let conversation = await this.conversationRepository.findById(input.conversationId, context.empresaId);
+
+    if (!conversation) {
+      const createdConversation = new Conversation({
+        id: input.conversationId,
+        empresaId: context.empresaId,
+        usuarioId: input.usuarioId,
+        titulo: null,
+        estado: ConversationStatus.BOT_ACTIVE,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      });
+
+      conversation = await this.conversationRepository.create(createdConversation.toJSON());
+    }
+
+    return this.agregarMensaje(context, {
+      conversationId: input.conversationId,
+      contenido: input.contenido,
+      rol: input.rol,
+    });
   }
 
   async iniciarIntervencionHumana(context: TenantContext, conversationId: string): Promise<ConversationProps> {

@@ -1,5 +1,5 @@
 import Fastify from "fastify";
-import { logger } from "./shared/logger/logger";
+import { logger, loggerOptions } from "./shared/logger/logger";
 import { setupSwagger } from "./shared/config/swagger";
 import { setupErrorHandler } from "./shared/errors/error-handler";
 import { PrismaEmpresaRepository } from "./modules/empresa/infrastructure/prisma-empresa-repository";
@@ -9,7 +9,8 @@ import { UsuarioService } from "./modules/usuario/application/usuario-service";
 import { InMemoryEventBus } from "./shared/events/in-memory-event-bus";
 import { PrismaAgentRepository } from "./modules/agente/infrastructure/prisma-agent-repository";
 import { AgentOrchestrator } from "./modules/agente/application/agent-orchestrator";
-import { MessageReceivedEventHandler } from "./modules/agente/application/message-received-event-handler";
+import { MessageReceivedEventHandler as AgentMessageReceivedEventHandler } from "./modules/agente/application/message-received-event-handler";
+import { MessageReceivedEventHandler as ConversationMessageReceivedEventHandler } from "./modules/conversacion/application/message-received-event-handler";
 import { NoopAgentRuntime } from "./shared/ai/noop-agent-runtime";
 import { AgentService } from "./modules/agente/application/agent-service";
 import { PrismaPlanRepository } from "./modules/plan/infrastructure/prisma-plan-repository";
@@ -33,6 +34,7 @@ import { registerApiV1 } from "./api/v1";
 import { registerWebhookController } from "./modules/gateway/presentation/webhook.controller";
 import { EvolutionWebhookNormalizer } from "./modules/gateway/application/evolution-webhook-normalizer";
 import { MessageGateway } from "./modules/gateway/application/message-gateway";
+import { PrismaWebhookDeliveryRepository } from "./modules/gateway/infrastructure/prisma-webhook-delivery-repository";
 import { SecurityService } from "./modules/security/application/security-service";
 import { PrismaSecurityRepository } from "./modules/security/infrastructure/prisma-security-repository";
 import { NoopNotificationService } from "./modules/security/infrastructure/noop-notification-service";
@@ -40,7 +42,7 @@ import { SecurityMiddleware } from "./modules/security/infrastructure/security-m
 
 export async function createApp(overrides?: { tokenService?: any; authService?: any; authContextFactory?: any }) {
   const app = Fastify({
-    logger,
+    logger: loggerOptions,
   });
 
   setupErrorHandler(app);
@@ -67,29 +69,30 @@ export async function createApp(overrides?: { tokenService?: any; authService?: 
   const membershipRepository = new PrismaMembershipRepository();
   const membershipService = new MembershipService(membershipRepository, usuarioRepository, roleRepository, empresaRepository);
 
-  const conversationService = new ConversationService(
-    { create: async () => ({ id: "conv-1", empresaId: "empresa-1", usuarioId: "user-1", titulo: null, estado: "ACTIVE", createdAt: new Date(), updatedAt: new Date() }), findById: async () => ({ id: "conv-1", empresaId: "empresa-1", usuarioId: "user-1", titulo: null, estado: "ACTIVE", createdAt: new Date(), updatedAt: new Date() }), findByEmpresaId: async () => [] } as any,
-    { create: async () => ({ id: "msg-1", conversationId: "conv-1", empresaId: "empresa-1", usuarioId: "user-1", contenido: "", rol: "USER", createdAt: new Date() }), findByConversationId: async () => [] } as any,
-    eventBus
-  );
+  const { PrismaConversationRepository } = await import("./modules/conversacion/infrastructure/prisma-conversation-repository");
+  const { PrismaMessageRepository } = await import("./modules/conversacion/infrastructure/prisma-message-repository");
+  const convRepo = new PrismaConversationRepository();
+  const msgRepo = new PrismaMessageRepository();
+  const conversationService = new ConversationService(convRepo, msgRepo, eventBus);
   // Conversation routes will be mounted by registerApiV1
 
   // Agent orchestration wiring: repository + runtime + orchestrator + handler
   const agentRepository = new PrismaAgentRepository();
   const noopRuntime = new NoopAgentRuntime();
-  const { PrismaConversationRepository } = await import("./modules/conversacion/infrastructure/prisma-conversation-repository");
-  const { PrismaMessageRepository } = await import("./modules/conversacion/infrastructure/prisma-message-repository");
-  const convRepo = new PrismaConversationRepository();
-  const msgRepo = new PrismaMessageRepository();
   const agentOrchestrator = new AgentOrchestrator(agentRepository, convRepo, msgRepo, noopRuntime, eventBus);
-  const messageHandler = new MessageReceivedEventHandler(agentOrchestrator);
-  eventBus.subscribe("MessageReceived", messageHandler);
+  const agentMessageHandler = new AgentMessageReceivedEventHandler(agentOrchestrator);
+  const conversationMessageHandler = new ConversationMessageReceivedEventHandler(conversationService);
+  eventBus.subscribe("MessageReceived", agentMessageHandler);
+  eventBus.subscribe("MessageReceived", conversationMessageHandler);
 
   const agentService = new AgentService(agentRepository, eventBus);
 
-  const gateway = new MessageGateway(eventBus, new EvolutionWebhookNormalizer());
+  const deliveryRepository = new PrismaWebhookDeliveryRepository();
+  const gateway = new MessageGateway(eventBus, new EvolutionWebhookNormalizer(), deliveryRepository);
   registerWebhookController(app, {
     empresaRepository,
+    eventBus,
+    normalizerService: new EvolutionWebhookNormalizer(),
     gateway,
   });
 

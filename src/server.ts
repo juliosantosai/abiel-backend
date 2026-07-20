@@ -1,10 +1,24 @@
 import { createApp } from "./app";
 import { env } from "./shared/config/env";
 import { connectDatabase } from "./shared/database/database";
+import { logger } from "./shared/logger/logger";
+import { isPortFree } from "./shared/network/port";
 
 let hasStarted = false;
 
 async function listenOnPort(app: Awaited<ReturnType<typeof createApp>>, port: number, host: string) {
+  logger.info({ port, host }, "checking if port is available before startup");
+
+  let isFree = await isPortFree(port, host);
+  let attempt = 0;
+
+  while (!isFree) {
+    attempt += 1;
+    logger.warn({ port, host, attempt }, "port is busy, waiting for it to become available");
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    isFree = await isPortFree(port, host);
+  }
+
   try {
     await app.listen({ port, host });
     return port;
@@ -12,8 +26,16 @@ async function listenOnPort(app: Awaited<ReturnType<typeof createApp>>, port: nu
     const err = error as NodeJS.ErrnoException;
 
     if (err.code === "EADDRINUSE") {
-      console.error(`Port ${port} already in use. Server startup aborted.`);
-      process.exit(1);
+      logger.warn({ port, host }, "port became busy while starting; waiting again");
+      let retryFree = await isPortFree(port, host);
+
+      while (!retryFree) {
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+        retryFree = await isPortFree(port, host);
+      }
+
+      await app.listen({ port, host });
+      return port;
     }
 
     throw error;
@@ -32,7 +54,7 @@ async function start() {
     const app = await createApp();
 
     const shutdown = async (signal: NodeJS.Signals) => {
-      console.log(`Shutting down server due to ${signal}`);
+      logger.info({ signal }, "shutting down server");
       await app.close();
       process.exit(0);
     };
@@ -45,15 +67,15 @@ async function start() {
       void shutdown("SIGTERM");
     });
 
-    const port = await listenOnPort(app, env.PORT, env.HOST);
-    console.log(`Abiel Backend running on port ${port}`);
+    const port = await listenOnPort(app, 5000, env.HOST);
+    logger.info({ port }, "abiel backend running");
   } catch (error) {
-    console.error("Failed to start the server", error);
+    logger.error({ err: error }, "failed to start the server");
     process.exit(1);
   }
 }
 
 start().catch((error) => {
-  console.error(error);
+  logger.error({ err: error }, "server startup failed");
   process.exit(1);
 });

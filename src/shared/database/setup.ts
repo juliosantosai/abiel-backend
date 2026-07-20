@@ -3,6 +3,7 @@ import { existsSync, readdirSync } from "fs";
 import { join } from "path";
 import { Client } from "pg";
 import { env } from "../config/env";
+import { logger } from "../logger/logger";
 
 function quoteIdentifier(identifier: string) {
   return `"${identifier.replace(/"/g, "\"\"")}"`;
@@ -41,7 +42,7 @@ async function connectWithRetry(connectionString: string, retries = 10, delayMs 
         throw error;
       }
 
-      console.log(`Postgres is not ready yet (attempt ${attempt}/${retries}). Retrying in ${delayMs}ms...`);
+      logger.warn({ attempt, retries, delayMs }, "postgres is not ready yet; retrying");
       await wait(delayMs);
     }
   }
@@ -67,21 +68,21 @@ export async function createDatabaseIfNotExists() {
     const result = await client.query("SELECT 1 FROM pg_database WHERE datname = $1", [databaseName]);
 
     if (result.rowCount === 0) {
-      console.log(`Database ${databaseName} does not exist. Creating...`);
+      logger.info({ databaseName }, "database does not exist; creating it");
       await client.query(`CREATE DATABASE ${quoteIdentifier(databaseName)}`);
-      console.log(`Database ${databaseName} created successfully.`);
+      logger.info({ databaseName }, "database created successfully");
     } else {
-      console.log(`Database ${databaseName} already exists.`);
+      logger.info({ databaseName }, "database already exists");
     }
   } finally {
     await client.end();
   }
 
   if (hasPrismaMigrations()) {
-    console.log("Applying Prisma migrations...");
+    logger.info("applying prisma migrations");
     execSync("npx prisma migrate deploy", { stdio: "inherit" });
   } else {
-    console.log("No Prisma migrations found. Pushing schema to database...");
+    logger.info("no prisma migrations found; pushing schema to database");
     execSync("npx prisma db push --accept-data-loss", { stdio: "inherit" });
   }
 }

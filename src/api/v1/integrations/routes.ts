@@ -4,7 +4,7 @@ import { registerAuthRoutes } from "../../../modules/auth/presentation/auth-cont
 export function registerIntegrationsRoutes(app: FastifyInstance, deps: any) {
   const plugin = async (instance: FastifyInstance) => {
     // Expose token verification and other integration endpoints
-    registerAuthRoutes(instance, deps.tokenService);
+    registerAuthRoutes(instance, deps.tokenService, deps.authService);
   };
 
   app.register(plugin, { prefix: "/integrations" });

@@ -1,9 +1,9 @@
 import type { AuthService } from "../application/auth-service";
-import type { TokenService } from "../application/token-service";
+import type { TokenService, TokenPayload } from "../application/token-service";
 import type { UsuarioRepository } from "../../usuario/infrastructure/usuario-repository";
 import type { MembershipRepository } from "../../usuario/infrastructure/membership-repository";
 import type { RoleRepository } from "../../roles/infrastructure/role-repository";
-import type { AuthenticatedUser } from "../domain/auth";
+import type { AuthenticatedUser, LoginCredentials } from "../domain/auth";
 import { TokenValidationError, UnauthorizedError } from "../../../shared/errors/auth-errors";
 
 export class DatabaseAuthService implements AuthService {
@@ -14,11 +14,39 @@ export class DatabaseAuthService implements AuthService {
     private readonly roleRepository: RoleRepository
   ) {}
 
-  async login(_credentials: any): Promise<{ token: string; user: any; membershipId: string }> {
-    throw new Error("Not implemented");
+  async login(credentials: LoginCredentials): Promise<{ token: string; user: { usuarioId: string; email: string }; membershipId: string }> {
+    const usuario = await this.usuarioRepository.findByEmail(credentials.email);
+    if (!usuario || !usuario.activo) {
+      throw new UnauthorizedError("Invalid credentials");
+    }
+
+    const passwordMatches = credentials.password === usuario.passwordHash;
+    if (!passwordMatches) {
+      throw new UnauthorizedError("Invalid credentials");
+    }
+
+    const memberships = await this.membershipRepository.findByUsuarioId(usuario.id);
+    const activeMembership = memberships.find((membership: { activo: boolean }) => membership.activo);
+    if (!activeMembership) {
+      throw new UnauthorizedError("Valid membership is required");
+    }
+
+    const tokenPayload: TokenPayload = {
+      usuarioId: usuario.id,
+      empresaId: activeMembership.empresaId,
+      membershipId: activeMembership.id,
+    };
+
+    const token = this.tokenService.generate(tokenPayload);
+
+    return {
+      token,
+      user: { usuarioId: usuario.id, email: usuario.email },
+      membershipId: activeMembership.id,
+    };
   }
 
-  async validateToken(token: string) {
+  async validateToken(token: string): Promise<TokenPayload> {
     return this.tokenService.verify(token);
   }
 
